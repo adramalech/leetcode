@@ -32,10 +32,10 @@ namespace Fb.ArraysStrings
         {
           return 2;
         }
-        
+
         return 1;
       }
-      
+
       // iterate once through original input (O(n))
       while (left < maxLength && right < maxLength )
       {
@@ -72,7 +72,7 @@ namespace Fb.ArraysStrings
       {
         return 0;
       }
-      
+
       var countDigits = 0;
       var haveSeenDigit = false;
       var haveSeenSign = false;
@@ -101,20 +101,20 @@ namespace Fb.ArraysStrings
             {
               return 0;
             }
-            
+
             // if we have seen a + or - but not a digit and now seeing space error!
             if (haveSeenSign && !haveSeenDigit)
             {
               return 0;
             }
-            
+
             // if whitespace found after encountering a digit return
             if (haveSeenDigit)
             {
               haveSeenNonDigit = true;
             }
             break;
-          
+
           // positive or negative sign is optional
           case '+':
           case '-':
@@ -129,14 +129,14 @@ namespace Fb.ArraysStrings
               haveSeenNonDigit = true;
               continue;
             }
-            
+
             // if we have already seen a sign return 0.  like double sign.
             // immediately following a sign should be a digit!
             if (haveSeenSign)
             {
               return 0;
             }
-            
+
             haveSeenSign = true;
             // determine if the sign is negative or positive.
             haveSeenNegativeSign = (c == '-');
@@ -149,15 +149,15 @@ namespace Fb.ArraysStrings
               haveSeenLeadingZero = true;
               continue;
             }
-            
+
             countDigits++;
-            
+
             // stop if processed more than billionth digit.
             if (countDigits > 10)
             {
               return ((haveSeenNegativeSign) ? int.MinValue : int.MaxValue);
             }
-          
+
             stack.Push(c);
             break;
           case '1':
@@ -179,10 +179,10 @@ namespace Fb.ArraysStrings
             {
               return ((haveSeenNegativeSign) ? int.MinValue : int.MaxValue);
             }
-            
+
             stack.Push(c);
             break;
-          
+
           // any non-digit character or symbol not \d, \s, +, or - will end up here.
           default:
             // if we haven't seen digits yet this is a failure!
@@ -196,7 +196,7 @@ namespace Fb.ArraysStrings
             break;
         }
       }
-      
+
       // if we see a + or - sign and haven't seen a digit return 0
       if (!haveSeenDigit || countDigits < 1)
       {
@@ -204,7 +204,7 @@ namespace Fb.ArraysStrings
       }
 
       long i = 1;
-      // start adding 
+      // start adding
       while (stack.Count > 0)
       {
         long n = convertCharToDigit(stack.Pop());
@@ -214,7 +214,7 @@ namespace Fb.ArraysStrings
         {
           return 0;
         }
-        
+
         num += n * i;
         i *= 10;
       }
@@ -229,7 +229,7 @@ namespace Fb.ArraysStrings
           return int.MinValue;
         }
 
-        return (int) num;
+        return (int)num;
       }
 
       // if value is larger than 2147483647 return max value.
@@ -237,15 +237,15 @@ namespace Fb.ArraysStrings
       {
         return int.MaxValue;
       }
-      
+
       // safe to typecast to 32-bit signed int.
       return (int)num;
     }
 
     private long convertCharToDigit(char c)
     {
-      int n;
-      
+      long n;
+
       switch (c)
       {
         case '0':
