@@ -285,5 +285,79 @@ namespace Fb.ArraysStrings
 
       return n;
     }
+
+    /**
+     * I = 1
+     * V = 5
+     * X = 10
+     * L = 50
+     * C = 100
+     * D = 500
+     * M = 1000
+     * IV = 4
+     * IX = 9
+     * XL = 40
+     * XC = 90
+     * CD = 400
+     * CM = 900
+     */
+    public int RomanNumerialToInt(string s)
+    {
+      if (string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s))
+      {
+        return 0;
+      }
+
+      s = s.ToUpper();
+
+      var total = 0;
+      var length = s.Length;
+      
+      for (var i = 0; i < length; i++)
+      {
+        int num = i + 1 < length ? compareCurrentAndNext(s[i], s[i + 1]) : mapNumerialToInt(s[i]);
+        total += num;
+      }
+
+      return total;
+    }
+
+    private int compareCurrentAndNext(char c, char n)
+    {
+      var num = mapNumerialToInt(c);
+      if (
+        (c == 'I' && (n == 'V' || n == 'X')) ||
+        (c == 'X' && (n == 'L' || n == 'C')) ||
+        (c == 'C' && (n == 'D' || n == 'M'))
+      )
+      {
+        return -num;
+      }
+
+      return num;
+    }
+
+    private int mapNumerialToInt(char c)
+    {
+      switch (c)
+      {
+        case 'I':
+          return 1;
+        case 'V':
+          return 5;
+        case 'X':
+          return 10;
+        case 'L':
+          return 50;
+        case 'C':
+          return 100;
+        case 'D':
+          return 500;
+        case 'M':
+          return 1000;
+        default:
+          return 0;
+      }
+    }
   }
 }

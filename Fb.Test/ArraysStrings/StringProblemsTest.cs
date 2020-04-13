@@ -109,5 +109,27 @@ namespace Fb.Test.ArraysStrings
           
           Assert.Equal<int>(expectedValue, actualLength);
         }
+
+        [Fact]
+        public void RomanNumerialToIntEasy()
+        {
+          var strProblems = new StringProblems();
+          const int expectedValue = 14;
+
+          var actualValue = strProblems.RomanNumerialToInt("XIV");
+          
+          Assert.Equal<int>(expectedValue, actualValue);
+        }
+        
+        [Fact]
+        public void RomanNumerialToIntHard()
+        {
+          var strProblems = new StringProblems();
+          const int expectedValue = 621;
+
+          var actualValue = strProblems.RomanNumerialToInt("DCXXI");
+          
+          Assert.Equal<int>(expectedValue, actualValue);
+        }
     }
 }
