@@ -6,63 +6,37 @@ namespace Fb.Test.ArraysStrings
 {
     public class ArrayProblemsTest
     {
-        [Fact]
-        public void TestBasicArrayInts()
+        [Theory]
+        [InlineData(new int[] {-1, 0, 1}, 1)]
+        [InlineData(new int[] {-1, 0, 1, 2, -1, -4}, 2)]
+        public void TestThreeSums(int[] nums, int count)
         {
             var arrayProblems = new ArrayProblems();
 
-            var list = arrayProblems.ThreeSums(new int[] {-1, 0, 1, 2, -1, -4});
+            var list = arrayProblems.ThreeSums(nums);
             
             Assert.True(list != null);
-            Assert.True(list.Count == 2);
-        }
 
-        [Fact]
-        public void TestArraySumIntsRepeating()
-        {
-            var arrayProblems = new ArrayProblems();
-
-            var list = arrayProblems.ThreeSums(new int[] {-2, -1, -1, -1, 0, 0, 0, 1, 1, 1, 2});
+            var actualCount = list.Count;
             
-            Assert.True(list != null);
-            Assert.True(list.Count == 3);
+            Assert.True(actualCount == count);
         }
 
-        [Fact]
-        public void InputWithDuplicateNumbersShouldReturnOnlyOnce()
+        [Theory]
+        [InlineData(new int[] {1}, 1)]
+        [InlineData(new int[] {1,1}, 1)]
+        [InlineData(new int[] {1,1,1,1}, 1)]
+        [InlineData(new int[] {1,1,2,2}, 2)]
+        [InlineData(new int[] {2,2,2,3,4}, 3)]
+        [InlineData(new int[] {1,2,2,3,3,3,4,4,4,4}, 4)]
+        [InlineData(new int[] {1,2,3,3,3,4,5,5,5,5,5}, 5)]
+        [InlineData(new int[] {1, 2, 2, 2, 2, 2, 3, 3, 4, 5, 6}, 6)]
+        public void TestRemoveDuplicates(int[] nums, int size)
         {
             var arrayProblems = new ArrayProblems();
-
-            var list = arrayProblems.ThreeSums(new int[] {3, 0, -2, -1, 1, 2});
-            
-            Assert.True(list != null);
-            Assert.True(list.Count == 1);
-        }
-        
-        [Fact]
-        public void InputRemoveDuplicates()
-        {
-            var arrayProblems = new ArrayProblems();
-            const int expectedLength = 2;
-
-            var nums = new int[] {1, 1};
-
             var actualLength = arrayProblems.RemoveDuplicates(nums);
             
-            Assert.Equal<int>(expectedLength, actualLength);
-        }
-        
-        [Fact]
-        public void InputRemoveLargeNumDups()
-        {
-            var arrayProblems = new ArrayProblems();
-            const int expectedLength = 5;
-
-            var nums = new int[] {1, 1, 1, 1, 1, 1, 1, 1, 4, 5, 6, 7};
-
-            var actualLength = arrayProblems.RemoveDuplicates(nums);
-            
-            Assert.Equal<int>(expectedLength, actualLength);
+            Assert.Equal<int>(size, actualLength);
         }
     }
 }
