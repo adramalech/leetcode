@@ -90,9 +90,7 @@ namespace Fb.ArraysStrings
         {
           break;
         }
-
-        int tmpNum = -1;
-
+        
         switch (c)
         {
           // whitespace skip
