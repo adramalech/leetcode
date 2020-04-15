@@ -74,73 +74,6 @@ namespace Fb.ArraysStrings
             return results;
         }
 
-        /*
-        public int RemoveDuplicates(int[] nums)
-        {
-            // base case if null or empty return 0.
-            if (nums == null || nums.Length < 1)
-            {
-                return 0;
-            }
-
-            var length = nums.Length;
-
-            // base if size one return 1.
-            if (length == 1)
-            {
-                return 1;
-            }
-
-            bool shiftRequired = false;
-            var count = 0;
-            var current = 0;
-            var next = 1;
-
-            while (next < length)
-            {
-                // if duplicate found
-                var dupFound = (nums[current] == nums[next]);
-                var tmpCurrent = current;
-
-                // iterate till you don't find duplicate
-                while (next < length && dupFound)
-                {
-                    var notDuplicate = (nums[tmpCurrent] != nums[next]);
-                    nums[tmpCurrent] = nums[next];
-                    tmpCurrent++;
-                    next++;
-                
-                    if (notDuplicate)
-                    {
-                        shiftRequired = true;
-                        // add extra count for new thing.
-                        count++;
-                        break;
-                    }
-                }
-
-                if (dupFound)
-                {
-                    current = tmpCurrent;
-                }
-                else
-                {
-                    // shift everything over by one if necessary.
-                    if (shiftRequired)
-                    {
-                        nums[current] = nums[next];
-                    }
-
-                    current++;
-                    next++;
-                }
-
-                count++;
-            }
-
-            return count;
-        }*/
-
         public int RemoveDuplicates(int[] nums)
         {
             // base case if null or empty return 0.
@@ -189,6 +122,60 @@ namespace Fb.ArraysStrings
             }
 
             return size;
+        }
+
+        public void NextPermutation(int[] nums)
+        {
+            if (nums == null || nums.Length < 2)
+            {
+                return;
+            }
+
+            // if it is a trivial size 2
+            if (nums.Length == 2)
+            {
+                // if they are the same like 00, 11, 22, ... 99. return.
+                if (nums[0] == nums[1])
+                {
+                    return;
+                }
+                
+                // these are either high low or low high.
+                // high - 98 41 20 -- if array this would result in ordering the array ascending 89, 14, 20
+                // low - 19 48 36  -- if we are low this would result in next highest permutation. 91, 84, 63
+                int tmp = nums[0];
+                nums[0] = nums[1];
+                nums[1] = tmp;
+                return;
+            }
+            
+            // length is 3 or greater.
+            int length = nums.Length;
+            int left = length - 2;
+            int right = length - 1;
+            int suffixLeftValue = length;
+
+            while (left >= 0)
+            {
+                // if the left value is greater than the right value move left.
+                if (nums[left] > nums[right])
+                {
+                    left--;
+                    suffixLeftValue = left;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (suffixLeftValue == 0)
+            {
+                // cannot go any further.
+                return;
+            }
+            
+            
         }
     }
 }

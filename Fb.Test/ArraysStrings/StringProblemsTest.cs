@@ -5,129 +5,46 @@ namespace Fb.Test.ArraysStrings
 {
     public class StringProblemsTests
     {
-        [Fact]
-        public void GivingStringOfLengthOneShouldReturnSubstringLengthOne() {
+        [Theory]
+        [InlineData(" ", 1)]
+        [InlineData("aa", 1)]
+        [InlineData("aaaa", 1)]
+        [InlineData("ab", 2)]
+        [InlineData("ohvhjdml", 6)]
+        public void TestLengthOfLongestSubstring(string s, int expectedLength) {
           var strProblems = new StringProblems();
-          const int expectedLength = 1;
 
-          var actualLength = strProblems.LengthOfLongestSubstring(" ");
+          var actualLength = strProblems.LengthOfLongestSubstring(s);
 
           Assert.Equal<int>(expectedLength, actualLength);
         }
 
-        [Fact]
-        public void GivingUniqueStringOfLengthTwoShouldReturnSubstringLengthTwo() {
-          var strProblems = new StringProblems();
-          const int expectedLength = 2;
-
-          var actualLength = strProblems.LengthOfLongestSubstring("ab");
-
-          Assert.Equal<int>(expectedLength, actualLength);
-        }
-
-        [Fact]
-        public void GivingNonUniqueStringOfLengthTwoShouldReturnSubstringLengthTwo() {
-          var strProblems = new StringProblems();
-          const int expectedLength = 1;
-
-          var actualLength = strProblems.LengthOfLongestSubstring("aa");
-
-          Assert.Equal<int>(expectedLength, actualLength);
-        }
-
-        [Fact]
-        public void InputStringRepeatingCharacterShouldReturnSubstringLengthOne() {
-          var strProblems = new StringProblems();
-          const int expectedLength = 1;
-
-          var actualLength = strProblems.LengthOfLongestSubstring("aaaa");
-
-          Assert.Equal<int>(expectedLength, actualLength);
-        }
-
-        [Fact]
-        public void InputStringComplexShouldResultInSix() {
-          var strProblems = new StringProblems();
-          const int expectedLength = 6;
-
-          var actualLength = strProblems.LengthOfLongestSubstring("ohvhjdml");
-
-          Assert.Equal<int>(expectedLength, actualLength);
-        }
-
-        [Fact]
-        public void InputNumberShouldResultInIntValueEvenWithJunkFollowing()
+        [Theory]
+        [InlineData("    2342   ", 2342)]
+        [InlineData("-12345678900", int.MinValue)]
+        [InlineData("2147483649", int.MaxValue)]
+        [InlineData("0-1", 0)]
+        public void TestAtoi(string s, int expectedValue)
         {
           var strProblems = new StringProblems();
-          const int expectedValue = 2342;
 
-          var actualLength = strProblems.Atoi(" +2342 h  -222222222 here i am test!");
+          var actualLength = strProblems.Atoi(s);
           
           Assert.Equal<int>(expectedValue, actualLength);
         }
 
-        [Fact]
-        public void InputNumberShouldResultInIntValueWhenSurroundedByWhitespace()
+        [Theory]
+        [InlineData("XIV", 14)]
+        [InlineData("XCIX", 99)]
+        [InlineData("DCXXI", 621)]
+        [InlineData("DCCLVI", 756)]
+        [InlineData("MMXX", 2020)]
+        [InlineData("MMMCMXCIX", 3999)]
+        public void TestRomanNumerial(string s, int expectedValue)
         {
           var strProblems = new StringProblems();
-          const int expectedValue = 2342;
 
-          var actualLength = strProblems.Atoi("    2342   ");
-          
-          Assert.Equal<int>(expectedValue, actualLength);
-        }
-
-        [Fact]
-        public void InputNumberIfTooLongWillReturnMinValue()
-        {
-          var strProblems = new StringProblems();
-          const int expectedValue = int.MinValue;
-
-          var actualLength = strProblems.Atoi("-12345678900");
-          
-          Assert.Equal<int>(expectedValue, actualLength);
-        }
-        
-        [Fact]
-        public void InputNumberIfTooLongWillReturnMaxValue()
-        {
-          var strProblems = new StringProblems();
-          const int expectedValue = int.MaxValue;
-
-          var actualLength = strProblems.Atoi("2147483649");
-          
-          Assert.Equal<int>(expectedValue, actualLength);
-        }
-
-        [Fact]
-        public void InputNumberZerosShouldDropOff()
-        {
-          var strProblems = new StringProblems();
-          const int expectedValue = 0;
-          
-          var actualLength = strProblems.Atoi("0-1");
-          
-          Assert.Equal<int>(expectedValue, actualLength);
-        }
-
-        [Fact]
-        public void RomanNumerialToIntEasy()
-        {
-          var strProblems = new StringProblems();
-          const int expectedValue = 14;
-
-          var actualValue = strProblems.RomanNumerialToInt("XIV");
-          
-          Assert.Equal<int>(expectedValue, actualValue);
-        }
-        
-        [Fact]
-        public void RomanNumerialToIntHard()
-        {
-          var strProblems = new StringProblems();
-          const int expectedValue = 621;
-
-          var actualValue = strProblems.RomanNumerialToInt("DCXXI");
+          var actualValue = strProblems.RomanNumerialToInt(s);
           
           Assert.Equal<int>(expectedValue, actualValue);
         }
