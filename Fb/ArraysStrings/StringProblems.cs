@@ -279,9 +279,11 @@ namespace Fb.ArraysStrings
 
     public string Multiply(string num1, string num2)
     {
+      const char ZERO = '0';
+      
       if (string.IsNullOrEmpty(num1) || string.IsNullOrEmpty(num2) || string.IsNullOrWhiteSpace(num1) || string.IsNullOrWhiteSpace(num2))
       {
-        return "0";
+        return ZERO.ToString();
       }
       
       var length1 = num1.Length;
@@ -295,6 +297,12 @@ namespace Fb.ArraysStrings
       
       for (var i = 0; i < length1; i++)
       {
+        // if this is zero then skip 
+        if (num1[i] == ZERO)
+        {
+          continue;
+        }
+        
         // how much we have to shift this number.
         var shift = (i == 0) ? 1 : (i + 1) * 10;
 
@@ -333,7 +341,7 @@ namespace Fb.ArraysStrings
         }
       }
 
-      return "0";
+      return ZERO.ToString();
     }
 
     // single digit multiplied by a single digit
