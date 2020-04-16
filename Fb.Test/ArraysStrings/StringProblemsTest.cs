@@ -48,5 +48,22 @@ namespace Fb.Test.ArraysStrings
           
           Assert.Equal<int>(expectedValue, actualValue);
         }
+
+        [Theory]
+        [InlineData("0", "10", "0")]
+        [InlineData("1", "10", "10")]
+        [InlineData("4", "5", "20")]
+        [InlineData("10", "10", "100")]
+        [InlineData("20", "6", "120")]
+        [InlineData("100", "200", "20000")]
+        [InlineData("123", "456", "56088")]
+        public void TestMultiply(string num1, string num2, string expectedValue)
+        {
+            var strProblems = new StringProblems();
+
+            var actualValue = strProblems.Multiply(num1, num2);
+          
+            Assert.True(expectedValue.Equals(actualValue));
+        }
     }
 }
