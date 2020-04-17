@@ -279,11 +279,12 @@ namespace Fb.ArraysStrings
 
     public string Multiply(string num1, string num2)
     {
-      const char ZERO = '0';
+      const char zero = '0';
       
-      if (string.IsNullOrEmpty(num1) || string.IsNullOrEmpty(num2) || string.IsNullOrWhiteSpace(num1) || string.IsNullOrWhiteSpace(num2))
-      {
-        return ZERO.ToString();
+      if (string.IsNullOrEmpty(num1) || string.IsNullOrWhiteSpace(num1) ||
+          string.IsNullOrEmpty(num2) || string.IsNullOrWhiteSpace(num2)
+      ) {
+        return zero.ToString();
       }
       
       var length1 = num1.Length;
@@ -295,39 +296,46 @@ namespace Fb.ArraysStrings
       
       var lookupDigitToValue = new Dictionary<int, int>();
       
+      int shift;
+      int tmpNum = 0;
+      int d;
+      int m;
+      int c;
+      int otherShift;
+      
       for (var i = 0; i < length1; i++)
       {
         // if this is zero then skip 
-        if (num1[i] == ZERO)
+        if (num1[i] == zero)
         {
           continue;
         }
         
+        // clear
+        d = 0;
+        m = 0;
+        c = 0;
+        otherShift = 0;
+        
         // how much we have to shift this number.
-        var shift = (i == 0) ? 1 : (i + 1) * 10;
-
-        var carryOver = 0;
-
-        var tmpNum = 0;
+        shift = (i == 0) ? 1 : (i + 1) * 10;
 
         // if the work for this digit hasn't been done before then do it and cache it for later use.
         if (!lookupDigitToValue.ContainsKey(num1[i]))
         {
           for (var j = 0; j < length2; j++)
           {
-            var tmpshift = (j == 0) ? 1 : (j + 0) * 10;
+            otherShift = (j == 0) ? 1 : (j + 0) * 10;
 
-            // get multiple at this number
-            var m = multi(num1[i], num2[j]);
+            // get multiple at this number + carry over previously
+            m = multi(num1[i], num2[j]) + c;
 
-            // if we put in multi(9, 9) it would return 81. digit = 1, and nextDigitAdd = 8.
-            var digit = m % 10;
+            // if we put in multi(9, 9) it would return 81. digit = 1, and carryOver = 8.
+            d = this.digit(m);
+            c = carry(m);
 
-            var tmpDigit = digit + carryOver;
-
-            carryOver = (tmpDigit / 10) + (m / 10);
-
-            tmpNum += tmpDigit * tmpshift;
+            // add number with shifting
+            tmpNum += d * otherShift;
           }
 
           lookupDigitToValue.Add(num1[i], tmpNum);
@@ -341,17 +349,21 @@ namespace Fb.ArraysStrings
         }
       }
 
-      return ZERO.ToString();
+      return zero.ToString();
     }
 
     // single digit multiplied by a single digit
     // the min to max value you could have is 0 to 81.
-    public int multi(char num1, char num2)
+    private int multi(char num1, char num2)
     {
       var n1 = convertCharToDigit(num1);
       var n2 = convertCharToDigit(num2);
       return n1 * n2;
     }
+    
+    private int carry(int num) => num / 10;
+    
+    private int digit(int num) => num % 10;
     
     private int compareCurrentAndNext(char c, char n)
     {
