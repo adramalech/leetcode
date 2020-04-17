@@ -378,11 +378,11 @@ namespace Fb.ArraysStrings
 
     // single digit multiplied by a single digit
     // the min to max value you could have is 0 to 81.
-    private int multi(char num1, char num2) => convertCharToDigit(num1) * convertCharToDigit(num2);
+    public int multi(char num1, char num2) => convertCharToDigit(num1) * convertCharToDigit(num2);
     
-    private int carry(int num) => num / 10;
-    
-    private int digit(int num) => num % 10;
+    public int carry(int num) => (int)(Math.Floor(((double)num) / 10));
+
+    public int digit(int num) => num % 10;
     
     private int mapNumerialToInt(char c)
     {
@@ -412,8 +412,7 @@ namespace Fb.ArraysStrings
         '6' => 6,
         '7' => 7,
         '8' => 8,
-        '9' => 9,
-        _ => -1
+        '9' => 9
       };
 
       return n;
@@ -432,8 +431,7 @@ namespace Fb.ArraysStrings
         6 => '6',
         7 => '7',
         8 => '8',
-        9 => '9',
-        _ => char.MinValue
+        9 => '9'
       };
 
       return c;

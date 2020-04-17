@@ -71,5 +71,57 @@ namespace Fb.Test.ArraysStrings
           
             Assert.True(expectedValue.Equals(actualValue));
         }
+        
+        [Theory]
+        [InlineData(0, 0)]
+        [InlineData(1, 0)]
+        [InlineData(10, 1)]
+        [InlineData(89, 8)]
+        [InlineData(75, 7)]
+        [InlineData(55, 5)]
+        [InlineData(19, 1)]
+        public void TestCarry(int num, int expectedValue)
+        {
+            var strProblems = new StringProblems();
+            
+            var actualValue = strProblems.carry(num);
+          
+            Assert.Equal<int>(expectedValue, actualValue);
+        }
+        
+        [Theory]
+        [InlineData(0, 0)]
+        [InlineData(11, 1)]
+        [InlineData(25, 5)]
+        [InlineData(33, 3)]
+        [InlineData(48, 8)]
+        [InlineData(87, 7)]
+        [InlineData(6, 6)]
+        public void TestDigit(int num, int expectedValue)
+        {
+            var strProblems = new StringProblems();
+            
+            var actualValue = strProblems.digit(num);
+          
+            Assert.Equal<int>(expectedValue, actualValue);
+        }
+        
+        [Theory]
+        [InlineData('0', '9', 0)]
+        [InlineData('9', '5', 45)]
+        [InlineData('3', '3', 9)]
+        [InlineData('5', '4', 20)]
+        [InlineData('7', '3', 21)]
+        [InlineData('5', '8', 40)]
+        [InlineData('6', '3', 18)]
+        [InlineData('8', '0', 0)]
+        public void TestMulti(char digit1, char digit2, int expectedValue)
+        {
+            var strProblems = new StringProblems();
+            
+            var actualValue = strProblems.multi(digit1, digit2);
+          
+            Assert.Equal<int>(expectedValue, actualValue);
+        }
     }
 }
