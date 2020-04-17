@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Fb.ArraysStrings
@@ -305,7 +306,7 @@ namespace Fb.ArraysStrings
       var length1 = num1.Length;
       var length2 = num2.Length;
       var total = 0;
-      var lookupDigitToValue = new Dictionary<int, int>();
+      var sumDigitsPlacesLookup = new Dictionary<int, List<int>>();
       int tmpNum = 0;
       int d;
       int m;
@@ -316,6 +317,7 @@ namespace Fb.ArraysStrings
       var nums = new List<string>();
       var n1 = char. MinValue;
       var n2 = char.MinValue;
+      int count;
       
       while (i >= 0)
       {
@@ -325,41 +327,66 @@ namespace Fb.ArraysStrings
           i--;
           continue;
         }
-
-        var num = "";
-        
-        // get the correct shift padding.
-        for (var k = 0; k < shift; k++)
-        {
-          num += zero;
-        }
         
         // first digit of iteration seed.
         j = length2 - 1;
         m = multi(num1[i], num2[j]);
         d = digit(m);
-        num = d + num;
         c = carry(m);
+
+        if (sumDigitsPlacesLookup.ContainsKey(shift))
+        {
+            sumDigitsPlacesLookup[shift].Add(d);
+        }
+        else
+        {
+          sumDigitsPlacesLookup.Add(shift, new List<int>() { d });
+        }
         
         j--;
-        d = 0;
-        m = 0;
+        count = shift + 1;
         
         while (j >= 0)
         {
           m = multi(num1[i], num2[j]) + c;
           d = digit(m);
-          num = d + num;
+          
+          if (sumDigitsPlacesLookup.ContainsKey(count))
+          {
+            sumDigitsPlacesLookup[count].Add(d);
+          }
+          else
+          {
+            sumDigitsPlacesLookup.Add(count, new List<int>() { d });
+          }
+          
           c = carry(m);
           j--;
+          count++;
         }
 
         i--;
         shift++;
-        nums.Add(num);
       }
 
-      return zero.ToString();
+      int carrySum = 0;
+      int sumDigit = 0;
+      string sumTotal = "";
+      int sum;
+      
+      foreach (var place in sumDigitsPlacesLookup.Values)
+      {
+        sum = place.Sum() + carrySum;
+        carrySum = carry(sum);
+        sumTotal = digit(sum) + sumTotal;
+      }
+
+      if (carrySum > 0)
+      {
+        sumTotal = carrySum + sumTotal;
+      }
+      
+      return (string.IsNullOrEmpty(sumTotal) ? zero.ToString() : sumTotal);
     }
 
     // single digit multiplied by a single digit
