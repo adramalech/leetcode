@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Fb.ArraysStrings
 {
@@ -276,95 +277,6 @@ namespace Fb.ArraysStrings
 
       return total;
     }
-
-    public string Multiply(string num1, string num2)
-    {
-      const char zero = '0';
-      
-      if (string.IsNullOrEmpty(num1) || string.IsNullOrWhiteSpace(num1) ||
-          string.IsNullOrEmpty(num2) || string.IsNullOrWhiteSpace(num2)
-      ) {
-        return zero.ToString();
-      }
-      
-      var length1 = num1.Length;
-      var length2 = num2.Length;
-
-      var isNumberLargerThanMaxIntValue = (length1 + length2 > 10); 
-      
-      var total = 0;
-      
-      var lookupDigitToValue = new Dictionary<int, int>();
-      
-      int shift;
-      int tmpNum = 0;
-      int d;
-      int m;
-      int c;
-      int otherShift;
-      
-      for (var i = 0; i < length1; i++)
-      {
-        // if this is zero then skip 
-        if (num1[i] == zero)
-        {
-          continue;
-        }
-        
-        // clear
-        d = 0;
-        m = 0;
-        c = 0;
-        otherShift = 0;
-        
-        // how much we have to shift this number.
-        shift = (i == 0) ? 1 : (i + 1) * 10;
-
-        // if the work for this digit hasn't been done before then do it and cache it for later use.
-        if (!lookupDigitToValue.ContainsKey(num1[i]))
-        {
-          for (var j = 0; j < length2; j++)
-          {
-            otherShift = (j == 0) ? 1 : (j + 0) * 10;
-
-            // get multiple at this number + carry over previously
-            m = multi(num1[i], num2[j]) + c;
-
-            // if we put in multi(9, 9) it would return 81. digit = 1, and carryOver = 8.
-            d = this.digit(m);
-            c = carry(m);
-
-            // add number with shifting
-            tmpNum += d * otherShift;
-          }
-
-          lookupDigitToValue.Add(num1[i], tmpNum);
-          
-          total += tmpNum * shift;
-        }
-        else
-        {
-          // skip doing work if the same work has been done before.
-          total += (lookupDigitToValue[num1[i]] * shift);
-        }
-      }
-
-      return zero.ToString();
-    }
-
-    // single digit multiplied by a single digit
-    // the min to max value you could have is 0 to 81.
-    private int multi(char num1, char num2)
-    {
-      var n1 = convertCharToDigit(num1);
-      var n2 = convertCharToDigit(num2);
-      return n1 * n2;
-    }
-    
-    private int carry(int num) => num / 10;
-    
-    private int digit(int num) => num % 10;
-    
     private int compareCurrentAndNext(char c, char n)
     {
       var num = mapNumerialToInt(c);
@@ -380,110 +292,135 @@ namespace Fb.ArraysStrings
       return num;
     }
     
+    public string Multiply(string num1, string num2)
+    {
+      const char zero = '0';
+      
+      if (string.IsNullOrEmpty(num1) || string.IsNullOrWhiteSpace(num1) ||
+          string.IsNullOrEmpty(num2) || string.IsNullOrWhiteSpace(num2)
+      ) {
+        return zero.ToString();
+      }
+      
+      var length1 = num1.Length;
+      var length2 = num2.Length;
+      var total = 0;
+      var lookupDigitToValue = new Dictionary<int, int>();
+      int tmpNum = 0;
+      int d;
+      int m;
+      int c;
+      int i = length1 - 1;
+      int j;
+      int shift = 0;
+      var nums = new List<string>();
+      var n1 = char. MinValue;
+      var n2 = char.MinValue;
+      
+      while (i >= 0)
+      {
+        // if this is zero then skip 
+        if (num1[i] == zero)
+        {
+          i--;
+          continue;
+        }
+
+        var num = "";
+        
+        // get the correct shift padding.
+        for (var k = 0; k < shift; k++)
+        {
+          num += zero;
+        }
+        
+        // first digit of iteration seed.
+        j = length2 - 1;
+        m = multi(num1[i], num2[j]);
+        d = digit(m);
+        num = d + num;
+        c = carry(m);
+        
+        j--;
+        d = 0;
+        m = 0;
+        
+        while (j >= 0)
+        {
+          m = multi(num1[i], num2[j]) + c;
+          d = digit(m);
+          num = d + num;
+          c = carry(m);
+          j--;
+        }
+
+        i--;
+        shift++;
+        nums.Add(num);
+      }
+
+      return zero.ToString();
+    }
+
+    // single digit multiplied by a single digit
+    // the min to max value you could have is 0 to 81.
+    private int multi(char num1, char num2) => convertCharToDigit(num1) * convertCharToDigit(num2);
+    
+    private int carry(int num) => num / 10;
+    
+    private int digit(int num) => num % 10;
+    
     private int mapNumerialToInt(char c)
     {
-      switch (c)
+      return c switch
       {
-        case 'I':
-          return 1;
-        case 'V':
-          return 5;
-        case 'X':
-          return 10;
-        case 'L':
-          return 50;
-        case 'C':
-          return 100;
-        case 'D':
-          return 500;
-        case 'M':
-          return 1000;
-        default:
-          return 0;
-      }
+        'I' => 1,
+        'V' => 5,
+        'X' => 10,
+        'L' => 50,
+        'C' => 100,
+        'D' => 500,
+        'M' => 1000,
+        _ => 0
+      };
     }
     
     private int convertCharToDigit(char c)
     {
-      int n;
-
-      switch (c)
+      int n = c switch
       {
-        case '0':
-          n = 0;
-          break;
-        case '1':
-          n = 1;
-          break;
-        case '2':
-          n = 2;
-          break;
-        case '3':
-          n = 3;
-          break;
-        case '4':
-          n = 4;
-          break;
-        case '5':
-          n = 5;
-          break;
-        case '6':
-          n = 6;
-          break;
-        case '7':
-          n = 7;
-          break;
-        case '8':
-          n = 8;
-          break;
-        case '9':
-          n = 9;
-          break;
-        default:
-          n = -1;
-          break;
-      }
+        '0' => 0,
+        '1' => 1,
+        '2' => 2,
+        '3' => 3,
+        '4' => 4,
+        '5' => 5,
+        '6' => 6,
+        '7' => 7,
+        '8' => 8,
+        '9' => 9,
+        _ => -1
+      };
 
       return n;
     }
 
     private char digitToChar(int n)
     {
-      char c = char.MinValue;
-
-      switch (n)
+      char c = n switch
       {
-        case 0:
-          c = '0';
-          break;
-        case 1:
-          c = '1';
-          break;
-        case 2:
-          c = '2';
-          break;
-        case 3:
-          c = '3';
-          break;
-        case 4:
-          c = '4';
-          break;
-        case 5:
-          c = '5';
-          break;
-        case 6:
-          c = '6';
-          break;
-        case 7:
-          c = '7';
-          break;
-        case 8:
-          c = '8';
-          break;
-        case 9:
-          c = '9';
-          break;
-      }
+        0 => '0',
+        1 => '1',
+        2 => '2',
+        3 => '3',
+        4 => '4',
+        5 => '5',
+        6 => '6',
+        7 => '7',
+        8 => '8',
+        9 => '9',
+        _ => char.MinValue
+      };
 
       return c;
     }
