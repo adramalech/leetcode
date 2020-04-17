@@ -49,6 +49,8 @@ namespace Fb.Test.ArraysStrings
           Assert.Equal<int>(expectedValue, actualValue);
         }
 
+        // error:  actual value is 109,586,953,112,635,269
+        //       expected value is 121,932,631,112,635,269
         [Theory]
         [InlineData("123456789", "987654321", "121932631112635269")]
         //[InlineData("0", "10", "0")]

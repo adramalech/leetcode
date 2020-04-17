@@ -305,18 +305,13 @@ namespace Fb.ArraysStrings
       
       var length1 = num1.Length;
       var length2 = num2.Length;
-      var total = 0;
       var sumDigitsPlacesLookup = new Dictionary<int, List<int>>();
-      int tmpNum = 0;
       int d;
       int m;
       int c;
       int i = length1 - 1;
       int j;
       int shift = 0;
-      var nums = new List<string>();
-      var n1 = char. MinValue;
-      var n2 = char.MinValue;
       int count;
       
       while (i >= 0)
@@ -370,13 +365,12 @@ namespace Fb.ArraysStrings
       }
 
       int carrySum = 0;
-      int sumDigit = 0;
       string sumTotal = "";
       int sum;
       
-      foreach (var place in sumDigitsPlacesLookup.Values)
+      for (var k = 0; k < sumDigitsPlacesLookup.Count; k++)
       {
-        sum = place.Sum() + carrySum;
+        sum = sumDigitsPlacesLookup[k].Sum() + carrySum;
         carrySum = carry(sum);
         sumTotal = digit(sum) + sumTotal;
       }
