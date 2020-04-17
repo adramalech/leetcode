@@ -316,13 +316,6 @@ namespace Fb.ArraysStrings
       
       while (i >= 0)
       {
-        // if this is zero then skip 
-        if (num1[i] == zero)
-        {
-          i--;
-          continue;
-        }
-        
         // first digit of iteration seed.
         j = length2 - 1;
         m = multi(num1[i], num2[j]);
