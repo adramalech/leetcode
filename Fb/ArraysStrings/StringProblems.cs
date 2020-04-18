@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Fb.ArraysStrings
 {
@@ -414,9 +413,10 @@ namespace Fb.ArraysStrings
       {
         return results;
       }
-      
+
       var grouping = new Dictionary<int, List<string>>();
       
+      // group the strings by length.
       foreach (var s in strs)
       {
         if (string.IsNullOrEmpty(s))
@@ -444,16 +444,72 @@ namespace Fb.ArraysStrings
           }
         }
       }
-      
-      
-      
+
+      foreach (var group in grouping.Values)
+      {
+        if (group.Count < 2)
+        {
+          results.Add(group);
+        }
+        else if (group.Count == 2)
+        {
+          if (isStringPairAnagram(group[0], group[1]))
+          {
+            results.Add(group);
+          }
+          else
+          {
+            results.Add(new List<string> {group[0]});
+            results.Add(new List<string> {group[1]});
+          }
+        }
+        else
+        {
+          var length = group.Count;
+
+          bool[] track = new bool[length];
+
+          List<string> g;
+          
+          for (var i = 0; i < length - 1; i++)
+          {
+            if (!track[i])
+            {
+              g = new List<string>() { group[i] };
+              track[i] = true;
+
+              for (var j = i + 1; j < length; j++)
+              {
+                if (!track[j])
+                {
+                  if (isStringPairAnagram(group[i], group[j]))
+                  {
+                    g.Add(group[j]);
+                    track[j] = true;
+                  }
+                }
+              }
+
+              results.Add(g);
+            }
+          }
+
+          for (var k = 0; k < length; k++)
+          {
+            if (!track[k])
+            {
+              results.Add(new List<string>() { group[k] });
+            }
+          }
+        }
+      }
+
       return results;
     }
 
     public bool isStringPairAnagram(string s1, string s2)
     {
-      // if they are not equal length or if they are the same string return false.
-      if (s1.Equals(s2) || s1.Length != s2.Length)
+      if (s1.Length != s2.Length)
       {
         return false;
       }
