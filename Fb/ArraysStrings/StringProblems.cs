@@ -295,12 +295,13 @@ namespace Fb.ArraysStrings
     
     public string Multiply(string num1, string num2)
     {
-      const char zero = '0';
+      const string zero = "0";
       
       if (string.IsNullOrEmpty(num1) || string.IsNullOrWhiteSpace(num1) ||
-          string.IsNullOrEmpty(num2) || string.IsNullOrWhiteSpace(num2)
+          string.IsNullOrEmpty(num2) || string.IsNullOrWhiteSpace(num2) ||
+          num1 == zero || num2 == zero
       ) {
-        return zero.ToString();
+        return zero;
       }
       
       var length1 = num1.Length;
@@ -333,24 +334,52 @@ namespace Fb.ArraysStrings
         
         j--;
         count = shift + 1;
-        
-        while (j >= 0)
+
+        // single digit, then just add carry if carry is greater than zero.
+        if (j < 0 && c > 0)
         {
-          m = multi(num1[i], num2[j]) + c;
-          d = digit(m);
-          
           if (sumDigitsPlacesLookup.ContainsKey(count))
           {
-            sumDigitsPlacesLookup[count].Add(d);
+            sumDigitsPlacesLookup[count].Add(c);
           }
           else
           {
-            sumDigitsPlacesLookup.Add(count, new List<int>() { d });
+            sumDigitsPlacesLookup.Add(count, new List<int>() {c});
           }
-          
-          c = carry(m);
-          j--;
-          count++;
+        }
+        else
+        {
+          while (j >= 0)
+          {
+            m = multi(num1[i], num2[j]) + c;
+            d = digit(m);
+
+            if (sumDigitsPlacesLookup.ContainsKey(count))
+            {
+              sumDigitsPlacesLookup[count].Add(d);
+            }
+            else
+            {
+              sumDigitsPlacesLookup.Add(count, new List<int>() {d});
+            }
+
+            c = carry(m);
+            j--;
+            count++;
+          }
+
+          // this is to handle carry overflow extra digit.
+          if (c > 0)
+          {
+            if (sumDigitsPlacesLookup.ContainsKey(count))
+            {
+              sumDigitsPlacesLookup[count].Add(c);
+            }
+            else
+            {
+              sumDigitsPlacesLookup.Add(count, new List<int>() {c});
+            }
+          }
         }
 
         i--;
@@ -363,7 +392,8 @@ namespace Fb.ArraysStrings
       
       for (var k = 0; k < sumDigitsPlacesLookup.Count; k++)
       {
-        sum = sumDigitsPlacesLookup[k].Sum() + carrySum;
+        sum = sumDigitsPlacesLookup[k].Sum();
+        sum = sum + carrySum;
         carrySum = carry(sum);
         sumTotal = digit(sum) + sumTotal;
       }
@@ -372,7 +402,7 @@ namespace Fb.ArraysStrings
       {
         sumTotal = carrySum + sumTotal;
       }
-      
+
       return (string.IsNullOrEmpty(sumTotal) ? zero.ToString() : sumTotal);
     }
 
@@ -416,25 +446,6 @@ namespace Fb.ArraysStrings
       };
 
       return n;
-    }
-
-    private char digitToChar(int n)
-    {
-      char c = n switch
-      {
-        0 => '0',
-        1 => '1',
-        2 => '2',
-        3 => '3',
-        4 => '4',
-        5 => '5',
-        6 => '6',
-        7 => '7',
-        8 => '8',
-        9 => '9'
-      };
-
-      return c;
     }
   }
 }

@@ -53,10 +53,12 @@ namespace Fb.Test.ArraysStrings
         //       expected value is 121,932,631,112,635,269
         [Theory]
         [InlineData("0", "10", "0")]
+        [InlineData("123423423234534", "0", "0")]
         [InlineData("1", "10", "10")]
+        [InlineData("1324523457575434", "1", "1324523457575434")]
         [InlineData("4", "5", "20")]
-        [InlineData("10", "10", "100")]
         [InlineData("20", "6", "120")]
+        [InlineData("10", "10", "100")] 
         [InlineData("100", "200", "20000")]
         [InlineData("123", "456", "56088")]
         [InlineData("999", "999", "998001")]
