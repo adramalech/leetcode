@@ -125,5 +125,21 @@ namespace Fb.Test.ArraysStrings
           
             Assert.Equal<int>(expectedValue, actualValue);
         }
+
+        [Theory]
+        [InlineData("", "", false)]
+        [InlineData("a", "b", false)]
+        [InlineData("b", "b", false)]
+        [InlineData("aba", "baa", true)]
+        [InlineData("abccgabce", "gaabbeccc", true)]
+        [InlineData("abccgace", "gaabbecc", false)]
+        public void TestIsStringPairAnagram(string s1, string s2, bool expectedResult)
+        {
+            var strProblems = new StringProblems();
+
+            var actualResult = strProblems.isStringPairAnagram(s1, s2);
+            
+            Assert.Equal(expectedResult, actualResult);
+        }
     }
 }

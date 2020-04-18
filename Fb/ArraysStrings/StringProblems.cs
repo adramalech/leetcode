@@ -405,6 +405,93 @@ namespace Fb.ArraysStrings
 
       return (string.IsNullOrEmpty(sumTotal) ? zero.ToString() : sumTotal);
     }
+    
+    public IList<IList<string>> GroupAnagrams(string[] strs)
+    {
+      var results = new List<IList<string>>();
+      
+      if (strs == null || strs.Length < 1)
+      {
+        return results;
+      }
+      
+      var grouping = new Dictionary<int, List<string>>();
+      
+      foreach (var s in strs)
+      {
+        if (string.IsNullOrEmpty(s))
+        {
+          if (grouping.ContainsKey(0))
+          {
+            grouping[0].Add(s);
+          }
+          else
+          {
+            grouping.Add(0, new List<string>() {s});
+          }
+        }
+        else
+        {
+          var length = s.Length;
+          
+          if (grouping.ContainsKey(length))
+          {
+            grouping[length].Add(s);
+          }
+          else
+          {
+            grouping.Add(length, new List<string>() {s});
+          }
+        }
+      }
+      
+      
+      
+      return results;
+    }
+
+    public bool isStringPairAnagram(string s1, string s2)
+    {
+      // if they are not equal length or if they are the same string return false.
+      if (s1.Equals(s2) || s1.Length != s2.Length)
+      {
+        return false;
+      }
+
+      var charFrequencyCounter = new Dictionary<char, int>();
+      
+      // count the symbols in one of the strings.
+      foreach (var c in s1)
+      {
+        if (charFrequencyCounter.ContainsKey(c))
+        {
+          charFrequencyCounter[c]++;
+        }
+        else
+        {
+          charFrequencyCounter.Add(c, 1);
+        }
+      }
+
+      // decrement the count of occurrences in the other string
+      // if they don't match this will find it.
+      foreach (var c in s2)
+      {
+        if (!charFrequencyCounter.ContainsKey(c))
+        {
+          return false;
+        }
+
+        charFrequencyCounter[c]--;
+
+        if (charFrequencyCounter[c] < 1)
+        {
+          charFrequencyCounter.Remove(c);
+        }
+      }
+
+      return true;
+    }
 
     // single digit multiplied by a single digit
     // the min to max value you could have is 0 to 81.
