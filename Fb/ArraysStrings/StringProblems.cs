@@ -416,7 +416,10 @@ namespace Fb.ArraysStrings
 
       var grouping = new Dictionary<int, List<string>>();
       
+      // O(n + m )
+      
       // group the strings by length.
+      // O(n)
       foreach (var s in strs)
       {
         if (string.IsNullOrEmpty(s))
@@ -445,6 +448,7 @@ namespace Fb.ArraysStrings
         }
       }
 
+      // O(m)
       foreach (var group in grouping.Values)
       {
         if (group.Count < 2)
@@ -507,13 +511,142 @@ namespace Fb.ArraysStrings
       return results;
     }
 
+    public IList<IList<string>> GroupAnagrams2(string[] strs)
+    {
+      var results = new List<IList<string>>();
+      
+      if (strs == null || strs.Length < 1)
+      {
+        return results;
+      }
+
+      var grouping = new Dictionary<string, List<string>>();
+
+      // O(n * m * log(m))
+      foreach (var s in strs)
+      {
+        string tmpCharStr = s;
+        
+        if (!string.IsNullOrEmpty(s))
+        {
+          var chars = s.ToCharArray();
+          Array.Sort(chars);
+          tmpCharStr = new string(chars);
+        }
+        
+        if (grouping.ContainsKey(tmpCharStr))
+        {
+          grouping[tmpCharStr].Add(s);
+        }
+        else
+        {
+          grouping.Add(tmpCharStr, new List<string>() {s});
+        }
+      }
+
+      foreach (var v in grouping.Values)
+      {
+        results.Add(v);
+      }
+      
+      return results;
+    }
+
+    public string AddBinary(string a, string b)
+    {
+      char carry = '0';
+      int i = a.Length - 1;
+      int j = b.Length - 1;
+
+      string result = "";
+      
+      while (i >= 0 && j >= 0)
+      {
+        int sum = convertCharToDigit(a[i]) + convertCharToDigit(b[j]) + convertCharToDigit(carry);
+        
+        if (sum == 3)
+        {
+          result = "1" + result;
+          carry = '1';
+        }
+        else if (sum == 2)
+        {
+          result = "0" + result;
+          carry = '1';
+        }
+        else
+        {
+          result = sum.ToString() + result;
+          carry = '0';
+        }
+
+        i--;
+        j--;
+      }
+
+      // if a length is greater than b length.
+      if (i >= 0)
+      {
+        while (i >= 0)
+        {
+          int sum = convertCharToDigit(a[i]) + convertCharToDigit(carry);
+          
+          if (sum == 2)
+          {
+            result = "0" + result;
+            carry = '1';
+          }
+          else
+          {
+            result = sum.ToString() + result;
+            carry = '0';
+          }
+
+          i--;
+        }
+      }
+
+      // if b length is greater than a length.
+      if (j >= 0)
+      {
+        while (j >= 0)
+        {
+          int sum = convertCharToDigit(b[j]) + convertCharToDigit(carry);
+          
+          if (sum == 2)
+          {
+            result = "0" + result;
+            carry = '1';
+          }
+          else
+          {
+            result = sum.ToString() + result;
+            carry = '0';
+          }
+
+          j--;
+        }
+      }
+
+      var c = convertCharToDigit(carry);
+
+      if (c > 0)
+      {
+        result = "1" + result;
+      }
+      
+      return result;
+    }
+    
+    public int add(char num1, char num2) => convertCharToDigit(num1) + convertCharToDigit(num2);
+    
     public bool isStringPairAnagram(string s1, string s2)
     {
       if (s1.Length != s2.Length)
       {
         return false;
       }
-
+      
       var charFrequencyCounter = new Dictionary<char, int>();
       
       // count the symbols in one of the strings.
