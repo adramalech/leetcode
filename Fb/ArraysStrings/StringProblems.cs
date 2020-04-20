@@ -638,8 +638,6 @@ namespace Fb.ArraysStrings
       return result;
     }
     
-    public int add(char num1, char num2) => convertCharToDigit(num1) + convertCharToDigit(num2);
-    
     public bool isStringPairAnagram(string s1, string s2)
     {
       if (s1.Length != s2.Length)
