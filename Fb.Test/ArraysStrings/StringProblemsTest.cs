@@ -127,9 +127,8 @@ namespace Fb.Test.ArraysStrings
         }
 
         [Theory]
-        [InlineData("", "", false)]
+        [InlineData("", "", true)]
         [InlineData("a", "b", false)]
-        [InlineData("b", "b", false)]
         [InlineData("aba", "baa", true)]
         [InlineData("abccgabce", "gaabbeccc", true)]
         [InlineData("abccgace", "gaabbecc", false)]
@@ -202,6 +201,27 @@ namespace Fb.Test.ArraysStrings
 
             var actualResult = strProblems.AddBinary(a, b);
             
+            Assert.True(expectedResult.Equals(actualResult));
+        }
+
+        [Theory]
+        [InlineData(0, "Zero")]
+        [InlineData(19, "Nineteen")]
+        [InlineData(59, "Fifty Nine")]
+        [InlineData(123, "One Hundred Twenty Three")]
+        [InlineData(12059, "Twelve Thousand Fifty Nine")]
+        [InlineData(25359, "Twenty Five Thousand Three Hundred Fifty Nine")]
+        [InlineData(500000, "Five Hundred Thousand")]
+        [InlineData(505189, "Five Hundred Five Thousand One Hundred Eighty Nine")]
+        [InlineData(1000000, "One Million")]
+        [InlineData(12345678, "Twelve Million Three Hundred Forty Five Thousand Six Hundred Seventy Eight")]
+        [InlineData(1000000000, "One Billion")]
+        public void TestNumberToWords(int num, string expectedResult)
+        {
+            var strProblems = new StringProblems();
+
+            var actualResult = strProblems.NumberToWords(num);
+
             Assert.True(expectedResult.Equals(actualResult));
         }
     }

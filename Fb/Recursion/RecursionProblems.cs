@@ -43,7 +43,8 @@ namespace fb.Recursion
                 '6' => new string[] { "m", "n", "o" },
                 '7' => new string[] { "p", "q", "r", "s" },
                 '8' => new string[] { "t", "u", "v" },
-                '9' => new string[] { "w", "x", "y", "z"}
+                '9' => new string[] { "w", "x", "y", "z"},
+                _ => new string[] {}
             };
         }
 

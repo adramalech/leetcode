@@ -679,6 +679,193 @@ namespace Fb.ArraysStrings
 
       return true;
     }
+    
+    public string NumberToWords(int num)
+    {
+      if (num <= 0)
+      {
+        return "Zero";
+      }
+      
+      // num = 1 to 20.
+      if (num < 20)
+      {
+        return mapNumToWord(num);
+      }
+      
+      // num = 21 to 99
+      if (num < 100)
+      {
+        return describeTensAndOnes(num);
+      }
+      
+      var digitWord = "";
+      var placeWord = "";
+      int nTens;
+      int nHundreds;
+      int n;
+      string result = "";
+      var place = 3;
+      
+      // num = 100 - 2,147,483,647
+      while (num > 0)
+      {
+        var words = "";
+        
+        n = (int) (num % Math.Pow(10, 3));
+        nHundreds = n / 100;
+        
+        if (nHundreds > 0)
+        {
+          // hundreds
+          words = describeHundreds(nHundreds);
+        }
+
+        // tens and ones.
+        nTens = n % 100;
+        
+        if (nTens > 0)
+        {
+          var t = describeTensAndOnes(nTens);
+          
+          if (!string.IsNullOrEmpty(t))
+          {
+            if (!string.IsNullOrEmpty(words))
+            {
+              t = " " + t;
+            }
+            
+            words += t;
+          }
+        }
+        
+        if (!string.IsNullOrEmpty(words))
+        {
+          // add the place
+          var p = mapPlaceToWord(place);
+
+          if (!string.IsNullOrEmpty(p))
+          {
+            words += " " + p;
+          }
+          
+          // add the constructed word to the result.
+          if (!string.IsNullOrEmpty(result))
+          {
+            result = " " + result;
+          }
+
+          result = words + result;
+        }
+        
+        // remove diff.
+        num = (int) Math.Floor(num / Math.Pow(10, 3));
+        
+        if (num >= 1000)
+        {
+          place += 3;
+        }
+        else if (num >= 100)
+        {
+          place += 2;
+        }
+        else
+        {
+          place++;
+        }
+      }
+      
+      return result;
+    }
+
+    public string describeTensAndOnes(int tensOnes)
+    {
+      string words;
+      int ones;
+      int twos;
+      
+      if (tensOnes <= 20)
+      {
+        words = mapNumToWord(tensOnes);
+      }
+      else
+      {
+        // break it down 22 = 20 + 2.
+        ones = tensOnes % 10;
+        twos = tensOnes - ones;
+          
+        words = mapNumToWord(twos);
+
+        if (ones > 0)
+        {
+          words += " " + mapNumToWord(ones);
+        }
+      }
+
+      return words;
+    }
+
+    public string describeHundreds(int hundreds)
+    {
+      var result = "";
+      
+      if (hundreds > 0)
+      {
+        result += mapNumToWord(hundreds) + " Hundred";
+      }
+      
+      return result;
+    }
+
+    public string mapPlaceToWord(int place)
+    {
+      if (place < 4)
+      {
+        return "";
+      }
+      
+      if (place < 7)
+      {
+        return "Thousand";
+      }
+
+      return place < 10 ? "Million" : "Billion";
+    }
+    
+    public string mapNumToWord(int num)
+    {
+      return num switch
+      {
+        1 => "One",
+        2 => "Two",
+        3 => "Three",
+        4 => "Four",
+        5 => "Five",
+        6 => "Six",
+        7 => "Seven",
+        8 => "Eight",
+        9 => "Nine",
+        10 => "Ten",
+        11 => "Eleven",
+        12 => "Twelve",
+        13 => "Thirteen",
+        14 => "Fourteen",
+        15 => "Fifteen",
+        16 => "Sixteen",
+        17 => "Seventeen",
+        18 => "Eighteen",
+        19 => "Nineteen",
+        20 => "Twenty",
+        30 => "Thirty",
+        40 => "Forty",
+        50 => "Fifty",
+        60 => "Sixty",
+        70 => "Seventy",
+        80 => "Eighty",
+        90 => "Ninety",
+        _ => ""
+      };
+    }
 
     // single digit multiplied by a single digit
     // the min to max value you could have is 0 to 81.
@@ -716,7 +903,8 @@ namespace Fb.ArraysStrings
         '6' => 6,
         '7' => 7,
         '8' => 8,
-        '9' => 9
+        '9' => 9,
+        _ => 0
       };
 
       return n;
