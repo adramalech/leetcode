@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Fb.ArraysStrings
 {
@@ -176,6 +177,42 @@ namespace Fb.ArraysStrings
             }
             
             
+        }
+
+        // brute force O(n^2) complexity with O(n) space
+        public int[] ProductExceptSelf(int[] nums)
+        {
+            if (nums == null || nums.Length < 2)
+            {
+                return null;
+            }
+            
+            // space complexity O(n)
+            var results = new List<int>();
+            
+            // O(n^2) overall
+            // search O(n)
+            for (var i = 0; i < nums.Length; i++)
+            {
+                int product = int.MaxValue;
+                
+                // product O(n)
+                for (var j = 0; j < nums.Length; j++)
+                {
+                    // skip elements that are the same element.
+                    if (j == i)
+                    {
+                        continue;
+                    }
+                    
+                    // seed the product value or multiply.
+                    product = (product != int.MaxValue) ? product * nums[j] : nums[j];
+                }
+                
+                results.Add(product);
+            }
+            
+            return results.ToArray();
         }
     }
 }

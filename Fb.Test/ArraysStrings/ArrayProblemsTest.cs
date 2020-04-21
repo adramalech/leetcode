@@ -14,7 +14,8 @@ namespace Fb.Test.ArraysStrings
 
             var list = arrayProblems.ThreeSums(nums);
             
-            Assert.True(list != null);
+            Assert.NotNull(list);
+            Assert.NotEmpty(list);
 
             var actualCount = list.Count;
             
@@ -36,6 +37,20 @@ namespace Fb.Test.ArraysStrings
             var actualLength = arrayProblems.RemoveDuplicates(nums);
             
             Assert.Equal<int>(size, actualLength);
+        }
+
+        [Theory]
+        [InlineData(new int[] { 1, 2, 3, 4 }, 4)]
+        [InlineData(new int [] { -1, 1 }, 2)]
+        public void TestProductExceptSelf(int[] nums, int expectedCount)
+        {
+            var arrayProblems = new ArrayProblems();
+
+            var actualResults = arrayProblems.ProductExceptSelf(nums);
+
+            Assert.NotNull(actualResults);
+            Assert.NotEmpty(actualResults);
+            Assert.Equal<int>(expectedCount, actualResults.Length);
         }
     }
 }
