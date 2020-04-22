@@ -186,13 +186,15 @@ namespace Fb.ArraysStrings
             {
                 return null;
             }
-            
-            // space complexity O(n)
-            var results = new List<int>();
-            
+
+            int length = nums.Length;
+
+            var results = new int[length];
+
+
             // O(n^2) overall
             // search O(n)
-            for (var i = 0; i < nums.Length; i++)
+            for (var i = 0; i < length; i++)
             {
                 int product = int.MaxValue;
                 
@@ -209,10 +211,69 @@ namespace Fb.ArraysStrings
                     product = (product != int.MaxValue) ? product * nums[j] : nums[j];
                 }
                 
-                results.Add(product);
+                results[i] = product;
             }
             
-            return results.ToArray();
+            return results;
+        }
+
+        // time O(n) but space is O(n)
+        public int[] ProductExceptSelfLinear(int[] nums)
+        {
+            var length = nums.Length;
+            
+            var lr = new int[length];
+            lr[0] = 1;
+            
+            var rl = new int[length];
+            rl[length - 1] = 1;
+
+            var results = new int[length];
+
+            // left to right iterate O(n - 1)
+            for (var i = 1; i < length; i++)
+            {
+                lr[i] = nums[i - 1] * lr[i - 1];
+            }
+
+            // right to left iterate O(n - 1)
+            for (var i = length - 2; i > 0; i--)
+            {
+                rl[i] = nums[i + 1] * rl[i + 1];
+            }
+
+            // iterate through multiplying partial products O(n)
+            for (var i = 0; i < length; i++)
+            {
+                results[i] = lr[i] * rl[i];
+            }
+
+            return results;
+        }
+        
+        // time complexity O(n)
+        // space is O(n)
+        public int[] ProductExceptSelfLinearConstantSpace(int[] nums)
+        {
+            // space O(n + 2)
+            var length = nums.Length;
+            int tmpNum = 1;
+            var results = new int[length];
+            results[0] = 1;
+            
+            // left to right iterate O(n - 1)
+            for (var i = 1; i < length; i++)
+            {
+                results[i] = nums[i - 1] * results[i - 1];
+            }
+
+            for (var i = length - 1; i >= 0; i--)
+            {
+                results[i] *= tmpNum;
+                tmpNum *= nums[i];
+            }
+
+            return results;
         }
     }
 }

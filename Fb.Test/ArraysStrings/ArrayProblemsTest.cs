@@ -42,11 +42,39 @@ namespace Fb.Test.ArraysStrings
         [Theory]
         [InlineData(new int[] { 1, 2, 3, 4 }, 4)]
         [InlineData(new int [] { -1, 1 }, 2)]
-        public void TestProductExceptSelf(int[] nums, int expectedCount)
+        public void TestProductExceptSelfBruteForce(int[] nums, int expectedCount)
         {
             var arrayProblems = new ArrayProblems();
 
             var actualResults = arrayProblems.ProductExceptSelf(nums);
+
+            Assert.NotNull(actualResults);
+            Assert.NotEmpty(actualResults);
+            Assert.Equal<int>(expectedCount, actualResults.Length);
+        }
+        
+        [Theory]
+        [InlineData(new int[] { 1, 2, 3, 4 }, 4)]
+        [InlineData(new int [] { -1, 1 }, 2)]
+        public void TestProductExceptSelfLinear(int[] nums, int expectedCount)
+        {
+            var arrayProblems = new ArrayProblems();
+
+            var actualResults = arrayProblems.ProductExceptSelfLinear(nums);
+
+            Assert.NotNull(actualResults);
+            Assert.NotEmpty(actualResults);
+            Assert.Equal<int>(expectedCount, actualResults.Length);
+        }
+        
+        [Theory]
+        [InlineData(new int[] { 1, 2, 3, 4 }, 4)]
+        [InlineData(new int [] { -1, 1 }, 2)]
+        public void TestProductExceptSelfLinearConstantSpace(int[] nums, int expectedCount)
+        {
+            var arrayProblems = new ArrayProblems();
+
+            var actualResults = arrayProblems.ProductExceptSelfLinearConstantSpace(nums);
 
             Assert.NotNull(actualResults);
             Assert.NotEmpty(actualResults);
