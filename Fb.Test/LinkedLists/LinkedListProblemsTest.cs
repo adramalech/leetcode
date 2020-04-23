@@ -7,8 +7,8 @@ namespace Fb.Test.LinkedLists
     {
         [Theory]
         [InlineData(
-            new int [] { 3, 2, 1 }, 
-            new int [] { 6, 5, 4 }, 
+            new int[] { 3, 2, 1 }, 
+            new int[] { 6, 5, 4 }, 
             new int[] { 9, 7, 5 }
         )] // 321 + 654 = 975
         [InlineData(
@@ -38,12 +38,36 @@ namespace Fb.Test.LinkedLists
             Assert.NotNull(expectedResults);
             Assert.True(areListsEqual(expectedResults, actualResults));
         }
+
+        [Theory]
+        [InlineData(
+            new int[] { 3, 2, 1 },
+            new int[] { 6, 5, 4 },
+            new int[] { 1, 2, 3, 4, 5, 6 }
+        )]
+        /*[InlineData(
+            new int[] { 3 },
+            new int[] { 6 },
+            new int[] { 3, 6 }
+        )]*/
+        public void TestMergeTwoLists(int[] num1, int[] num2, int[] expectedNum)
+        {
+            var l1 = generateList(num1);
+            var l2 = generateList(num2);
+            var expectedResults = generateList(expectedNum);
+            var linkedListProblems = new LinkedListProblems();
+            
+            var actualResults = linkedListProblems.MergeTwoLists(l1, l2);
+            
+            Assert.NotNull(expectedResults);
+            Assert.True(areListsEqual(expectedResults, actualResults));
+        }
         
         private ListNode generateList(int[] nums)
         {
-            var current = new ListNode(nums[0]);
+            ListNode current = null;
 
-            for (var i = 1; i < nums.Length; i++)
+            for (var i = 0; i < nums.Length; i++)
             {
                 var node = new ListNode(nums[i]);
                 node.next = current;

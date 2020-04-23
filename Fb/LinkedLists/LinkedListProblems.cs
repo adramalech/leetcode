@@ -89,5 +89,52 @@ namespace fb.LinkedLists
 
             return current;
         }
+        
+        /*
+         Input: 1->2->4, 1->3->4
+         Output: 1->1->2->3->4->4
+         */
+        public ListNode MergeTwoLists(ListNode l1, ListNode l2) 
+        {
+            ListNode current = null;
+
+            // while both have next.
+            while (l1 != null && l2 != null)
+            {
+                var tmp2 = l2;
+                var tmpNext = l2.next;
+                tmp2.next = current;
+                l2 = tmpNext;
+                
+                var tmp1 = l1;
+                tmpNext = l1.next;
+                tmp1.next = tmp2;
+                l1 = tmpNext;
+                
+                current = tmp1;
+            }
+            
+            // while the first list has next.
+            while (l1 != null)
+            {
+                var tmp = l1;
+                var tmpNext = l1.next;
+                tmp.next = current;
+                current = tmp;
+                l1 = tmpNext;
+            }
+
+            // while the second list has next.
+            while (l2 != null)
+            {
+                var tmp = l2;
+                var tmpNext = l2.next;
+                tmp.next = current;
+                current = tmp;
+                l2 = tmpNext;
+            }
+
+            return current;
+        }
     }
 }
