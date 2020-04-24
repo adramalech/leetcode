@@ -7,13 +7,13 @@ namespace Fb.Test.LinkedLists
     {
         [Theory]
         [InlineData(
-            new int[] { 3, 2, 1 }, 
-            new int[] { 6, 5, 4 }, 
+            new int[] { 1, 2, 3 }, 
+            new int[] { 4, 5, 6 }, 
             new int[] { 9, 7, 5 }
         )] // 321 + 654 = 975
         [InlineData(
-            new int [] { 2, 4, 3 }, 
-            new int [] { 5, 6, 4 }, 
+            new int [] { 3, 4, 2 }, 
+            new int [] { 4, 6, 5 }, 
             new int[] { 8, 0, 7 }
         )] // 342 + 465 = 807
         [InlineData(
