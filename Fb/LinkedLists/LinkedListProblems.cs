@@ -94,47 +94,39 @@ namespace fb.LinkedLists
          Input: 1->2->4, 1->3->4
          Output: 1->1->2->3->4->4
          */
-        public ListNode MergeTwoLists(ListNode l1, ListNode l2) 
+        public ListNode MergeTwoLists(ListNode l1, ListNode l2)
         {
-            ListNode current = null;
-
-            // while both have next.
+            ListNode head = null;
+            ListNode t = new ListNode(0);
+            head = t;
+            
             while (l1 != null && l2 != null)
             {
-                var tmp2 = l2;
-                var tmpNext = l2.next;
-                tmp2.next = current;
-                l2 = tmpNext;
-                
-                var tmp1 = l1;
-                tmpNext = l1.next;
-                tmp1.next = tmp2;
-                l1 = tmpNext;
-                
-                current = tmp1;
-            }
+                if (l1.val < l2.val)
+                {
+                    t.next = l1;
+                    l1 = l1.next;
+                }
+                else
+                {
+                    t.next = l2;
+                    l2 = l2.next;
+                }
             
-            // while the first list has next.
-            while (l1 != null)
-            {
-                var tmp = l1;
-                var tmpNext = l1.next;
-                tmp.next = current;
-                current = tmp;
-                l1 = tmpNext;
+                t = t.next;
             }
 
-            // while the second list has next.
-            while (l2 != null)
+            if (l1 != null)
             {
-                var tmp = l2;
-                var tmpNext = l2.next;
-                tmp.next = current;
-                current = tmp;
-                l2 = tmpNext;
+                t.next = l1;
             }
 
-            return current;
+            if (l2 != null)
+            {
+                t.next = l2;
+            }
+
+            return head.next;
         }
     }
 }

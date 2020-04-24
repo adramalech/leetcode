@@ -41,22 +41,27 @@ namespace Fb.Test.LinkedLists
 
         [Theory]
         [InlineData(
-            new int[] { 3, 2, 1 },
-            new int[] { 6, 5, 4 },
+            new int[] { 1, 2, 3 },
+            new int[] { 4, 5, 6 },
             new int[] { 1, 2, 3, 4, 5, 6 }
         )]
-        /*[InlineData(
-            new int[] { 3 },
-            new int[] { 6 },
-            new int[] { 3, 6 }
-        )]*/
+        [InlineData(
+            new int[] { 1, 2, 4 },
+            new int[] { 1, 3, 4 },
+            new int[] { 1, 1, 2, 3, 4, 4 }
+        )]
+        [InlineData(
+            new int[] { 1 },
+            new int [] { 2 },
+            new int [] { 1, 2 }
+        )]
         public void TestMergeTwoLists(int[] num1, int[] num2, int[] expectedNum)
         {
             var l1 = generateList(num1);
             var l2 = generateList(num2);
             var expectedResults = generateList(expectedNum);
             var linkedListProblems = new LinkedListProblems();
-            
+
             var actualResults = linkedListProblems.MergeTwoLists(l1, l2);
             
             Assert.NotNull(expectedResults);
@@ -65,30 +70,25 @@ namespace Fb.Test.LinkedLists
         
         private ListNode generateList(int[] nums)
         {
-            ListNode current = null;
-
-            for (var i = 0; i < nums.Length; i++)
+            ListNode head = null;
+            ListNode current = new ListNode(nums[0]);
+            head = current;
+            
+            for (var i = 1; i < nums.Length; i++)
             {
-                var node = new ListNode(nums[i]);
-                node.next = current;
-                current = node;
+                current.next = new ListNode(nums[i]);
+                current = current.next;
             }
 
-            return current;
+            return head;
         }
 
         private bool areListsEqual(ListNode ln1, ListNode ln2)
         {
             // if one list is null or the other is return false.
-            if (ln1 == null ^ ln2 == null)
+            if (ln1 == null || ln2 == null)
             {
                  return false;
-            }
-            
-            // if one list has a next and the other doesn't return false.
-            if (ln1.next == null ^ ln2.next == null)
-            {
-                return false;
             }
             
             // iterate over both lists.
