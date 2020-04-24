@@ -12,10 +12,10 @@ namespace fb.TreesGraphs
     {
         public bool IsValidBST(TreeNode root) 
         {
-            return validate(root, long.MinValue, long.MaxValue);
+            return validBST(root, long.MinValue, long.MaxValue);
         }
     
-        private bool validate(TreeNode root, long min, long max) 
+        private bool validBST(TreeNode root, long min, long max) 
         {
             if (root == null)
             {
@@ -24,7 +24,7 @@ namespace fb.TreesGraphs
             
             if (root.val > min && root.val < max)
             {
-                return validate(root.left, min, root.val) && validate(root.right, root.val, max);
+                return validBST(root.left, min, root.val) && validBST(root.right, root.val, max);
             }
 
             return false;

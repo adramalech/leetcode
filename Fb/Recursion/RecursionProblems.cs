@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace fb.Recursion
 {
@@ -89,6 +91,95 @@ namespace fb.Recursion
         private void checkParantheses(string s, int index, int count, string str, ref List<string> results)
         {
             return;
+        }
+
+        public IList<IList<int>> Permute(int[] nums)
+        {
+            var results = new List<IList<int>>();
+
+            perm(nums.ToList(), new List<int>(), results);
+            
+            return results;
+        }
+
+        private void perm(List<int> nums, List<int> p, List<IList<int>> results)
+        {
+            if (nums.Count < 1)
+            {
+                results.Add(p);
+                return;
+            }
+            
+            for (var i = 0; i < nums.Count; i++)
+            {
+                perm(removeElement(nums, i), addElement(p, nums[i]), results);
+            }
+        }
+
+        private List<int> removeElement(List<int> nums, int index)
+        {
+            var results = new List<int>(nums);
+            results.RemoveAt(index);
+            return results;
+        }
+
+        private List<int> addElement(List<int> nums, int num)
+        {
+            var results = new List<int>(nums);
+            results.Add(num);
+            return results;
+        }
+
+        public IList<IList<int>> PermuteUnique(int[] nums)
+        {
+            var results = new List<IList<int>>();
+            
+            if (nums == null)
+            {
+                return results;
+            }
+
+            if (nums.Length < 1)
+            {
+                return results;
+            }
+
+            uniquePerm(nums.ToList(), new List<int>(), results);
+
+            return results;
+        }
+
+        /*
+         
+         start with [1, 2, 1, 1]
+         
+         [1] [1, 1, 2]                             [2] [1, 1, 1]
+         
+         [1, 1] [1, 2],  [1, 2] [1, 1]             [2, 1] [1, 1]
+        
+         unique  constraint on fanning out.  repeated same value skip.
+          
+         */
+        private void uniquePerm(List<int> nums, List<int> p, List<IList<int>> results)
+        {
+            if (nums.Count < 1)
+            {
+                results.Add(p);
+                return;
+            }
+
+            var iterateDupChecker = new HashSet<int>();
+
+            for (var i = 0; i < nums.Count; i++)
+            {
+                // unique pick the numbers else skip.
+                if (!iterateDupChecker.Add(nums[i]))
+                {
+                    continue;
+                }
+
+                uniquePerm(removeElement(nums, i), addElement(p, nums[i]), results);
+            }
         }
     }
 }

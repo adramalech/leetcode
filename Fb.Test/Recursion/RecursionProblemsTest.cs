@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using fb.Recursion;
 using Xunit;
 
@@ -26,6 +28,32 @@ namespace Fb.Test.Recursion
             var recProblems = new RecursionProblems();
 
             var actualResults = recProblems.RemoveInvalidParentheses(input);
+            
+            Assert.NotNull(actualResults);
+            Assert.NotEmpty(actualResults);
+            Assert.Equal<int>(expectedCount, actualResults.Count);
+        }
+
+        [Theory]
+        [InlineData(new int[] {1, 2, 3}, 6)]
+        public void TestPermutation(int[] nums, int expectedCount)
+        {
+            var recProblems = new RecursionProblems();
+
+            var actualResults = recProblems.Permute(nums);
+            
+            Assert.NotNull(actualResults);
+            Assert.NotEmpty(actualResults);
+            Assert.Equal<int>(expectedCount, actualResults.Count);
+        }
+        
+        [Theory]
+        [InlineData(new int[] {1, 2, 1}, 3)]
+        public void TestUniquePermutation(int[] nums, int expectedCount)
+        {
+            var recProblems = new RecursionProblems();
+
+            var actualResults = recProblems.PermuteUnique(nums);
             
             Assert.NotNull(actualResults);
             Assert.NotEmpty(actualResults);
