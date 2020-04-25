@@ -21,8 +21,17 @@ namespace Fb.Test.Recursion
         }
 
         [Theory]
-        [InlineData(")(", 0)] // [""]
+        [InlineData(")(", 1)] // [""]
         [InlineData("()())()", 2)] // ["()()()", "(())()"]
+        [InlineData("((()))", 1)] // [ "((()))" ]
+        [InlineData(")(())(", 1)] // [ "(())" ]
+        [InlineData("()", 1)]
+        [InlineData("(())", 1)]
+        [InlineData("()(()())", 1)]
+        [InlineData("(()(", 1)]
+        [InlineData("(()", 1)]
+        [InlineData("(()))", 1)]
+        [InlineData("((()))((()(()", 2)]
         public void TestRemoveInvalidParentheses(string input, int expectedCount)
         {
             var recProblems = new RecursionProblems();
@@ -58,6 +67,23 @@ namespace Fb.Test.Recursion
             Assert.NotNull(actualResults);
             Assert.NotEmpty(actualResults);
             Assert.Equal<int>(expectedCount, actualResults.Count);
+        }
+
+        [Theory]
+        [InlineData("()", true)]
+        [InlineData("(())", true)]
+        [InlineData("()(()())", true)]
+        [InlineData(")(", false)]
+        [InlineData("(()(", false)]
+        [InlineData("(()", false)]
+        [InlineData("(()))", false)]
+        public void TestDoesStringHaveValidParetheses(string s, bool expectedResult)
+        {
+            var recProblems = new RecursionProblems();
+            
+            var actualResult = recProblems.doesStringHaveValidParetheses(s);
+            
+            Assert.Equal<bool>(expectedResult, actualResult);
         }
     }
 }

@@ -52,45 +52,96 @@ namespace fb.Recursion
 
         public IList<string> RemoveInvalidParentheses(string s)
         {
-            var results = new List<string>();
-            
             if (string.IsNullOrEmpty(s))
             {
-                return results;
+                return new List<string>() { s };
             }
             
-            checkParantheses(s, 0, 0, "",  ref results);
+            var results = new Dictionary<int, HashSet<string>>();
+            var length = s.Length;
             
-            return results;
+            checkParentheses(s, 0, results);
+            
+            // find the minimal count return that list.
+            var result = new List<string>();
+            
+            for (var i = 0; i <= length; i++)
+            {
+                if (results.ContainsKey(i))
+                {
+                    result = results[i].ToList();
+                    break;
+                }
+            }
+
+            return result;
         }
 
-        private bool doesStringHaveValidParatheses(string s)
+        public bool doesStringHaveValidParetheses(string s)
         {
+            // nothing is valid.
             if (string.IsNullOrEmpty(s))
             {
-                return false;
+                return true;
             }
 
-            int count = 0;
+            var count = 0;
             
             foreach (var c in s)
             {
-                if (c == '(')
+                switch (c)
                 {
-                    count++;
+                    case '(':
+                        count++;
+                        break;
+                    case ')':
+                        count--;
+                        break;
                 }
-                else if (c == ')')
+
+                // we saw too many close brackets.
+                if (count < 0)
                 {
-                    count--;
+                    return false;
                 }
             }
 
             return (count == 0);
         }
         
-        private void checkParantheses(string s, int index, int count, string str, ref List<string> results)
+        private void checkParentheses(string s, int count, Dictionary<int, HashSet<string>> results)
         {
-            return;
+            // base case if it is valid add it.
+            if (doesStringHaveValidParetheses(s))
+            {
+                if (results.ContainsKey(count))
+                {
+                    results[count].Add(s);
+                }
+                else
+                {
+                    results.Add(count, new HashSet<string>() { s });
+                }
+                
+                return;
+            }
+
+            var unique = new HashSet<string>();
+            
+            for (var i = 0; i < s.Length; i++)
+            {
+                // skip if not parentheses we are removing
+                if (s[i] == ')' || s[i] == '(')
+                {
+                    var n = s.Remove(i, 1);
+
+                    // if we haven't seen this result before.
+                    if (unique.Add(n))
+                    {
+                        checkParentheses(n, count + 1, results);
+                    }
+                }
+            }
         }
 
         public IList<IList<int>> Permute(int[] nums)
