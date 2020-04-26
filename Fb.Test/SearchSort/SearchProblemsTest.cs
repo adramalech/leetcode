@@ -38,5 +38,21 @@ namespace Fb.Test.SearchSort
             
             Assert.Equal<int>(expectedIndex, actualIndex);
         }
+
+        [Theory]
+        [InlineData(new int[] {5, 7, 7, 8, 8, 10}, 8, new int[] {3, 4})]
+        [InlineData(new int[] {1, 2, 3}, 2, new int[] {1, 1})]
+        [InlineData(new int[] {1, 1, 2}, 1, new int[] {0, 1})]
+        [InlineData(new int[] {2, 2}, 2, new int[] {0, 1})]
+        [InlineData(new int[] {0, 0, 1, 2, 2}, 0, new int[] {0, 1})]
+        [InlineData(new int[] {0, 0, 0, 0, 1, 2, 3, 3, 4, 5, 6, 6, 7, 8, 8, 8, 9, 9, 10, 10, 11, 11}, 0, new int[] {0, 3})]
+        public void TestSearchRange(int[] nums, int target, int[] expectedResult)
+        {
+            var searchProblems = new SearchProblems();
+
+            var actualResult = searchProblems.SearchRange(nums, target);
+            
+            Assert.True(actualResult[0] == expectedResult[0] && actualResult[1] == expectedResult[1]);
+        }
     }
 }

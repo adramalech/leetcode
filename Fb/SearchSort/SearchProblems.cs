@@ -139,5 +139,114 @@ namespace fb.SearchSort
 
             return -1;
         }
+        
+        public int[] SearchRange(int[] nums, int target) 
+        {
+            var indices = new int[] { -1, -1 };
+        
+            // empty
+            if (nums == null || nums.Length < 1) 
+            {
+                return indices;
+            }
+
+            if (nums.Length == 2)
+            {
+                if (nums[0] == target)
+                {
+                    indices[0] = 0;
+
+                    indices[1] = (nums[1] == target ? 1 : 0);
+                }
+                else if (nums[1] == target)
+                {
+                    indices[0] = 1;
+                    indices[1] = 1;
+                }
+
+                return indices;
+            }
+
+            var left = 0; 
+            var right = nums.Length - 1;
+            int middle = right / 2;
+            
+            while (left <= right)
+            {
+                middle = left + (right - left) / 2;
+            
+                // we found it!
+                if (nums[middle] == target)
+                {
+                    break;
+                }
+            
+                if (nums[middle] > target) 
+                {
+                    right = middle - 1;
+                }
+                else 
+                {
+                    left = middle + 1;
+                }
+            }
+        
+            // if we didn't find anything return.
+            if (left > right) 
+            {
+                return indices;
+            }
+
+            left = middle;
+            right = middle;
+
+            // grow both right and left
+            while (left - 1 >= 0 && right + 1 < nums.Length)
+            {
+                if (nums[left - 1] != target && nums[right + 1] != target)
+                {
+                    break;
+                }
+            
+                if (nums[left - 1] == target)
+                {
+                    left--;
+                }
+
+                if (nums[right + 1] == target)
+                {
+                    right++;
+                }
+            }
+        
+            // grow right
+            while (right + 1 < nums.Length)
+            {
+                if (nums[right + 1] != target)
+                {
+                    break;
+                }
+                
+                right++;
+            }
+        
+            // grow left
+            while (left - 1 >= 0)
+            {
+                if (nums[left - 1] != target)
+                {
+                    break;
+                }
+                
+                left--;
+            }
+            
+
+            // else we found something!
+            indices[0] = left;
+            indices[1] = right;
+
+            return indices;
+        }
     }
 }
