@@ -74,5 +74,70 @@ namespace fb.SearchSort
 
             return (isResultPositive ? (int)total : -(int)total); 
         }
+        
+        public int Search(int[] nums, int target)
+        {
+            if (nums == null || nums.Length < 1)
+            {
+                return -1;
+            }
+            
+            // find pivot
+            var left = 0;
+            var right = nums.Length - 1;
+
+            while (left < right)
+            {
+                var middle = left + (right - left) / 2;
+
+                if (nums[middle] > nums[right])
+                {
+                    left = middle + 1;
+                }
+                else
+                {
+                    right = middle;
+                }
+            }
+            
+            // start is the pivot point we know we are at the smallest value.
+            int start = left;
+            
+            // reset left and right
+            left = 0;
+            right = nums.Length - 1;
+
+            // if we are within a increasing range start to end.
+            // set the left side to start.
+            if (nums[start] <= target && target <= nums[right])
+            {
+                left = start;
+            }
+            else // else we are looking 0 to start.
+            {
+                right = start;
+            }
+
+            while (left <= right)
+            {
+                var middle = left + (right - left) / 2;
+
+                if (nums[middle] == target)
+                {
+                    return middle;
+                }
+                
+                if (nums[middle] > target)
+                {
+                    right = middle - 1;
+                }
+                else // nums[middle] < target;
+                {
+                    left = middle + 1;
+                }
+            }
+
+            return -1;
+        }
     }
 }
