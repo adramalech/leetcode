@@ -15,6 +15,7 @@ namespace Fb.Test.SearchSort
         [InlineData(-100, -3, 33)]
         [InlineData(int.MinValue, -1, int.MaxValue)]
         [InlineData(int.MinValue, -3, int.MaxValue / 3)]
+        [InlineData(int.MaxValue, int.MinValue, 0)]
         public void TestDivide(int num1, int num2, int expectedValue)
         {
             var searchProblems = new SearchProblems();

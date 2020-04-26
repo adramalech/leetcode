@@ -10,7 +10,11 @@ namespace fb.SearchSort
             {
                 return int.MaxValue;
             }
-            
+
+            if (divisor == int.MinValue && dividend != int.MinValue) {
+                return 0;
+            }
+        
             // if the divisor is 1 the answer is always dividend else if -1 it is negating the dividend.
             if (divisor == 1)
             {
@@ -21,33 +25,33 @@ namespace fb.SearchSort
             {
                 return -dividend;
             }
-            
+
             // both numbers must be less than zero or greater than zero to have postive result.
             var isResultPositive = ((dividend < 0 && divisor < 0) || (dividend > 0  && divisor > 0));
 
             // we want to deal with the numbers and add the sign back later.
-            int abs_dividend = (dividend > int.MinValue) ? Math.Abs(dividend) : int.MaxValue;
-            int abs_divisor =  (divisor > int.MinValue) ? Math.Abs(divisor) : int.MaxValue;
-            
+            long abs_dividend = Math.Abs((long)dividend);
+            long abs_divisor =  Math.Abs((long)divisor);
+
             // check if the divisor is greater than dividend fraction always less than 1.
             if (abs_dividend < abs_divisor)
             {
                 return 0;
             }
-            
+
             // they divisor and dividend are equal return 1.
             if (abs_divisor == abs_dividend)
             {
                 return (isResultPositive ? 1 : -1);
             }
 
-            int total = 0;
-            
+            long total = 0;
+
             // iterate till we cannot make any more moves.
             while (abs_dividend - abs_divisor >= 0)
             {
                 int d = 0;
-                
+
                 // search for the largest number to subtract.
                 while (abs_dividend - (abs_divisor << 1 << d) >= 0)
                 {
@@ -57,8 +61,18 @@ namespace fb.SearchSort
                 total += 1 << d;
                 abs_dividend -= abs_divisor << d;
             }
-            
-            return (isResultPositive ? total : -total);
+        
+            if (total < int.MinValue) 
+            {
+                return int.MinValue;
+            }
+        
+            if (total > int.MaxValue) 
+            {
+                return int.MaxValue;
+            }
+
+            return (isResultPositive ? (int)total : -(int)total); 
         }
     }
 }
