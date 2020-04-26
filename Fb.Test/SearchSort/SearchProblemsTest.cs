@@ -21,7 +21,7 @@ namespace Fb.Test.SearchSort
             var searchProblems = new SearchProblems();
 
             var actualResult = searchProblems.Divide(num1, num2);
-            
+
             Assert.Equal<int>(expectedValue, actualResult);
         }
 
@@ -35,7 +35,7 @@ namespace Fb.Test.SearchSort
             var searchProblems = new SearchProblems();
 
             var actualIndex = searchProblems.Search(nums, target);
-            
+
             Assert.Equal<int>(expectedIndex, actualIndex);
         }
 
@@ -51,18 +51,20 @@ namespace Fb.Test.SearchSort
             var searchProblems = new SearchProblems();
 
             var actualResult = searchProblems.SearchRange(nums, target);
-            
+
             Assert.True(actualResult[0] == expectedResult[0] && actualResult[1] == expectedResult[1]);
         }
 
         [Theory]
-        [InlineData(new int[] {3, 2, 1, 9, 9, 4, 4}, new int[] {3, 4, 9, 5, 6}, new int[] {3, 9, 4})]
+        [InlineData(new int[] {3, 2, 1, 9, 9, 4, 4}, new int[] {3, 4, 9, 5, 6}, new int[] {3, 4, 9})]
+        [InlineData(new int[] {1, 2, 2, 1}, new int[] {2, 2}, new int[] {2, 2} )]
+        [InlineData(new int[] { 2, 1 }, new int[] { 1, 1 }, new int[] { 1 })]
         public void TestIntersection(int[] num1, int[] num2, int[] expectedResult)
         {
             var searchProblems = new SearchProblems();
 
             var actualResult = searchProblems.Intersection(num1, num2);
-            
+
             Assert.Equal<int>(expectedResult.Length, actualResult.Length);
 
             for (var i = 0; i < expectedResult.Length; i++)
@@ -70,5 +72,24 @@ namespace Fb.Test.SearchSort
                 Assert.Equal<int>(expectedResult[i], actualResult[i]);
             }
         }
+
+        [Theory]
+        [InlineData(new int[] {3, 2, 1, 9, 9, 4, 4}, new int[] {3, 4, 9, 5, 6}, new int[] {3, 4, 9})]
+        [InlineData(new int[] {1, 2, 2, 1}, new int[] {2, 2}, new int[] {2, 2} )]
+        [InlineData(new int[] { 2, 1 }, new int[] { 1, 1 }, new int[] { 1 })]
+        public void TestIntersection2(int[] num1, int[] num2, int[] expectedResult)
+        {
+            var searchProblems = new SearchProblems();
+
+            var actualResult = searchProblems.Intersection2(num1, num2);
+
+            Assert.Equal<int>(expectedResult.Length, actualResult.Length);
+
+            for (var i = 0; i < expectedResult.Length; i++)
+            {
+                Assert.Equal<int>(expectedResult[i], actualResult[i]);
+            }
+        }
+
     }
 }

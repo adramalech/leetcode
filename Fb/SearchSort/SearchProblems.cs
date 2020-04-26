@@ -16,7 +16,7 @@ namespace fb.SearchSort
             if (divisor == int.MinValue && dividend != int.MinValue) {
                 return 0;
             }
-        
+
             // if the divisor is 1 the answer is always dividend else if -1 it is negating the dividend.
             if (divisor == 1)
             {
@@ -63,27 +63,27 @@ namespace fb.SearchSort
                 total += 1 << d;
                 abs_dividend -= abs_divisor << d;
             }
-        
-            if (total < int.MinValue) 
+
+            if (total < int.MinValue)
             {
                 return int.MinValue;
             }
-        
-            if (total > int.MaxValue) 
+
+            if (total > int.MaxValue)
             {
                 return int.MaxValue;
             }
 
-            return (isResultPositive ? (int)total : -(int)total); 
+            return (isResultPositive ? (int)total : -(int)total);
         }
-        
+
         public int Search(int[] nums, int target)
         {
             if (nums == null || nums.Length < 1)
             {
                 return -1;
             }
-            
+
             // find pivot
             var left = 0;
             var right = nums.Length - 1;
@@ -101,10 +101,10 @@ namespace fb.SearchSort
                     right = middle;
                 }
             }
-            
+
             // start is the pivot point we know we are at the smallest value.
             int start = left;
-            
+
             // reset left and right
             left = 0;
             right = nums.Length - 1;
@@ -128,7 +128,7 @@ namespace fb.SearchSort
                 {
                     return middle;
                 }
-                
+
                 if (nums[middle] > target)
                 {
                     right = middle - 1;
@@ -141,13 +141,13 @@ namespace fb.SearchSort
 
             return -1;
         }
-        
-        public int[] SearchRange(int[] nums, int target) 
+
+        public int[] SearchRange(int[] nums, int target)
         {
             var indices = new int[] { -1, -1 };
-        
+
             // empty
-            if (nums == null || nums.Length < 1) 
+            if (nums == null || nums.Length < 1)
             {
                 return indices;
             }
@@ -169,32 +169,32 @@ namespace fb.SearchSort
                 return indices;
             }
 
-            var left = 0; 
+            var left = 0;
             var right = nums.Length - 1;
             int middle = right / 2;
-            
+
             while (left <= right)
             {
                 middle = left + (right - left) / 2;
-            
+
                 // we found it!
                 if (nums[middle] == target)
                 {
                     break;
                 }
-            
-                if (nums[middle] > target) 
+
+                if (nums[middle] > target)
                 {
                     right = middle - 1;
                 }
-                else 
+                else
                 {
                     left = middle + 1;
                 }
             }
-        
+
             // if we didn't find anything return.
-            if (left > right) 
+            if (left > right)
             {
                 return indices;
             }
@@ -209,7 +209,7 @@ namespace fb.SearchSort
                 {
                     break;
                 }
-            
+
                 if (nums[left - 1] == target)
                 {
                     left--;
@@ -220,7 +220,7 @@ namespace fb.SearchSort
                     right++;
                 }
             }
-        
+
             // grow right
             while (right + 1 < nums.Length)
             {
@@ -228,10 +228,10 @@ namespace fb.SearchSort
                 {
                     break;
                 }
-                
+
                 right++;
             }
-        
+
             // grow left
             while (left - 1 >= 0)
             {
@@ -239,10 +239,10 @@ namespace fb.SearchSort
                 {
                     break;
                 }
-                
+
                 left--;
             }
-            
+
 
             // else we found something!
             indices[0] = left;
@@ -250,27 +250,105 @@ namespace fb.SearchSort
 
             return indices;
         }
-        
-        public int[] Intersection(int[] nums1, int[] nums2) 
+
+        public int[] Intersection(int[] nums1, int[] nums2)
         {
             if (nums1 == null || nums1.Length < 1 || nums2 == null || nums2.Length < 1)
             {
-                return null;
+                return new int[0];
             }
-            
+
             var results = new HashSet<int>();
-        
-            for (var i =  0; i < nums1.Length; i++) 
+            var lookup = new Dictionary<int, List<int>>();
+
+            // O(n)
+            for (var i = 0; i < nums1.Length; i++)
             {
-                for (var j = 0; j < nums2.Length; j++) 
+                if (lookup.ContainsKey(nums1[i]))
                 {
-                    if (nums1[i] == nums2[j]) 
+                    lookup[nums1[i]].Add(i);
+                }
+                else
+                {
+                    lookup.Add(nums1[i], new List<int>(){ i });
+                }
+            }
+
+            // O(m)
+            foreach (var n in nums2)
+            {
+                if (lookup.ContainsKey(n) && lookup[n] != null && lookup[n].Count > 0)
+                {
+                    results.Add(n);
+                    lookup[n].RemoveAt(0);
+                }
+            }
+
+            return results.ToArray();
+        }
+
+        // bug in it from breaking on repeated.
+        public int[] Intersection2(int[] nums1, int[] nums2)
+        {
+            if (nums1 == null || nums1.Length < 1 || nums2 == null || nums2.Length < 1)
+            {
+                return new int[0];
+            }
+
+            var results = new List<int>();
+            var lookup = new Dictionary<int, List<int>>();
+
+            if (nums1.Length >= nums2.Length)
+            {
+                // O(n)
+                for (var i = 0; i < nums1.Length; i++)
+                {
+                    if (lookup.ContainsKey(nums1[i]))
                     {
-                        results.Add(nums1[i]);
+                        lookup[nums1[i]].Add(i);
+                    }
+                    else
+                    {
+                        lookup.Add(nums1[i], new List<int>(){ i });
+                    }
+                }
+
+                // O(m)
+                foreach (var n in nums2)
+                {
+                    if (lookup.ContainsKey(n) && lookup[n] != null && lookup[n].Count > 0)
+                    {
+                        results.Add(n);
+                        lookup[n].RemoveAt(0);
                     }
                 }
             }
-        
+            else
+            {
+                // O(m)
+                for (var i = 0; i < nums2.Length; i++)
+                {
+                    if (lookup.ContainsKey(nums2[i]))
+                    {
+                        lookup[nums2[i]].Add(i);
+                    }
+                    else
+                    {
+                        lookup.Add(nums2[i], new List<int>(){ i });
+                    }
+                }
+
+                // O(n)
+                foreach (var n in nums1)
+                {
+                    if (lookup.ContainsKey(n) && lookup[n] != null && lookup[n].Count > 0)
+                    {
+                        results.Add(n);
+                        lookup[n].RemoveAt(0);
+                    }
+                }
+            }
+
             return results.ToArray();
         }
     }
