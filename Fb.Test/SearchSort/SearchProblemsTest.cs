@@ -54,5 +54,21 @@ namespace Fb.Test.SearchSort
             
             Assert.True(actualResult[0] == expectedResult[0] && actualResult[1] == expectedResult[1]);
         }
+
+        [Theory]
+        [InlineData(new int[] {3, 2, 1, 9, 9, 4, 4}, new int[] {3, 4, 9, 5, 6}, new int[] {3, 9, 4})]
+        public void TestIntersection(int[] num1, int[] num2, int[] expectedResult)
+        {
+            var searchProblems = new SearchProblems();
+
+            var actualResult = searchProblems.Intersection(num1, num2);
+            
+            Assert.Equal<int>(expectedResult.Length, actualResult.Length);
+
+            for (var i = 0; i < expectedResult.Length; i++)
+            {
+                Assert.Equal<int>(expectedResult[i], actualResult[i]);
+            }
+        }
     }
 }

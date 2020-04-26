@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace fb.SearchSort
 {
@@ -247,6 +249,29 @@ namespace fb.SearchSort
             indices[1] = right;
 
             return indices;
+        }
+        
+        public int[] Intersection(int[] nums1, int[] nums2) 
+        {
+            if (nums1 == null || nums1.Length < 1 || nums2 == null || nums2.Length < 1)
+            {
+                return null;
+            }
+            
+            var results = new HashSet<int>();
+        
+            for (var i =  0; i < nums1.Length; i++) 
+            {
+                for (var j = 0; j < nums2.Length; j++) 
+                {
+                    if (nums1[i] == nums2[j]) 
+                    {
+                        results.Add(nums1[i]);
+                    }
+                }
+            }
+        
+            return results.ToArray();
         }
     }
 }
