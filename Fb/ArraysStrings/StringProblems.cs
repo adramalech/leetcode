@@ -699,8 +699,6 @@ namespace Fb.ArraysStrings
         return describeTensAndOnes(num);
       }
       
-      var digitWord = "";
-      var placeWord = "";
       int nTens;
       int nHundreds;
       int n;

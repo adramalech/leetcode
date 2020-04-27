@@ -157,7 +157,6 @@ namespace fb.SearchSort
                 if (nums[0] == target)
                 {
                     indices[0] = 0;
-
                     indices[1] = (nums[1] == target ? 1 : 0);
                 }
                 else if (nums[1] == target)
