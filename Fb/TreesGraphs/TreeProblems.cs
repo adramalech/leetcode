@@ -1,3 +1,5 @@
+using System;
+
 namespace fb.TreesGraphs
 {
     public class TreeNode 
@@ -28,6 +30,31 @@ namespace fb.TreesGraphs
             }
 
             return false;
+        }
+        
+        public int DiameterOfBinaryTree(TreeNode root) 
+        {
+            if (root == null)
+            {
+                return 0;
+            }
+        
+            if (root.left == null && root.right == null)
+            {
+                return 0;
+            }
+
+            return height(root.left) + height(root.right);
+        }
+    
+        private int height(TreeNode node)
+        {
+            if (node == null) 
+            {
+                return 0;
+            }
+
+            return 1 + Math.Max(height(node.left), height(node.right));
         }
     }
 }

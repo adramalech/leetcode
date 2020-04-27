@@ -17,6 +17,20 @@ namespace Fb.Test.TreesGraphs
             Assert.Equal(expectedValue, actualResult);
         }
 
+        [Theory]
+        [InlineData(new int[] { 1, 2, 3, 4, 5 }, 3)]
+        [InlineData(new int[] { 9, 8, 7 }, 2)]
+        public void TestDiameterOfBinaryTree(int[] nums, int expectedDiameter)
+        {
+            TreeNode root = generateTree(nums);
+            
+            var treeProblems = new TreeProblems();
+
+            var actualDiameter = treeProblems.DiameterOfBinaryTree(root);
+            
+            Assert.Equal<int>(expectedDiameter, actualDiameter);
+        }
+
         private TreeNode generateTree(int[] nums)
         {
             TreeNode root = null;
