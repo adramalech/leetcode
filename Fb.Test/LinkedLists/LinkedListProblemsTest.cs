@@ -1,5 +1,6 @@
 using fb.LinkedLists;
 using Xunit;
+using Common.Models;
 
 namespace Fb.Test.LinkedLists
 {
@@ -28,15 +29,15 @@ namespace Fb.Test.LinkedLists
         )] 
         public void TestAddTwoNumbers(int[] num1, int[] num2, int[] expectedNum)
         {
-            var l1 = generateList(num1);
-            var l2 = generateList(num2);
-            var expectedResults = generateList(expectedNum);
+            var l1 = SingleLinkedListNode.GenerateList(num1);
+            var l2 = SingleLinkedListNode.GenerateList(num2);
+            var expectedResults = SingleLinkedListNode.GenerateList(expectedNum);
             var linkedListProblems = new LinkedListProblems();
 
             var actualResults = linkedListProblems.AddTwoNumbers(l1, l2);
             
             Assert.NotNull(expectedResults);
-            Assert.True(areListsEqual(expectedResults, actualResults));
+            Assert.True(SingleLinkedListNode.AreListsEqual(expectedResults, actualResults));
         }
 
         [Theory]
@@ -57,55 +58,15 @@ namespace Fb.Test.LinkedLists
         )]
         public void TestMergeTwoLists(int[] num1, int[] num2, int[] expectedNum)
         {
-            var l1 = generateList(num1);
-            var l2 = generateList(num2);
-            var expectedResults = generateList(expectedNum);
+            var l1 = SingleLinkedListNode.GenerateList(num1);
+            var l2 = SingleLinkedListNode.GenerateList(num2);
+            var expectedResults = SingleLinkedListNode.GenerateList(expectedNum);
             var linkedListProblems = new LinkedListProblems();
 
             var actualResults = linkedListProblems.MergeTwoLists(l1, l2);
             
             Assert.NotNull(expectedResults);
-            Assert.True(areListsEqual(expectedResults, actualResults));
-        }
-        
-        private ListNode generateList(int[] nums)
-        {
-            ListNode head = null;
-            ListNode current = new ListNode(nums[0]);
-            head = current;
-            
-            for (var i = 1; i < nums.Length; i++)
-            {
-                current.next = new ListNode(nums[i]);
-                current = current.next;
-            }
-
-            return head;
-        }
-
-        private bool areListsEqual(ListNode ln1, ListNode ln2)
-        {
-            // if one list is null or the other is return false.
-            if (ln1 == null || ln2 == null)
-            {
-                 return false;
-            }
-            
-            // iterate over both lists.
-            do
-            {
-                // if the values don't match return false.
-                if (ln1.val != ln2.val)
-                {
-                    return false;
-                }
-
-                // go next.
-                ln1 = ln1.next;
-                ln2 = ln2.next;
-            } while (ln1 != null && ln2 != null); // if next is null break out else continue looping.
-            
-            return true;
+            Assert.True(SingleLinkedListNode.AreListsEqual(expectedResults, actualResults));
         }
     }
 }

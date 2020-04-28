@@ -1,20 +1,9 @@
 using System.Collections.Generic;
 using System.Numerics;
+using Common.Models;
 
 namespace fb.LinkedLists
 {
-    public class ListNode
-    {
-        public int val { get; private set; }
-        public ListNode next;
-
-        public ListNode(int x)
-        {
-            this.val = x;
-            this.next = null;
-        }
-    }
-    
     public class LinkedListProblems
     {
         /*
@@ -22,7 +11,7 @@ namespace fb.LinkedLists
          *  Output: 7 -> 0 -> 8
          *  Explanation: 342 + 465 = 807.
          */
-        public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
+        public SingleLinkedListNode AddTwoNumbers(SingleLinkedListNode l1, SingleLinkedListNode l2)
         {
             if (l1 == null || l2 == null)
             {
@@ -76,12 +65,12 @@ namespace fb.LinkedLists
                 sum /= 10;
             } while (sum > 0);
 
-            var current = new ListNode(s.Pop());
+            var current = new SingleLinkedListNode(s.Pop());
             count--;
             
             while (count > 0)
             {
-                var node = new ListNode(s.Pop());
+                var node = new SingleLinkedListNode(s.Pop());
                 node.next = current;
                 current = node;
                 count--;
@@ -94,10 +83,10 @@ namespace fb.LinkedLists
          Input: 1->2->4, 1->3->4
          Output: 1->1->2->3->4->4
          */
-        public ListNode MergeTwoLists(ListNode l1, ListNode l2)
+        public SingleLinkedListNode MergeTwoLists(SingleLinkedListNode l1, SingleLinkedListNode l2)
         {
-            ListNode head = null;
-            ListNode t = new ListNode(0);
+            SingleLinkedListNode head = null;
+            SingleLinkedListNode t = new SingleLinkedListNode(0);
             head = t;
             
             while (l1 != null && l2 != null)

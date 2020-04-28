@@ -1,23 +1,16 @@
 using System;
+using Common.Models;
 
 namespace fb.TreesGraphs
 {
-    public class TreeNode 
-    {
-        public int val;
-        public TreeNode left;
-        public TreeNode right;
-        public TreeNode(int x) { val = x; } 
-    }
-    
     public class TreeProblems
     {
-        public bool IsValidBST(TreeNode root) 
+        public bool IsValidBST(BinaryTreeNode root) 
         {
             return validBST(root, long.MinValue, long.MaxValue);
         }
     
-        private bool validBST(TreeNode root, long min, long max) 
+        private bool validBST(BinaryTreeNode root, long min, long max) 
         {
             if (root == null)
             {
@@ -32,7 +25,7 @@ namespace fb.TreesGraphs
             return false;
         }
         
-        public int DiameterOfBinaryTree(TreeNode root) 
+        public int DiameterOfBinaryTree(BinaryTreeNode root) 
         {
             if (root == null)
             {
@@ -47,7 +40,7 @@ namespace fb.TreesGraphs
             return height(root.left) + height(root.right);
         }
     
-        private int height(TreeNode node)
+        private int height(BinaryTreeNode node)
         {
             if (node == null) 
             {
@@ -57,7 +50,7 @@ namespace fb.TreesGraphs
             return 1 + Math.Max(height(node.left), height(node.right));
         }
 
-        public void Flatten(TreeNode root)
+        public void Flatten(BinaryTreeNode root)
         {
             if (root == null)
             {
@@ -90,7 +83,7 @@ namespace fb.TreesGraphs
             Flatten(root.right);
         }
 
-        public TreeNode LowestCommonAncestor(TreeNode root, TreeNode a, TreeNode b)
+        public BinaryTreeNode LowestCommonAncestor(BinaryTreeNode root, BinaryTreeNode a, BinaryTreeNode b)
         {
             if (root == null)
             {
@@ -103,8 +96,8 @@ namespace fb.TreesGraphs
             }
 
 
-            TreeNode left = null;
-            TreeNode right = null;
+            BinaryTreeNode left = null;
+            BinaryTreeNode right = null;
 
             lowestAncestor(root.left, a, b, left);
             lowestAncestor(root.right, a, b, right);
@@ -127,7 +120,7 @@ namespace fb.TreesGraphs
             return root;
         }
 
-        private void lowestAncestor(TreeNode root, TreeNode a, TreeNode b, TreeNode current)
+        private void lowestAncestor(BinaryTreeNode root, BinaryTreeNode a, BinaryTreeNode b, BinaryTreeNode current)
         {
             if (root == null)
             {

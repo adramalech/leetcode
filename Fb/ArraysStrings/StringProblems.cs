@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common.Utils;
 
 namespace Fb.ArraysStrings
 {
@@ -207,7 +208,7 @@ namespace Fb.ArraysStrings
       // start adding
       while (stack.Count > 0)
       {
-        int n = convertCharToDigit(stack.Pop());
+        int n = StringUtility.ConvertCharToDigit(stack.Pop());
 
         // error found.
         if (n == -1)
@@ -562,7 +563,7 @@ namespace Fb.ArraysStrings
       
       while (i >= 0 && j >= 0)
       {
-        int sum = convertCharToDigit(a[i]) + convertCharToDigit(b[j]) + convertCharToDigit(carry);
+        int sum = StringUtility.ConvertCharToDigit(a[i]) + StringUtility.ConvertCharToDigit(b[j]) + StringUtility.ConvertCharToDigit(carry);
         
         if (sum == 3)
         {
@@ -589,7 +590,7 @@ namespace Fb.ArraysStrings
       {
         while (i >= 0)
         {
-          int sum = convertCharToDigit(a[i]) + convertCharToDigit(carry);
+          int sum = StringUtility.ConvertCharToDigit(a[i]) + StringUtility.ConvertCharToDigit(carry);
           
           if (sum == 2)
           {
@@ -611,7 +612,7 @@ namespace Fb.ArraysStrings
       {
         while (j >= 0)
         {
-          int sum = convertCharToDigit(b[j]) + convertCharToDigit(carry);
+          int sum = StringUtility.ConvertCharToDigit(b[j]) + StringUtility.ConvertCharToDigit(carry);
           
           if (sum == 2)
           {
@@ -628,7 +629,7 @@ namespace Fb.ArraysStrings
         }
       }
 
-      var c = convertCharToDigit(carry);
+      var c = StringUtility.ConvertCharToDigit(carry);
 
       if (c > 0)
       {
@@ -867,7 +868,7 @@ namespace Fb.ArraysStrings
 
     // single digit multiplied by a single digit
     // the min to max value you could have is 0 to 81.
-    public int multi(char num1, char num2) => convertCharToDigit(num1) * convertCharToDigit(num2);
+    public int multi(char num1, char num2) => StringUtility.ConvertCharToDigit(num1) * StringUtility.ConvertCharToDigit(num2);
     
     public int carry(int num) => (int)(Math.Floor(((double)num) / 10));
 
@@ -886,26 +887,6 @@ namespace Fb.ArraysStrings
         'M' => 1000,
         _ => 0
       };
-    }
-    
-    private int convertCharToDigit(char c)
-    {
-      int n = c switch
-      {
-        '0' => 0,
-        '1' => 1,
-        '2' => 2,
-        '3' => 3,
-        '4' => 4,
-        '5' => 5,
-        '6' => 6,
-        '7' => 7,
-        '8' => 8,
-        '9' => 9,
-        _ => 0
-      };
-
-      return n;
     }
   }
 }

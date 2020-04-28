@@ -90,6 +90,5 @@ namespace Fb.Test.SearchSort
                 Assert.Equal<int>(expectedResult[i], actualResult[i]);
             }
         }
-
     }
 }

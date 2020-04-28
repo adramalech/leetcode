@@ -1,3 +1,4 @@
+using Common.Models;
 using fb.TreesGraphs;
 using Xunit;
 
@@ -9,7 +10,7 @@ namespace Fb.Test.TreesGraphs
         [InlineData(new int[] { 2, 1, 3 }, true)]
         public void TestSomething(int[] nums, bool expectedValue)
         {
-            TreeNode root = generateTree(nums);
+            BinaryTreeNode root = generateBinarySearchTree(nums);
             var treeProblems = new TreeProblems();
 
             var actualResult = treeProblems.IsValidBST(root);
@@ -22,7 +23,7 @@ namespace Fb.Test.TreesGraphs
         [InlineData(new int[] { 9, 8, 7 }, 2)]
         public void TestDiameterOfBinaryTree(int[] nums, int expectedDiameter)
         {
-            TreeNode root = generateBinarySearchTree(nums);
+            BinaryTreeNode root = generateBinarySearchTree(nums);
             
             var treeProblems = new TreeProblems();
 
@@ -31,9 +32,9 @@ namespace Fb.Test.TreesGraphs
             Assert.Equal<int>(expectedDiameter, actualDiameter);
         }
 
-        private TreeNode generateBinarySearchTree(int[] nums)
+        private BinaryTreeNode generateBinarySearchTree(int[] nums)
         {
-            TreeNode root = null;
+            BinaryTreeNode root = null;
             
             foreach (var n in nums)
             {
@@ -43,11 +44,11 @@ namespace Fb.Test.TreesGraphs
             return root;
         }
 
-        private TreeNode insertBinarySearchTree(TreeNode t, int num)
+        private BinaryTreeNode insertBinarySearchTree(BinaryTreeNode t, int num)
         {
             if (t == null)
             {
-                return new TreeNode(num);
+                return new BinaryTreeNode(num);
             }
             
             if (num < t.val)

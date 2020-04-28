@@ -32,5 +32,35 @@ namespace Fb.Test.DynamicProgramming
             
             Assert.Equal<ulong>(expectedValue, actualValue);
         }
+        
+        [Theory]
+        [InlineData("", "")] // ""
+        [InlineData("aaaa", "aaaa")] // "a", "aa", "aaa", "aaaa"
+        [InlineData("ab", "a")] // "a", "b"
+        [InlineData("abab", "aba")] // "a", "b", "aba", "bab"
+        [InlineData("abcdefgh", "a")] // "a", "b", "c", "d", "e", "f", "g", "h"
+        public void TestLongestPalindromeRecurse(string s, string expectedValue)
+        {
+            var problems = new DynamicProgrammingProblems();
+
+            var actualValue = problems.LongestPalindromeRecurse(s);
+            
+            Assert.True(expectedValue.Equals(actualValue));
+        }
+        
+        [Theory]
+        [InlineData("", "")] // ""
+        [InlineData("aaaa", "aaaa")] // "a", "aa", "aaa", "aaaa"
+        [InlineData("ab", "a")] // "a", "b"
+        [InlineData("abab", "aba")] // "a", "b", "aba", "bab"
+        [InlineData("abcdefgh", "a")] // "a", "b", "c", "d", "e", "f", "g", "h"
+        public void TestLongestPalindrome(string s, string expectedValue)
+        {
+            var problems = new DynamicProgrammingProblems();
+
+            var actualValue = problems.LongestPalindrome(s);
+            
+            Assert.True(expectedValue.Equals(actualValue));
+        }
     }
 }
