@@ -22,7 +22,7 @@ namespace Fb.Test.TreesGraphs
         [InlineData(new int[] { 9, 8, 7 }, 2)]
         public void TestDiameterOfBinaryTree(int[] nums, int expectedDiameter)
         {
-            TreeNode root = generateTree(nums);
+            TreeNode root = generateBinarySearchTree(nums);
             
             var treeProblems = new TreeProblems();
 
@@ -31,19 +31,19 @@ namespace Fb.Test.TreesGraphs
             Assert.Equal<int>(expectedDiameter, actualDiameter);
         }
 
-        private TreeNode generateTree(int[] nums)
+        private TreeNode generateBinarySearchTree(int[] nums)
         {
             TreeNode root = null;
             
             foreach (var n in nums)
             {
-                root = insert(root, n);
+                root = insertBinarySearchTree(root, n);
             }
 
             return root;
         }
 
-        private TreeNode insert(TreeNode t, int num)
+        private TreeNode insertBinarySearchTree(TreeNode t, int num)
         {
             if (t == null)
             {
@@ -52,11 +52,11 @@ namespace Fb.Test.TreesGraphs
             
             if (num < t.val)
             {
-                t.left = insert(t.left, num);
+                t.left = insertBinarySearchTree(t.left, num);
             }
             else
             {
-                t.right = insert(t.right, num);
+                t.right = insertBinarySearchTree(t.right, num);
             }
 
             return t;

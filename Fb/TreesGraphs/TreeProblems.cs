@@ -56,5 +56,92 @@ namespace fb.TreesGraphs
 
             return 1 + Math.Max(height(node.left), height(node.right));
         }
+
+        public void Flatten(TreeNode root)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            if (root.left == null && root.right == null)
+            {
+                return;
+            }
+
+            if (root.left != null)
+            {
+                Flatten(root.left);
+
+                var tmp = root.right;
+                root.right = root.left;
+                root.left = null;
+
+                var current = root.right;
+                
+                while (current.right != null)
+                {
+                    current = current.right;
+                }
+
+                current.right = tmp;
+            }
+
+            Flatten(root.right);
+        }
+
+        public TreeNode LowestCommonAncestor(TreeNode root, TreeNode a, TreeNode b)
+        {
+            if (root == null)
+            {
+                return null;
+            }
+
+            if (root.val == a.val || root.val == b.val)
+            {
+                return root;
+            }
+
+
+            TreeNode left = null;
+            TreeNode right = null;
+
+            lowestAncestor(root.left, a, b, left);
+            lowestAncestor(root.right, a, b, right);
+            
+            if (left != null && right != null)
+            {
+                return root;
+            }
+
+            if (left != null)
+            {
+                return left;
+            }
+
+            if (right != null)
+            {
+                return right;
+            }
+            
+            return root;
+        }
+
+        private void lowestAncestor(TreeNode root, TreeNode a, TreeNode b, TreeNode current)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            if (root.val == a.val || root.val == b.val)
+            {
+                current = root;
+                return;
+            }
+
+            lowestAncestor(root.left, a, b, current);
+            lowestAncestor(root.right, a, b, current);
+        }
     }
 }
