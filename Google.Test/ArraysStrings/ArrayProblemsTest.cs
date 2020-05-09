@@ -34,5 +34,45 @@ namespace Google.Test.ArraysStrings
                 Assert.Equal<int>(expectedOutput[i], nums[i]);
             }
         }
+
+        [Fact]
+        public void TestRotateSimple2By2()
+        {
+            var nums = new int[2][] { new int[] {1, 2}, new int[] {3, 4} };
+            var expectedOutput = new int[2][] { new int[] {3, 1}, new int[] {4, 2} };
+            
+            var arrayProblems = new ArrayProblems();
+            
+            arrayProblems.Rotate(ref nums);
+
+            // check for equality in 2d array.
+            for (var i = 0; i < expectedOutput.Length; i++)
+            {
+                for (var j = 0; j < expectedOutput[i].Length; j++)
+                {
+                    Assert.Equal<int>(expectedOutput[i][j], nums[i][j]);
+                }
+            }
+        }
+        
+        [Fact]
+        public void TestRotateSimple3By3()
+        {
+            var nums = new int[3][] { new int[] {1, 2, 3}, new int[] {4, 5, 6}, new int[] {7, 8, 9} };
+            var expectedOutput = new int[3][] { new int[] {7, 4, 1}, new int[] {8, 5, 2}, new int[] {9, 6, 3} };
+            
+            var arrayProblems = new ArrayProblems();
+            
+            arrayProblems.Rotate(ref nums);
+
+            // check for equality in 2d array.
+            for (var i = 0; i < expectedOutput.Length; i++)
+            {
+                for (var j = 0; j < expectedOutput[i].Length; j++)
+                {
+                    Assert.Equal<int>(expectedOutput[i][j], nums[i][j]);
+                }
+            }
+        }
     }
 }

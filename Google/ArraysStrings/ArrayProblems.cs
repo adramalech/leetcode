@@ -96,5 +96,36 @@ namespace Google.ArraysStrings
                 right--;
             }
         }
+
+        public void Rotate(ref int[][] matrix)
+        {
+            if (matrix == null || matrix.Length < 1 || matrix[0].Length < 1)
+            {
+                return;
+            }
+
+            var height = matrix.Length;
+            var width = matrix[0].Length;
+
+            if (height != width)
+            {
+                return;
+            }
+
+            int tmp;
+            var n = width - 1;
+
+            for (var i = 0; i < (width + 1) / 2; i++)
+            {
+                for (var j = 0; j < width / 2; j++)
+                {
+                    tmp = matrix[n - j][i];
+                    matrix[n - j][i] = matrix[n - i][n - j];
+                    matrix[n - i][n - j] = matrix[j][n - i];
+                    matrix[j][n - i] = matrix[i][j];
+                    matrix[i][j] = tmp;
+                }
+            }
+        }
     }
 }
