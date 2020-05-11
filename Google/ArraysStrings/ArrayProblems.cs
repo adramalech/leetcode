@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Google.ArraysStrings
 {
@@ -126,6 +128,39 @@ namespace Google.ArraysStrings
                     matrix[i][j] = tmp;
                 }
             }
+        }
+        
+        public int[] TwoSum(int[] nums, int target)
+        {
+            if (nums == null || nums.Length < 2) 
+            {
+                throw new ArgumentException("Cannot find sum of array less than two elements!");
+            }
+
+            var lookup = new Dictionary<int, List<int>>();
+
+            int s;
+
+            // O(n)
+            for (var i = 0; i < nums.Length; i++)
+            {
+                s = target - nums[i];
+                if (lookup.ContainsKey(s))
+                {
+                    return new int[] { lookup[s].FirstOrDefault(), i };
+                }
+
+                if (lookup.ContainsKey(nums[i])) 
+                {
+                    lookup[nums[i]].Add(i);
+                }
+                else 
+                {
+                    lookup.Add(nums[i], new List<int>() { i });
+                }
+            }
+
+            throw new ArgumentException("Cannot find sum, required to find exactly one match!");
         }
     }
 }

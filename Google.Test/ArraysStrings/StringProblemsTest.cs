@@ -19,5 +19,37 @@ namespace Google.Test.ArraysStrings
             
             Assert.True(expectedResult.Equals(actualResult));
         }
+        
+        [Theory]
+        [InlineData("", "", true)]
+        [InlineData("#", "#", true)]
+        [InlineData("##", "####", true)]
+        [InlineData("#", "a#", true)]
+        public void TestBackspaceCompare(string S, string T, bool expectedResult)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualResult = stringProblems.BackspaceCompare(S, T);
+            
+            Assert.Equal<bool>(expectedResult, actualResult);
+        }
+        
+        [Theory]
+        [InlineData("", "", true)]
+        [InlineData("#", "#", true)]
+        [InlineData("##", "####", true)]
+        [InlineData("#", "a#", true)]
+        [InlineData("a#c", "b", false)]
+        [InlineData("bxj##tw", "bxo#j##tw", true)]
+        [InlineData("bxj##tw", "bxj###tw", false)]
+        [InlineData("ab##", "c#d#", true)]
+        public void TestBackspaceCompareConstantSpace(string S, string T, bool expectedResult)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualResult = stringProblems.BackspaceCompareConstantSpace(S, T);
+            
+            Assert.Equal<bool>(expectedResult, actualResult);
+        }
     }
 }

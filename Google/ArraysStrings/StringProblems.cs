@@ -97,5 +97,125 @@ namespace Google.ArraysStrings
             // then we should return empty string, else return the window we found.
             return  (minSize < 1) ? string.Empty : s.Substring(minLeft, minSize);
         }
+        
+        // Time = O(n + m)
+        // Space = O(n + m)
+        public bool BackspaceCompare(string S, string T)
+        {
+            var sChars = ""; 
+            var tChars = "";
+            var skipCount = 0;
+            const char SKIP_CHAR = '#';
+            
+            // O(n)
+            for (var i = S.Length - 1; i >= 0; i--)
+            {
+                // if we match the skip character increment skip count
+                if (S[i] == SKIP_CHAR)
+                {
+                    skipCount++;
+                    continue;
+                }
+                
+                // if skip count is greater than zero skip until it is zero.
+                if (skipCount > 0)
+                {
+                    skipCount--;
+                    continue;
+                }
+                
+                // we aren't on a character to be skipped, and we haven't seen the skip character.
+                // add to the current string.
+                sChars = S[i] + sChars;
+            }
+
+            // clear skip for next loop
+            skipCount = 0;
+            
+            // O(m)
+            for (var i = T.Length - 1; i >= 0; i--)
+            {
+                // if we match the skip character increment skip count
+                if (T[i] == SKIP_CHAR)
+                {
+                    skipCount++;
+                    continue;
+                }
+                
+                // if skip count is greater than zero skip until it is zero.
+                if (skipCount > 0)
+                {
+                    skipCount--;
+                    continue;
+                }
+
+                // we aren't on a character to be skipped, and we haven't seen the skip character.
+                // add to the current string.
+                tChars = T[i] + tChars;
+            }
+            
+            return sChars.Equals(tChars);
+        }
+        
+        public bool BackspaceCompareConstantSpace(string S, string T)
+        {
+            const char SKIP_CHAR = '#';
+            var i = S.Length - 1;
+            var j = T.Length - 1;
+            var skipCountS = 0;
+            var skipCountT = 0;
+
+            // while i or j is greater than 0 continue iterating.
+            while (i >= 0 || j >= 0)
+            {
+                // detected a skip character
+                if ((i >= 0 && S[i] == SKIP_CHAR) || (j >= 0 && T[j] == SKIP_CHAR))
+                {
+                    if (i >= 0 && S[i] == SKIP_CHAR)
+                    {
+                        skipCountS++;
+                        i--;
+                    }
+                    
+                    if (j >= 0 && T[j] == SKIP_CHAR)
+                    {
+                        skipCountT++;
+                        j--;
+                    }
+
+                    continue;
+                }
+                
+                // skip character.
+                if (skipCountS > 0 || skipCountT > 0)
+                {
+                    if (skipCountS > 0)
+                    {
+                        skipCountS--;
+                        i--;
+                    }
+                    
+                    if (skipCountT > 0)
+                    {
+                        skipCountT--;
+                        j--;
+                    }
+
+                    continue;
+                }
+
+                // we are not skipping the character so
+                // check if i and j are not comparable or if one is comparable and other isn't then fail.
+                if ((i >= 0 && j >= 0 && S[i] != T[j]) || (i < 0 ^ j < 0))
+                {
+                    return false;
+                }
+
+                i--;
+                j--;
+            }
+
+            return true;
+        }
     }
 }

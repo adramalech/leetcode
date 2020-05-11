@@ -74,5 +74,21 @@ namespace Google.Test.ArraysStrings
                 }
             }
         }
+
+        [Theory]
+        [InlineData(new int[] { 3, 2, 4 }, 6, new int [] { 1, 2 })]
+        public void TestTwoSum(int[] nums, int target, int[] expectedResult)
+        {
+            var arrayProblems = new ArrayProblems();
+
+            var actualResult = arrayProblems.TwoSum(nums, target);
+
+            Assert.Equal<int>(expectedResult.Length, actualResult.Length);
+            
+            for (var i = 0; i < 2; i++)
+            {
+                Assert.Equal<int>(expectedResult[i], actualResult[i]);
+            }
+        }
     }
 }
