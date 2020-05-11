@@ -51,5 +51,17 @@ namespace Google.Test.ArraysStrings
             
             Assert.Equal<bool>(expectedResult, actualResult);
         }
+
+        [Theory]
+        [InlineData("abab", true)]
+        [InlineData("aabaaba", false)]
+        public void Test(string s, bool expectedResult)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualResult = stringProblems.RepeatedSubstringPattern(s);
+            
+            Assert.Equal<bool>(expectedResult, actualResult);
+        }
     }
 }

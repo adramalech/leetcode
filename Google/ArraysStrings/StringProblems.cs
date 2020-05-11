@@ -219,5 +219,33 @@ namespace Google.ArraysStrings
 
             return true;
         }
+        
+        public bool RepeatedSubstringPattern(string s) 
+        {
+            var length = s.Length;
+            var maxSubstringLength = length / 2;
+            var size = 1;
+        
+            while (size <= maxSubstringLength)
+            {
+                var t = s.Substring(0, size);
+                int count = 1;
+                var i = t.Length;
+            
+                while (i + t.Length <= length && s.Substring(i, size).Equals(t)) 
+                {
+                    i += t.Length;
+                }
+            
+                if (i >= length) 
+                {
+                    return true;
+                }
+            
+                size++;
+            }
+        
+            return false;
+        }
     }
 }
