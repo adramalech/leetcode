@@ -157,6 +157,8 @@ namespace Google.ArraysStrings
             return sChars.Equals(tChars);
         }
         
+        // Time O(m + n)
+        // Space O(1)
         public bool BackspaceCompareConstantSpace(string S, string T)
         {
             const char SKIP_CHAR = '#';
@@ -164,7 +166,7 @@ namespace Google.ArraysStrings
             var j = T.Length - 1;
             var skipCountS = 0;
             var skipCountT = 0;
-
+            
             // while i or j is greater than 0 continue iterating.
             while (i >= 0 || j >= 0)
             {
