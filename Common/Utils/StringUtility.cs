@@ -54,5 +54,17 @@ namespace Common.Utils
             var set = new HashSet<char>(s.ToCharArray());
             return (s.Length == set.Count);
         }
+        
+        public static string ReplaceCharAt(string s, int index, char symbol)
+        {
+            if (index < 0 || index >= s.Length)
+            {
+                return s;
+            }
+
+            var chars = s.ToCharArray();
+            chars[index] = symbol;
+            return new string(chars);
+        }
     }
 }
