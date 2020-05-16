@@ -4,6 +4,15 @@
     <ProjectReference Include="..\Common\Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ArraysStrings" />
+    <Folder Include="DynamicProgramming" />
+    <Folder Include="LinkedLists" />
+    <Folder Include="Recursion" />
+    <Folder Include="SearchSort" />
+    <Folder Include="TreesGraphs" />
+  </ItemGroup>
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
