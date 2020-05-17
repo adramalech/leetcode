@@ -166,5 +166,18 @@ namespace ArraysStrings
                 Assert.Equal<int>(expectedResult[i], actualResult[i]);
             }
         }
+
+        [Theory]
+        [InlineData(new int[] {1}, 1, 1)]
+        [InlineData(new int[] {2, 1}, 1, 2)]
+        [InlineData(new int[] {1, 2, 4, 3, 5, 6}, 2, 5)]
+        public void TestFindKthLargest(int[] nums, int k, int expectedResult)
+        {
+            var arrayProblems = new ArrayProblems();
+
+            var actualResult = arrayProblems.FindKthLargest(nums, k);
+            
+            Assert.Equal<int>(expectedResult, actualResult);
+        }
     }
 }

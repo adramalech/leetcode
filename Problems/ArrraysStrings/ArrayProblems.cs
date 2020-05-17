@@ -432,5 +432,78 @@ namespace ArraysStrings
 
             throw new ArgumentException("Cannot find sum, required to find exactly one match!");
         }
+        
+        public int FindKthLargest(int[] nums, int k) 
+        {
+            if (nums.Length == 1) {
+                return nums[0];    
+            }
+        
+            var lookup = new Dictionary<int, int>();
+        
+            int maxValue = int.MinValue;
+            int minValue = int.MaxValue;
+        
+            // O(n)
+            foreach (var n in nums) 
+            {
+                if (lookup.ContainsKey(n)) 
+                {
+                    lookup[n]++;
+                }
+                else 
+                {
+                    lookup.Add(n, 1);
+                
+                    if (maxValue < n) 
+                    {
+                        maxValue = n;
+                    }
+                
+                    if (minValue > n) {
+                        minValue = n;
+                    }
+                }
+            }
+
+            // if k is the first max we found return it.
+            if (k == 1)
+            {
+                return maxValue;
+            }
+            
+            // then all values are the same value.
+            if (minValue == maxValue)
+            {
+                return nums.First();
+            }
+            
+            // k > 1
+            // from max value which is 1st largest find the kth largest.
+            var currentValue = maxValue - 1;
+        
+            // we have found the most highest value.
+            k--;
+                
+            while (currentValue >= minValue) 
+            {
+                if (lookup.ContainsKey(currentValue)) 
+                {
+                    while (lookup[currentValue] > 0) {
+                        lookup[currentValue]--;
+                        k--;
+                    
+                        if (k <= 0) 
+                        {
+                            return currentValue;
+                        }
+                    }
+                }
+            
+                currentValue--;
+            }
+        
+            throw new Exception("Unable to find kth largest value!");
+        }
     }
 }
