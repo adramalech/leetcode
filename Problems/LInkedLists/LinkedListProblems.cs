@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Common.Models;
@@ -113,6 +114,135 @@ namespace LinkedLists
             if (l2 != null)
             {
                 t.next = l2;
+            }
+
+            return head.next;
+        }
+        
+        /*
+         Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+         
+         Input:
+            [
+              1 -> 4 -> 5,
+              1 -> 3 -> 4,
+              2 -> 6
+            ]
+            
+         Output: 1 -> 1 -> 2 -> 3 -> 4 -> 4 -> 5 -> 6
+         */
+        public SingleLinkedListNode MergeKListsBruteForce(SingleLinkedListNode[] lists)
+        {
+            SingleLinkedListNode head = null;
+            SingleLinkedListNode current = new SingleLinkedListNode(int.MinValue);
+            head = current;
+
+            // iterate until lists are empty.
+            // 1. keep track of empty count. if we become empty in search break.
+            // 2. find the current minimum value. push that onto the list.
+            // 3. remove the found value 
+            while (true)
+            {
+                // find the minimum value list.
+                int minListIndex = -1;
+                int emptyCount = 0;
+                int minValue = int.MaxValue;
+                
+                var length = lists.Length;
+                
+                // O(m)
+                for (var i = 0; i < length; i++)
+                {
+                    if (lists[i] == null)
+                    {
+                        emptyCount++;
+                        continue;
+                    }
+
+                    if (lists[i].val < minValue)
+                    {
+                        minListIndex = i;
+                        minValue = lists[i].val;
+                    }
+                }
+                
+                // when the lists are empty return.
+                if (emptyCount == length)
+                {
+                    break;
+                }
+                
+                // fast forward next after we found the min value.
+                lists[minListIndex] = lists[minListIndex].next;
+                
+                // found the minimum list index set it and fast forward next.
+                current.next = new SingleLinkedListNode(minValue);
+                current = current.next;
+            }
+            
+            return head.next;
+        }
+        
+        public SingleLinkedListNode MergeKLists(SingleLinkedListNode[] lists)
+        {
+            SingleLinkedListNode head = null;
+            SingleLinkedListNode current = new SingleLinkedListNode(int.MinValue);
+            head = current;
+
+            int minValue = int.MaxValue;
+            int maxValue = int.MinValue;
+
+            // val -> count
+            var lookup = new Dictionary<int, int>();
+
+            var length = lists.Length;
+            
+            // iterate over each list.
+            for (var i = 0; i < length; i++)
+            {
+                // add each element to the list.
+                while (lists[i] != null)
+                {
+                    if (lookup.ContainsKey(lists[i].val))
+                    {
+                        lookup[lists[i].val]++;
+                    }
+                    else
+                    {
+                        lookup.Add(lists[i].val, 1);
+
+                        // if the number is the min we have seen add as minimum.
+                        if (lists[i].val < minValue)
+                        {
+                            minValue = lists[i].val;
+                        }
+
+                        // if it is the maximum we have seen add as maximum.
+                        if (lists[i].val > maxValue) 
+                        {
+                            maxValue = lists[i].val;
+                        }
+                    }
+                
+                    lists[i] = lists[i].next;
+                }
+            }
+
+            var num = minValue;
+
+            while (num <= maxValue)
+            {
+                if (lookup.ContainsKey(num))
+                {
+                    while (lookup[num] > 0)
+                    {
+                        current.next = new SingleLinkedListNode(num);
+                        current = current.next;
+                        lookup[num]--;
+                    }
+                }
+
+                num++;
             }
 
             return head.next;

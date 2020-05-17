@@ -40,7 +40,7 @@ namespace ArraysStrings
       }
 
       // iterate once through original input (O(n))
-      while (left < maxLength && right < maxLength )
+      while (left < maxLength && right < maxLength)
       {
         // resolve substring unique conflict.
         while (!uniqueString.Add(s[right]))
@@ -93,7 +93,7 @@ namespace ArraysStrings
         {
           break;
         }
-        
+
         switch (c)
         {
           // whitespace skip
@@ -114,6 +114,7 @@ namespace ArraysStrings
             {
               haveSeenNonDigit = true;
             }
+
             break;
 
           // positive or negative sign is optional
@@ -230,7 +231,7 @@ namespace ArraysStrings
           return int.MinValue;
         }
 
-        return (int)num;
+        return (int) num;
       }
 
       // if value is larger than 2147483647 return max value.
@@ -240,9 +241,9 @@ namespace ArraysStrings
       }
 
       // safe to typecast to 32-bit signed int.
-      return (int)num;
+      return (int) num;
     }
-    
+
     /**
      * I = 1
      * V = 5
@@ -269,7 +270,7 @@ namespace ArraysStrings
 
       var total = 0;
       var length = s.Length;
-      
+
       for (var i = 0; i < length; i++)
       {
         int num = i + 1 < length ? compareCurrentAndNext(s[i], s[i + 1]) : mapNumerialToInt(s[i]);
@@ -278,6 +279,7 @@ namespace ArraysStrings
 
       return total;
     }
+
     private int compareCurrentAndNext(char c, char n)
     {
       var num = mapNumerialToInt(c);
@@ -292,18 +294,19 @@ namespace ArraysStrings
 
       return num;
     }
-    
+
     public string Multiply(string num1, string num2)
     {
       const string zero = "0";
-      
+
       if (string.IsNullOrEmpty(num1) || string.IsNullOrWhiteSpace(num1) ||
           string.IsNullOrEmpty(num2) || string.IsNullOrWhiteSpace(num2) ||
           num1 == zero || num2 == zero
-      ) {
+      )
+      {
         return zero;
       }
-      
+
       var length1 = num1.Length;
       var length2 = num2.Length;
       var sumDigitsPlacesLookup = new Dictionary<int, List<int>>();
@@ -314,7 +317,7 @@ namespace ArraysStrings
       int j;
       int shift = 0;
       int count;
-      
+
       while (i >= 0)
       {
         // first digit of iteration seed.
@@ -325,13 +328,13 @@ namespace ArraysStrings
 
         if (sumDigitsPlacesLookup.ContainsKey(shift))
         {
-            sumDigitsPlacesLookup[shift].Add(d);
+          sumDigitsPlacesLookup[shift].Add(d);
         }
         else
         {
-          sumDigitsPlacesLookup.Add(shift, new List<int>() { d });
+          sumDigitsPlacesLookup.Add(shift, new List<int>() {d});
         }
-        
+
         j--;
         count = shift + 1;
 
@@ -389,7 +392,7 @@ namespace ArraysStrings
       int carrySum = 0;
       string sumTotal = "";
       int sum;
-      
+
       for (var k = 0; k < sumDigitsPlacesLookup.Count; k++)
       {
         sum = sumDigitsPlacesLookup[k].Sum();
@@ -405,20 +408,20 @@ namespace ArraysStrings
 
       return (string.IsNullOrEmpty(sumTotal) ? zero.ToString() : sumTotal);
     }
-    
+
     public IList<IList<string>> GroupAnagrams(string[] strs)
     {
       var results = new List<IList<string>>();
-      
+
       if (strs == null || strs.Length < 1)
       {
         return results;
       }
 
       var grouping = new Dictionary<int, List<string>>();
-      
+
       // O(n + m )
-      
+
       // group the strings by length.
       // O(n)
       foreach (var s in strs)
@@ -437,7 +440,7 @@ namespace ArraysStrings
         else
         {
           var length = s.Length;
-          
+
           if (grouping.ContainsKey(length))
           {
             grouping[length].Add(s);
@@ -475,12 +478,12 @@ namespace ArraysStrings
           bool[] track = new bool[length];
 
           List<string> g;
-          
+
           for (var i = 0; i < length - 1; i++)
           {
             if (!track[i])
             {
-              g = new List<string>() { group[i] };
+              g = new List<string>() {group[i]};
               track[i] = true;
 
               for (var j = i + 1; j < length; j++)
@@ -503,7 +506,7 @@ namespace ArraysStrings
           {
             if (!track[k])
             {
-              results.Add(new List<string>() { group[k] });
+              results.Add(new List<string>() {group[k]});
             }
           }
         }
@@ -515,7 +518,7 @@ namespace ArraysStrings
     public IList<IList<string>> GroupAnagrams2(string[] strs)
     {
       var results = new List<IList<string>>();
-      
+
       if (strs == null || strs.Length < 1)
       {
         return results;
@@ -527,14 +530,14 @@ namespace ArraysStrings
       foreach (var s in strs)
       {
         string tmpCharStr = s;
-        
+
         if (!string.IsNullOrEmpty(s))
         {
           var chars = s.ToCharArray();
           Array.Sort(chars);
           tmpCharStr = new string(chars);
         }
-        
+
         if (grouping.ContainsKey(tmpCharStr))
         {
           grouping[tmpCharStr].Add(s);
@@ -549,7 +552,7 @@ namespace ArraysStrings
       {
         results.Add(v);
       }
-      
+
       return results;
     }
 
@@ -560,13 +563,13 @@ namespace ArraysStrings
       int j = b.Length - 1;
 
       string result = "";
-      
+
       while (i >= 0 && j >= 0)
       {
-        int sum = StringUtility.ConvertCharToDigit(a[i]) + 
-                  StringUtility.ConvertCharToDigit(b[j]) + 
+        int sum = StringUtility.ConvertCharToDigit(a[i]) +
+                  StringUtility.ConvertCharToDigit(b[j]) +
                   StringUtility.ConvertCharToDigit(carry);
-        
+
         if (sum == 3)
         {
           result = "1" + result;
@@ -593,7 +596,7 @@ namespace ArraysStrings
         while (i >= 0)
         {
           int sum = StringUtility.ConvertCharToDigit(a[i]) + StringUtility.ConvertCharToDigit(carry);
-          
+
           if (sum == 2)
           {
             result = "0" + result;
@@ -615,7 +618,7 @@ namespace ArraysStrings
         while (j >= 0)
         {
           int sum = StringUtility.ConvertCharToDigit(b[j]) + StringUtility.ConvertCharToDigit(carry);
-          
+
           if (sum == 2)
           {
             result = "0" + result;
@@ -637,19 +640,19 @@ namespace ArraysStrings
       {
         result = "1" + result;
       }
-      
+
       return result;
     }
-    
+
     public bool isStringPairAnagram(string s1, string s2)
     {
       if (s1.Length != s2.Length)
       {
         return false;
       }
-      
+
       var charFrequencyCounter = new Dictionary<char, int>();
-      
+
       // count the symbols in one of the strings.
       foreach (var c in s1)
       {
@@ -682,40 +685,40 @@ namespace ArraysStrings
 
       return true;
     }
-    
+
     public string NumberToWords(int num)
     {
       if (num <= 0)
       {
         return "Zero";
       }
-      
+
       // num = 1 to 20.
       if (num < 20)
       {
         return mapNumToWord(num);
       }
-      
+
       // num = 21 to 99
       if (num < 100)
       {
         return describeTensAndOnes(num);
       }
-      
+
       int nTens;
       int nHundreds;
       int n;
       string result = "";
       var place = 3;
-      
+
       // num = 100 - 2,147,483,647
       while (num > 0)
       {
         var words = "";
-        
+
         n = (int) (num % Math.Pow(10, 3));
         nHundreds = n / 100;
-        
+
         if (nHundreds > 0)
         {
           // hundreds
@@ -724,22 +727,22 @@ namespace ArraysStrings
 
         // tens and ones.
         nTens = n % 100;
-        
+
         if (nTens > 0)
         {
           var t = describeTensAndOnes(nTens);
-          
+
           if (!string.IsNullOrEmpty(t))
           {
             if (!string.IsNullOrEmpty(words))
             {
               t = " " + t;
             }
-            
+
             words += t;
           }
         }
-        
+
         if (!string.IsNullOrEmpty(words))
         {
           // add the place
@@ -749,7 +752,7 @@ namespace ArraysStrings
           {
             words += " " + p;
           }
-          
+
           // add the constructed word to the result.
           if (!string.IsNullOrEmpty(result))
           {
@@ -758,10 +761,10 @@ namespace ArraysStrings
 
           result = words + result;
         }
-        
+
         // remove diff.
         num = (int) Math.Floor(num / Math.Pow(10, 3));
-        
+
         if (num >= 1000)
         {
           place += 3;
@@ -775,7 +778,7 @@ namespace ArraysStrings
           place++;
         }
       }
-      
+
       return result;
     }
 
@@ -784,7 +787,7 @@ namespace ArraysStrings
       string words;
       int ones;
       int twos;
-      
+
       if (tensOnes <= 20)
       {
         words = mapNumToWord(tensOnes);
@@ -794,7 +797,7 @@ namespace ArraysStrings
         // break it down 22 = 20 + 2.
         ones = tensOnes % 10;
         twos = tensOnes - ones;
-          
+
         words = mapNumToWord(twos);
 
         if (ones > 0)
@@ -809,12 +812,12 @@ namespace ArraysStrings
     public string describeHundreds(int hundreds)
     {
       var result = "";
-      
+
       if (hundreds > 0)
       {
         result += mapNumToWord(hundreds) + " Hundred";
       }
-      
+
       return result;
     }
 
@@ -824,7 +827,7 @@ namespace ArraysStrings
       {
         return "";
       }
-      
+
       if (place < 7)
       {
         return "Thousand";
@@ -832,7 +835,7 @@ namespace ArraysStrings
 
       return place < 10 ? "Million" : "Billion";
     }
-    
+
     public string mapNumToWord(int num)
     {
       return num switch
@@ -870,12 +873,13 @@ namespace ArraysStrings
 
     // single digit multiplied by a single digit
     // the min to max value you could have is 0 to 81.
-    public int multi(char num1, char num2) => StringUtility.ConvertCharToDigit(num1) * StringUtility.ConvertCharToDigit(num2);
-    
-    public int carry(int num) => (int)(Math.Floor(((double)num) / 10));
+    public int multi(char num1, char num2) =>
+      StringUtility.ConvertCharToDigit(num1) * StringUtility.ConvertCharToDigit(num2);
+
+    public int carry(int num) => (int) (Math.Floor(((double) num) / 10));
 
     public int digit(int num) => num % 10;
-    
+
     private int mapNumerialToInt(char c)
     {
       return c switch
@@ -890,247 +894,333 @@ namespace ArraysStrings
         _ => 0
       };
     }
-    
-    public string MinWindow(string s, string t) 
+
+    public string MinWindow(string s, string t)
+    {
+      // if t is longer than s, or either are empty/null than return empty string. 
+      if (string.IsNullOrEmpty(s) || string.IsNullOrEmpty(t) || s.Length < t.Length)
+      {
+        return string.Empty;
+      }
+
+      // we want to initialize the window to the minimum length of T
+      var left = 0;
+      var right = t.Length - 1;
+      var minSize = 0;
+      var minLeft = 0;
+      var curSize = t.Length;
+      var symbolLookup = new Dictionary<char, int>();
+
+      // generate the T symbols into a lookup table.
+      foreach (var c in t)
+      {
+        if (symbolLookup.ContainsKey(c))
         {
-            // if t is longer than s, or either are empty/null than return empty string. 
-            if (string.IsNullOrEmpty(s) || string.IsNullOrEmpty(t) || s.Length < t.Length) 
-            {
-                return string.Empty;
-            }
-
-            // we want to initialize the window to the minimum length of T
-            var left = 0;
-            var right = t.Length - 1;
-            var minSize = 0;
-            var minLeft = 0;
-            var curSize = t.Length;
-            var symbolLookup = new Dictionary<char, int>();
-            
-            // generate the T symbols into a lookup table.
-            foreach (var c in t)
-            {
-                if (symbolLookup.ContainsKey(c))
-                {
-                    symbolLookup[c]++;
-                }
-                else
-                {
-                    symbolLookup.Add(c, 1);
-                }
-            }
-
-            // this cache results will allow us to lookup previous results
-            // and which symbols matched. so we don't have to rematch after the first match.
-            // seed the currentMatchedSymbols of the current window.
-            foreach (var c in s.Substring(left, curSize))
-            {
-                if (symbolLookup.ContainsKey(c))
-                {
-                    symbolLookup[c]--;
-                }
-            }
-            
-            // iterate while:
-            //    1. the left position has not proceeded beyond the right size
-            //    2. making sure that the right side stays less than the maximum size of the input.
-            //    3. if the current window size must be greater than or equal to the length of T
-            while (left <= right && curSize >= t.Length && right < s.Length) 
-            {
-                // if they do match make sure to compare current minimum size and window.
-                if (symbolLookup.Values.All(count => count <= 0))
-                {
-                    // if the minimum size isn't matched or if it is minimum
-                    // set the current window size and boundary positions as the new minimum.
-                    if (minSize == 0 || minSize > (right - left + 1))
-                    {
-                        minSize = right - left + 1;
-                        minLeft = left;
-                    }
-                    
-                    // if removing the leftmost character,
-                    // make sure to see if the left most character matches
-                    if (symbolLookup.ContainsKey(s[left]))
-                    {
-                        // this looks bad but it actually makes sense we want to keep a 0 or less than 0.
-                        symbolLookup[s[left]]++;
-                    }
-                    
-                    // increment the left to make sure that we cannot make it any smaller.
-                    left++;
-                }
-                else
-                {
-                    // if appending a new character as the rightmost character if it matches
-                    // add to the cache.
-                    if (right + 1 < s.Length)
-                    {
-                        if (symbolLookup.ContainsKey(s[right + 1]))
-                        {
-                            symbolLookup[s[right + 1]]--;
-                        }
-                    }
-
-                    // we were unable to find a match grow the window size.
-                    right++;
-                }
-                
-                // set the current size of the window.
-                curSize = right - left + 1;
-            }
-
-            // if the size found is zero by not finding anything, 
-            // then we should return empty string, else return the window we found.
-            return  (minSize < 1) ? string.Empty : s.Substring(minLeft, minSize);
+          symbolLookup[c]++;
         }
-        
-        // Time = O(n + m)
-        // Space = O(n + m)
-        public bool BackspaceCompare(string S, string T)
+        else
         {
-            var sChars = ""; 
-            var tChars = "";
-            var skipCount = 0;
-            const char SKIP_CHAR = '#';
-            
-            // O(n)
-            for (var i = S.Length - 1; i >= 0; i--)
-            {
-                // if we match the skip character increment skip count
-                if (S[i] == SKIP_CHAR)
-                {
-                    skipCount++;
-                    continue;
-                }
-                
-                // if skip count is greater than zero skip until it is zero.
-                if (skipCount > 0)
-                {
-                    skipCount--;
-                    continue;
-                }
-                
-                // we aren't on a character to be skipped, and we haven't seen the skip character.
-                // add to the current string.
-                sChars = S[i] + sChars;
-            }
-
-            // clear skip for next loop
-            skipCount = 0;
-            
-            // O(m)
-            for (var i = T.Length - 1; i >= 0; i--)
-            {
-                // if we match the skip character increment skip count
-                if (T[i] == SKIP_CHAR)
-                {
-                    skipCount++;
-                    continue;
-                }
-                
-                // if skip count is greater than zero skip until it is zero.
-                if (skipCount > 0)
-                {
-                    skipCount--;
-                    continue;
-                }
-
-                // we aren't on a character to be skipped, and we haven't seen the skip character.
-                // add to the current string.
-                tChars = T[i] + tChars;
-            }
-            
-            return sChars.Equals(tChars);
+          symbolLookup.Add(c, 1);
         }
-        
-        // Time O(m + n)
-        // Space O(1)
-        public bool BackspaceCompareConstantSpace(string S, string T)
+      }
+
+      // this cache results will allow us to lookup previous results
+      // and which symbols matched. so we don't have to rematch after the first match.
+      // seed the currentMatchedSymbols of the current window.
+      foreach (var c in s.Substring(left, curSize))
+      {
+        if (symbolLookup.ContainsKey(c))
         {
-            const char SKIP_CHAR = '#';
-            var i = S.Length - 1;
-            var j = T.Length - 1;
-            var skipCountS = 0;
-            var skipCountT = 0;
-            
-            // while i or j is greater than 0 continue iterating.
-            while (i >= 0 || j >= 0)
-            {
-                // detected a skip character
-                if ((i >= 0 && S[i] == SKIP_CHAR) || (j >= 0 && T[j] == SKIP_CHAR))
-                {
-                    if (i >= 0 && S[i] == SKIP_CHAR)
-                    {
-                        skipCountS++;
-                        i--;
-                    }
-                    
-                    if (j >= 0 && T[j] == SKIP_CHAR)
-                    {
-                        skipCountT++;
-                        j--;
-                    }
-
-                    continue;
-                }
-                
-                // skip character.
-                if (skipCountS > 0 || skipCountT > 0)
-                {
-                    if (skipCountS > 0)
-                    {
-                        skipCountS--;
-                        i--;
-                    }
-                    
-                    if (skipCountT > 0)
-                    {
-                        skipCountT--;
-                        j--;
-                    }
-
-                    continue;
-                }
-
-                // we are not skipping the character so
-                // check if i and j are not comparable or if one is comparable and other isn't then fail.
-                if ((i >= 0 && j >= 0 && S[i] != T[j]) || (i < 0 ^ j < 0))
-                {
-                    return false;
-                }
-
-                i--;
-                j--;
-            }
-
-            return true;
+          symbolLookup[c]--;
         }
-        
-        public bool RepeatedSubstringPattern(string s) 
+      }
+
+      // iterate while:
+      //    1. the left position has not proceeded beyond the right size
+      //    2. making sure that the right side stays less than the maximum size of the input.
+      //    3. if the current window size must be greater than or equal to the length of T
+      while (left <= right && curSize >= t.Length && right < s.Length)
+      {
+        // if they do match make sure to compare current minimum size and window.
+        if (symbolLookup.Values.All(count => count <= 0))
         {
-            var length = s.Length;
-            var maxSubstringLength = length / 2;
-            var size = 1;
-        
-            while (size <= maxSubstringLength)
-            {
-                var t = s.Substring(0, size);
-                var i = t.Length;
-            
-                while (i + t.Length <= length && s.Substring(i, size).Equals(t)) 
-                {
-                    i += t.Length;
-                }
-            
-                if (i >= length) 
-                {
-                    return true;
-                }
-            
-                size++;
-            }
-        
-            return false;
+          // if the minimum size isn't matched or if it is minimum
+          // set the current window size and boundary positions as the new minimum.
+          if (minSize == 0 || minSize > (right - left + 1))
+          {
+            minSize = right - left + 1;
+            minLeft = left;
+          }
+
+          // if removing the leftmost character,
+          // make sure to see if the left most character matches
+          if (symbolLookup.ContainsKey(s[left]))
+          {
+            // this looks bad but it actually makes sense we want to keep a 0 or less than 0.
+            symbolLookup[s[left]]++;
+          }
+
+          // increment the left to make sure that we cannot make it any smaller.
+          left++;
         }
+        else
+        {
+          // if appending a new character as the rightmost character if it matches
+          // add to the cache.
+          if (right + 1 < s.Length)
+          {
+            if (symbolLookup.ContainsKey(s[right + 1]))
+            {
+              symbolLookup[s[right + 1]]--;
+            }
+          }
+
+          // we were unable to find a match grow the window size.
+          right++;
+        }
+
+        // set the current size of the window.
+        curSize = right - left + 1;
+      }
+
+      // if the size found is zero by not finding anything, 
+      // then we should return empty string, else return the window we found.
+      return (minSize < 1) ? string.Empty : s.Substring(minLeft, minSize);
+    }
+
+    // Time = O(n + m)
+    // Space = O(n + m)
+    public bool BackspaceCompare(string S, string T)
+    {
+      var sChars = "";
+      var tChars = "";
+      var skipCount = 0;
+      const char SKIP_CHAR = '#';
+
+      // O(n)
+      for (var i = S.Length - 1; i >= 0; i--)
+      {
+        // if we match the skip character increment skip count
+        if (S[i] == SKIP_CHAR)
+        {
+          skipCount++;
+          continue;
+        }
+
+        // if skip count is greater than zero skip until it is zero.
+        if (skipCount > 0)
+        {
+          skipCount--;
+          continue;
+        }
+
+        // we aren't on a character to be skipped, and we haven't seen the skip character.
+        // add to the current string.
+        sChars = S[i] + sChars;
+      }
+
+      // clear skip for next loop
+      skipCount = 0;
+
+      // O(m)
+      for (var i = T.Length - 1; i >= 0; i--)
+      {
+        // if we match the skip character increment skip count
+        if (T[i] == SKIP_CHAR)
+        {
+          skipCount++;
+          continue;
+        }
+
+        // if skip count is greater than zero skip until it is zero.
+        if (skipCount > 0)
+        {
+          skipCount--;
+          continue;
+        }
+
+        // we aren't on a character to be skipped, and we haven't seen the skip character.
+        // add to the current string.
+        tChars = T[i] + tChars;
+      }
+
+      return sChars.Equals(tChars);
+    }
+
+    // Time O(m + n)
+    // Space O(1)
+    public bool BackspaceCompareConstantSpace(string S, string T)
+    {
+      const char SKIP_CHAR = '#';
+      var i = S.Length - 1;
+      var j = T.Length - 1;
+      var skipCountS = 0;
+      var skipCountT = 0;
+
+      // while i or j is greater than 0 continue iterating.
+      while (i >= 0 || j >= 0)
+      {
+        // detected a skip character
+        if ((i >= 0 && S[i] == SKIP_CHAR) || (j >= 0 && T[j] == SKIP_CHAR))
+        {
+          if (i >= 0 && S[i] == SKIP_CHAR)
+          {
+            skipCountS++;
+            i--;
+          }
+
+          if (j >= 0 && T[j] == SKIP_CHAR)
+          {
+            skipCountT++;
+            j--;
+          }
+
+          continue;
+        }
+
+        // skip character.
+        if (skipCountS > 0 || skipCountT > 0)
+        {
+          if (skipCountS > 0)
+          {
+            skipCountS--;
+            i--;
+          }
+
+          if (skipCountT > 0)
+          {
+            skipCountT--;
+            j--;
+          }
+
+          continue;
+        }
+
+        // we are not skipping the character so
+        // check if i and j are not comparable or if one is comparable and other isn't then fail.
+        if ((i >= 0 && j >= 0 && S[i] != T[j]) || (i < 0 ^ j < 0))
+        {
+          return false;
+        }
+
+        i--;
+        j--;
+      }
+
+      return true;
+    }
+
+    public bool RepeatedSubstringPattern(string s)
+    {
+      var length = s.Length;
+      var maxSubstringLength = length / 2;
+      var size = 1;
+
+      while (size <= maxSubstringLength)
+      {
+        var t = s.Substring(0, size);
+        var i = t.Length;
+
+        while (i + t.Length <= length && s.Substring(i, size).Equals(t))
+        {
+          i += t.Length;
+        }
+
+        if (i >= length)
+        {
+          return true;
+        }
+
+        size++;
+      }
+
+      return false;
+    }
+
+    // Given a string containing just the characters '(', ')', '{', '}', '[' and ']',
+    // determine if the input string is valid.
+    public bool IsValid(string s)
+    {
+      if (string.IsNullOrEmpty(s))
+      {
+        return true;
+      }
+      
+      var storage = new Stack<char>();
+      const char OPEN_PAREN = '(';
+      const char CLOSE_PAREN = ')';
+      const char OPEN_CURLY = '{';
+      const char CLOSE_CURLY = '}';
+      const char OPEN_SQUARE = '[';
+      const char CLOSE_SQUARE = ']';
+      char temp;
+
+      foreach (var c in s)
+      {
+        switch (c)
+        {
+          case OPEN_CURLY:
+            storage.Push(c);
+            break;
+
+          case OPEN_PAREN:
+            storage.Push(c);
+            break;
+
+          case OPEN_SQUARE:
+            storage.Push(c);
+            break;
+
+          case CLOSE_CURLY:
+            if (storage.Count == 0) 
+            {
+              return false;
+            }
+            temp = storage.Pop();
+            
+            if (temp != OPEN_CURLY)
+            {
+              return false;
+            }
+            
+            break;
+
+          case CLOSE_PAREN:
+            if (storage.Count == 0) 
+            {
+              return false;
+            }
+            
+            temp = storage.Pop();
+            
+            if (temp != OPEN_PAREN)
+            {
+              return false;
+            }
+            break;
+
+          case CLOSE_SQUARE:
+            if (storage.Count == 0) 
+            {
+              return false;
+            }
+            
+            temp = storage.Pop();
+            
+            if (temp != OPEN_SQUARE)
+            {
+              return false;
+            }
+            
+            break;
+
+          // skip chars.
+          default:
+            continue;
+        }
+      }
+
+      return storage.Count == 0;
+    }
   }
 }

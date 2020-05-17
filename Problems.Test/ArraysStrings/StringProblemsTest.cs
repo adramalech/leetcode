@@ -283,5 +283,24 @@ namespace ArraysStrings
             
             Assert.Equal<bool>(expectedResult, actualResult);
         }
+
+        [Theory]
+        [InlineData("}}]]))", false)]
+        [InlineData("({{", false)]
+        [InlineData("[]{}()", true)]
+        [InlineData("(]", false)]
+        [InlineData("([)]", false)]
+        [InlineData("{[]}", true)]
+        [InlineData("{{])", false)]
+        [InlineData("([{}])", true)]
+        [InlineData("({}[{)}]", false)]
+        public void TestIsValid(string s, bool expectedResult)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualResult = stringProblems.IsValid(s);
+            
+            Assert.Equal<bool>(expectedResult, actualResult);
+        }
     }
 }

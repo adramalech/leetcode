@@ -68,5 +68,45 @@ namespace Fb.Test.LinkedLists
             Assert.NotNull(expectedResults);
             Assert.True(SingleLinkedListNode.AreListsEqual(expectedResults, actualResults));
         }
+
+        [Fact]
+        public void TestMergeKLists()
+        {
+            var linkedListProblems = new LinkedListProblems();
+            
+            var inputs = new int[3][] {new int[3] {1, 4, 5}, new int[3] {1, 3, 4}, new int[2] {2, 6}};
+            var expectedResults = SingleLinkedListNode.GenerateList(new int[] {1, 1, 2, 3, 4, 4, 5, 6});
+
+            SingleLinkedListNode[] lists = new SingleLinkedListNode[]
+            {
+                SingleLinkedListNode.GenerateList(inputs[0]),
+                SingleLinkedListNode.GenerateList(inputs[1]),
+                SingleLinkedListNode.GenerateList(inputs[2]),
+            };
+
+            var actualResults = linkedListProblems.MergeKLists(lists);
+
+            Assert.True(SingleLinkedListNode.AreListsEqual(expectedResults, actualResults));
+        }
+        
+        [Fact]
+        public void TestMergeKListsBruteForce()
+        {
+            var linkedListProblems = new LinkedListProblems();
+            
+            var inputs = new int[3][] {new int[3] {1, 4, 5}, new int[3] {1, 3, 4}, new int[2] {2, 6}};
+            var expectedResults = SingleLinkedListNode.GenerateList(new int[] {1, 1, 2, 3, 4, 4, 5, 6});
+
+            SingleLinkedListNode[] lists = new SingleLinkedListNode[]
+            {
+                SingleLinkedListNode.GenerateList(inputs[0]),
+                SingleLinkedListNode.GenerateList(inputs[1]),
+                SingleLinkedListNode.GenerateList(inputs[2]),
+            };
+
+            var actualResults = linkedListProblems.MergeKListsBruteForce(lists);
+
+            Assert.True(SingleLinkedListNode.AreListsEqual(expectedResults, actualResults));
+        }
     }
 }
