@@ -1,7 +1,7 @@
-using Recursion;
+using Problems.Recursion;
 using Xunit;
 
-namespace Recursion
+namespace Problems.Test.Recursion
 {
     public class RecursionProblemsTest
     {

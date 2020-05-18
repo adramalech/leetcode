@@ -1,7 +1,7 @@
 using Xunit;
-using ArraysStrings;
+using Problems.ArraysStrings;
 
-namespace ArraysStrings
+namespace Problems.Test.ArraysStrings
 {
     public class ArrayProblemsTest
     {

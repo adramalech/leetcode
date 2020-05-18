@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ArraysStrings
+namespace Problems.ArraysStrings
 {
     public class ArrayProblems
     {

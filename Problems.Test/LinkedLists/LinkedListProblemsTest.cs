@@ -1,8 +1,8 @@
-using LinkedLists;
+using Problems.LinkedLists;
 using Xunit;
 using Common.Models;
 
-namespace Fb.Test.LinkedLists
+namespace Problems.Test.LinkedLists
 {
     public class LinkedListProblemsTest
     {

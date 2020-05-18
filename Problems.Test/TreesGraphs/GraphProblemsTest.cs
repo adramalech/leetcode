@@ -1,8 +1,8 @@
 using System.Linq;
-using Google.TreesGraphs;
+using Problems.TreesGraphs;
 using Xunit;
 
-namespace Google.Test.TreesGraphs
+namespace Problems.Test.TreesGraphs
 {
     public class GraphProblemsTest
     {

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.Utils;
 
-namespace DynamicProgramming
+namespace Problems.DynamicProgramming
 {
     public class DynamicProgrammingProblems
     {

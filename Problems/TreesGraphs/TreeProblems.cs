@@ -1,7 +1,7 @@
 using System;
 using Common.Models;
 
-namespace TreesGraphs
+namespace Problems.TreesGraphs
 {
     public class TreeProblems
     {

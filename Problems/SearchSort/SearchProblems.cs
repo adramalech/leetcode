@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SearchSort
+namespace Problems.SearchSort
 {
     public class SearchProblems
     {

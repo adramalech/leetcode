@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Common.Utils;
 
-namespace ArraysStrings
+namespace Problems.ArraysStrings
 {
   public class StringProblems
   {
@@ -1145,7 +1145,7 @@ namespace ArraysStrings
       {
         return true;
       }
-      
+
       var storage = new Stack<char>();
       const char OPEN_PAREN = '(';
       const char CLOSE_PAREN = ')';
@@ -1172,46 +1172,48 @@ namespace ArraysStrings
             break;
 
           case CLOSE_CURLY:
-            if (storage.Count == 0) 
+            if (storage.Count == 0)
             {
               return false;
             }
+
             temp = storage.Pop();
-            
+
             if (temp != OPEN_CURLY)
             {
               return false;
             }
-            
+
             break;
 
           case CLOSE_PAREN:
-            if (storage.Count == 0) 
+            if (storage.Count == 0)
             {
               return false;
             }
-            
+
             temp = storage.Pop();
-            
+
             if (temp != OPEN_PAREN)
             {
               return false;
             }
+
             break;
 
           case CLOSE_SQUARE:
-            if (storage.Count == 0) 
+            if (storage.Count == 0)
             {
               return false;
             }
-            
+
             temp = storage.Pop();
-            
+
             if (temp != OPEN_SQUARE)
             {
               return false;
             }
-            
+
             break;
 
           // skip chars.
@@ -1221,6 +1223,71 @@ namespace ArraysStrings
       }
 
       return storage.Count == 0;
+    }
+
+    public bool IsPalindrome(int x)
+    {
+      var isNegative = x < 0;
+
+      if (isNegative)
+      {
+        return false;
+      }
+
+      var numStr = x.ToString();
+
+      var reversedNumStr = new string(numStr.Reverse().ToArray());
+
+      return numStr.Equals(reversedNumStr);
+    }
+
+    // O(n^3)
+    public string LongestPalindromeBruteForce(string s)
+    {
+      if (string.IsNullOrEmpty(s) || s.Length < 2)
+      {
+        return s;
+      }
+
+      var maxPalindrome = "";
+      var substring = "";
+      var set = new HashSet<string>();
+
+      for (var i = 0; i < s.Length - 1; i++)
+      {
+        for (var j = i + 1; j < s.Length; j++)
+        {
+          substring = s.Substring(i, j - i + 1);
+
+          if (set.Add(substring) && StringUtility.IsPalindrome(substring) && maxPalindrome.Length < substring.Length)
+          {
+            maxPalindrome = substring;
+          }
+
+          if (s.Length - i + 1 < maxPalindrome.Length)
+          {
+            break;
+          }
+        }
+      }
+
+      return string.IsNullOrEmpty(maxPalindrome) ? s.FirstOrDefault().ToString() : maxPalindrome;
+    }
+    
+    public string LongestPalindrome(string s)
+    {
+      if (string.IsNullOrEmpty(s) || s.Length < 2)
+      {
+        return s;
+      }
+
+      var storage = new HashSet<string>();
+      
+      // s (i, i) = 0
+      // s(i, j) = s(i + 1, j - 1)
+
+
+      return null;
     }
   }
 }

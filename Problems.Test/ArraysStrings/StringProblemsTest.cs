@@ -1,7 +1,7 @@
 using Xunit;
-using ArraysStrings;
+using Problems.ArraysStrings;
 
-namespace ArraysStrings
+namespace Problems.Test.ArraysStrings
 {
     public class StringProblemsTests
     {
@@ -301,6 +301,31 @@ namespace ArraysStrings
             var actualResult = stringProblems.IsValid(s);
             
             Assert.Equal<bool>(expectedResult, actualResult);
+        }
+
+        [Theory]
+        [InlineData(121, true)]
+        [InlineData(10, false)]
+        [InlineData(-150, false)]
+        public void TestIsPalindrome(int x, bool expectedResult)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualResult = stringProblems.IsPalindrome(x);
+            
+            Assert.Equal<bool>(expectedResult, actualResult);
+        }
+        
+        [Theory]
+        [InlineData("babad", "bab")]
+        [InlineData("cbbd", "bb")]
+        public void TestLongestPalindrome(string s, string expectedResult) 
+        {
+            var stringProblems = new StringProblems();
+
+            var actualResult = stringProblems.LongestPalindromeBruteForce(s);
+            
+            Assert.True(expectedResult.Equals(actualResult));
         }
     }
 }

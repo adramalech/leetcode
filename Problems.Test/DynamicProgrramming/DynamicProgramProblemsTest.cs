@@ -1,7 +1,7 @@
 using Xunit;
-using DynamicProgramming;
+using Problems.DynamicProgramming;
 
-namespace DynamicProgramming
+namespace Problems.Test.DynamicProgramming
 {
     public class DynamicProgramProblemsTest
     {

@@ -1,9 +1,9 @@
 using System.Linq;
 using Common.Models;
-using TreesGraphs;
+using Problems.TreesGraphs;
 using Xunit;
 
-namespace TreesGraphs
+namespace Problems.Test.TreesGraphs
 {
     public class TreeProblemsTest
     {

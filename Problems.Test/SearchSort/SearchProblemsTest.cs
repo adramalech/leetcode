@@ -1,7 +1,7 @@
-using SearchSort;
+using Problems.SearchSort;
 using Xunit;
 
-namespace SearchSort
+namespace Problems.Test.SearchSort
 {
     public class SearchProblemsTest
     {
