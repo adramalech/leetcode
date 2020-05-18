@@ -350,5 +350,14 @@ namespace Problems.SearchSort
 
             return results.ToArray();
         }
+        
+        public bool IsAnagram(string s, string t)
+        {
+            var sChars = new string(s.ToCharArray().OrderBy(c => c).ToArray());
+            
+            var tChars = new string(t.ToCharArray().OrderBy(c => c).ToArray());
+            
+            return sChars.Equals(tChars);
+        }
     }
 }

@@ -90,5 +90,17 @@ namespace Problems.Test.SearchSort
                 Assert.Equal<int>(expectedResult[i], actualResult[i]);
             }
         }
+
+        [Theory]
+        [InlineData("anagram", "nagaram", true)]
+        [InlineData("rat", "car", false)]
+        public void TestIsAnagram(string s, string t, bool expectedOutput)
+        {
+            var searchProblems = new SearchProblems();
+
+            var actualOutput = searchProblems.IsAnagram(s, t);
+            
+            Assert.Equal<bool>(expectedOutput, actualOutput);
+        }
     }
 }
