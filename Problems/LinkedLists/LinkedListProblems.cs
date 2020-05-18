@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Common.Models;
@@ -246,6 +245,56 @@ namespace Problems.LinkedLists
             }
 
             return head.next;
+        }
+        
+        // Space O(n)
+        // Time O(n)
+        public SingleLinkedListNode RemoveNthFromEnd(SingleLinkedListNode head, int n)
+        {
+            if (head == null)
+            {
+                return null;
+            }
+
+            var size = SingleLinkedListNode.Size(head);
+
+            // when we reach this count we will return next as current.
+            var count = size - n;
+
+            // if we found removing N is greater than length of linked list return the linked list.
+            if (count < 0)
+            {
+                return head;
+            }
+
+            // if it is head return next.
+            if (count == 0)
+            {
+                return head.next;
+            }
+
+            // it is found somewhere between 1 and size - 1.
+            SingleLinkedListNode newHead = null;
+            var current = new SingleLinkedListNode(head.val);
+            newHead = current;
+            head = head.next;
+
+            while (head != null)
+            {
+                // we are at the current node to remove, add the tail of head.
+                if (count == 1)
+                {
+                    current.next = head.next;
+                    break;
+                }
+
+                count--;
+                current.next = new SingleLinkedListNode(head.val);
+                current = current.next;
+                head = head.next;
+            }
+            
+            return newHead;
         }
     }
 }

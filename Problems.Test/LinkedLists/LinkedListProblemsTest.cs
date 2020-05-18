@@ -108,5 +108,18 @@ namespace Problems.Test.LinkedLists
 
             Assert.True(SingleLinkedListNode.AreListsEqual(expectedResults, actualResults));
         }
+
+        [Theory]
+        [InlineData(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, 3, new int[] {1, 2, 3, 4, 5, 6, 8, 9})]
+        public void TestRemoveNthFromEnd(int[] list, int n, int[] expected)
+        {
+            var linkedListProblems = new LinkedListProblems();
+            var expectedResults = SingleLinkedListNode.GenerateList(expected);
+            var input = SingleLinkedListNode.GenerateList(list);
+
+            var actualResults = linkedListProblems.RemoveNthFromEnd(input, n);
+
+            Assert.True(SingleLinkedListNode.AreListsEqual(expectedResults, actualResults));
+        }
     }
 }

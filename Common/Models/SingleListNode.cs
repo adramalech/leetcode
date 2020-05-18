@@ -50,5 +50,25 @@ namespace Common.Models
             
             return true;
         }
+
+        public static int Size(SingleLinkedListNode head)
+        {
+            if (head == null)
+            {
+                return 0;
+            }
+
+            var count = 1;
+
+            var current = head.next;
+
+            while (current != null)
+            {
+                count++;
+                current = current.next;
+            }
+
+            return count;
+        }
     }
 }
