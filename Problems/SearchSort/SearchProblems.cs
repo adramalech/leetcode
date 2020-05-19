@@ -351,13 +351,118 @@ namespace Problems.SearchSort
             return results.ToArray();
         }
         
+        // time O(n * log(n))
+        // space O(n)
+        public bool IsAnagramSort(string s, string t)
+        {
+            // if they are not the same length return.
+            if (s == null || t == null || s.Length != t.Length)
+            {
+                return false;
+            }
+
+            // O(n)
+            var sChars = s.ToCharArray();
+            
+            // O(n)
+            var tChars = t.ToCharArray();
+            
+            // O(n * log(n))
+            Array.Sort(sChars);
+            
+            // O(n * log(n))
+            Array.Sort(tChars);
+
+            // O(n)
+            return new string(sChars).Equals(new string(tChars));
+        }
+
+        // Time O(n)
+        // Space O(n)
         public bool IsAnagram(string s, string t)
         {
-            var sChars = new string(s.ToCharArray().OrderBy(c => c).ToArray());
+            // if they are not the same length return.
+            if (s == null || t == null || s.Length != t.Length)
+            {
+                return false;
+            }
             
-            var tChars = new string(t.ToCharArray().OrderBy(c => c).ToArray());
+            var sLookup = new Dictionary<char, int>();
+
+            // O(n)
+            foreach (var c in s)
+            {
+                if (sLookup.ContainsKey(c))
+                {
+                    sLookup[c]++;
+                }
+                else
+                {
+                    sLookup.Add(c, 1);
+                }
+            }
+
+            // O(n)
+            foreach (var c in t)
+            {
+                if (!sLookup.ContainsKey(c))
+                {
+                    return false;
+                }
+
+                sLookup[c]--;
+            }
+
+            // O(n)
+            return sLookup.Values.All(v => v == 0);
+        }
+        
+        public IList<int> CountSmallerBruteForce(int[] nums) 
+        {
+            if (nums == null || nums.Length < 1) {
+                return new int[] {};
+            }
+        
+            var results = new int[nums.Length];
+            var lookup = new SortedDictionary<int, int>();
+        
+            // seed the far right, nothing right of most right value
+            results[nums.Length - 1] = 0;
+        
+            lookup.Add(nums[nums.Length - 1], 1);
+        
+            int count;
+        
+            for (var i = nums.Length - 2; i >= 0; i--) 
+            {
+                count = 0;
             
-            return sChars.Equals(tChars);
+                // get count.
+                foreach (var k in lookup.Keys) 
+                {
+                    // because we are in an increasing value keys
+                    // stop as soon as the first key is > than nums[i]
+                    if (k >= nums[i]) 
+                    {
+                        break;
+                    }
+                
+                    count += lookup[k];
+                }
+            
+                results[i] = count;
+            
+                if (!lookup.ContainsKey(nums[i])) 
+                {
+                    lookup.Add(nums[i], 1);
+                }
+                else 
+                {
+                    lookup[nums[i]]++;
+                }
+            }
+        
+            return results;
         }
     }
 }

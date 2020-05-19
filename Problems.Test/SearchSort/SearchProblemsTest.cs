@@ -102,5 +102,33 @@ namespace Problems.Test.SearchSort
             
             Assert.Equal<bool>(expectedOutput, actualOutput);
         }
+        
+        [Theory]
+        [InlineData("anagram", "nagaram", true)]
+        [InlineData("rat", "car", false)]
+        public void TestIsAnagramSort(string s, string t, bool expectedOutput)
+        {
+            var searchProblems = new SearchProblems();
+
+            var actualOutput = searchProblems.IsAnagramSort(s, t);
+            
+            Assert.Equal<bool>(expectedOutput, actualOutput);
+        }
+
+        [Theory]
+        [InlineData(new int[] {5, 2, 6, 1}, new int[] {2, 1, 1, 0})]
+        public void TestCountSmallerBruteForce(int[] input, int[] expected)
+        {
+            var searchProblems = new SearchProblems();
+
+            var actual = searchProblems.CountSmallerBruteForce(input);
+
+            Assert.Equal<int>(expected.Length, actual.Count);
+            
+            for (var i = 0; i < actual.Count; i++)
+            {
+                Assert.Equal<int>(expected[i], actual[i]);
+            }
+        }
     }
 }
