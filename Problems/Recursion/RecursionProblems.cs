@@ -232,5 +232,33 @@ namespace Problems.Recursion
                 uniquePerm(removeElement(nums, i), addElement(p, nums[i]), results);
             }
         }
+        
+        public IList<string> GenerateParenthesis(int n) 
+        {
+            var results = new List<string>();
+        
+            generateParens(n, results, "", 0, 0);
+        
+            return results;
+        }
+    
+        private void generateParens(int n, IList<string> results, string result, int open, int close)
+        {
+            if (result.Count() == n * 2) 
+            {
+                results.Add(result);
+                return;
+            }
+
+            if (open < n) 
+            {
+                generateParens(n, results, result + "(", open + 1, close);
+            }
+        
+            if (close < open)
+            {
+                generateParens(n, results, result + ")", open, close + 1);
+            }
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Problems.Recursion;
 using Xunit;
 
@@ -83,5 +84,37 @@ namespace Problems.Test.Recursion
             
             Assert.Equal<bool>(expectedResult, actualResult);
         }
+
+        [Theory]
+        [InlineData(3, new string[] { "((()))", "(()())", "(())()", "()(())", "()()()" })]
+        [InlineData(4, new string[] { 
+            "(((())))",
+            "((()()))",
+            "((())())",
+            "((()))()",
+            "(()(()))",
+            "(()()())",
+            "(()())()",
+            "(())(())",
+            "(())()()",
+            "()((()))",
+            "()(()())",
+            "()(())()",
+            "()()(())",
+            "()()()()" 
+        })]
+        public void GenerateParenthesis(int n, string[] expectedResults)
+        {
+            var recProblems = new RecursionProblems();
+            
+            var actualResult = recProblems.GenerateParenthesis(n);
+
+            Assert.Equal<int>(expectedResults.Length, actualResult.Count);
+            
+            for (var i = 0; i < expectedResults.Length; i++)
+            {
+                Assert.True(expectedResults[i].Equals(actualResult[i]));
+            }
+        } 
     }
 }
