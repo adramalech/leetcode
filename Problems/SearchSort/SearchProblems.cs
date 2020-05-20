@@ -419,49 +419,24 @@ namespace Problems.SearchSort
         
         public IList<int> CountSmallerBruteForce(int[] nums) 
         {
-            if (nums == null || nums.Length < 1) {
+            if (nums == null || nums.Length < 1)
+            {
                 return new int[] {};
             }
-        
+
             var results = new int[nums.Length];
-            var lookup = new SortedDictionary<int, int>();
-        
-            // seed the far right, nothing right of most right value
             results[nums.Length - 1] = 0;
-        
-            lookup.Add(nums[nums.Length - 1], 1);
-        
-            int count;
-        
-            for (var i = nums.Length - 2; i >= 0; i--) 
+
+            var previous = new List<int>() {nums[nums.Length - 1]}; 
+
+            // O(n - 1)
+            for (var i = nums.Length - 2; i >= 0; i--)
             {
-                count = 0;
-            
-                // get count.
-                foreach (var k in lookup.Keys) 
-                {
-                    // because we are in an increasing value keys
-                    // stop as soon as the first key is > than nums[i]
-                    if (k >= nums[i]) 
-                    {
-                        break;
-                    }
+                results[i] = previous.Count(v => v < nums[i]);
                 
-                    count += lookup[k];
-                }
-            
-                results[i] = count;
-            
-                if (!lookup.ContainsKey(nums[i])) 
-                {
-                    lookup.Add(nums[i], 1);
-                }
-                else 
-                {
-                    lookup[nums[i]]++;
-                }
+                previous.Add(nums[i]);
             }
-        
+
             return results;
         }
     }
