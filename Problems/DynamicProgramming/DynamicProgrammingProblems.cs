@@ -94,7 +94,7 @@ namespace Problems.DynamicProgramming
         }
 
         // Time O(n^2)
-        // Space O(n)
+        // Space O(n^2)
         public string LongestPalindrome(string s)
         {
             if (string.IsNullOrEmpty(s)) 
@@ -102,42 +102,55 @@ namespace Problems.DynamicProgramming
                 return string.Empty;
             }
 
-            var maxPalindrome = s[0].ToString();
-
-            // substring -> is it a palindrome?
-            var lookup = new Dictionary<string, bool>();
-            lookup.Add("", true);
-
-            foreach (var c in new HashSet<char>(s.ToCharArray()))
+            var left = 0;
+            var length = 1;
+            
+            // set up array
+            bool[][] tracking = new bool[s.Length][];
+            
+            for (var i = 0; i < s.Length; i++)
             {
-                lookup.Add(c.ToString(), true);
+                tracking[i] = new bool[s.Length];
             }
 
-            for (var size = 2; size <= s.Length; size++)
+            // i..i = all palindrome!
+            for (var i = 0; i < s.Length; i++)
+            {
+                tracking[i][i] = true;
+            }
+
+            // i ... i +  1 if s[i] == s[i+1] palindrome!
+            for (var i = 0; i < s.Length - 1; i++)
+            {
+                if (s[i] == s[i + 1])
+                {
+                    tracking[i][i + 1] = true;
+                    left = i;
+                    length = 2;
+                }
+            }
+
+            for (var size = 3; size <= s.Length; size++)
             {
                 for (var i = 0; i + size <= s.Length; i++)
                 {
-                    var str = s.Substring(i, size);
+                    var right = i + size - 1;
 
-                    if (!lookup.ContainsKey(str))
+                    // if we found sub-string is a palindrome and chars match.
+                    if (tracking[i + 1][right - 1] && s[i] == s[right])
                     {
-                        var subStr = str.Substring(1, str.Length - 2);
-                    
-                        lookup.TryGetValue(subStr, out var isSubstringPalindrome);
-                    
-                        var isStrPalindrome = isSubstringPalindrome && str[0] == str[str.Length - 1];
-                    
-                        lookup.Add(str, isStrPalindrome);
-
-                        if (isStrPalindrome && str.Length > maxPalindrome.Length)
+                        tracking[i][right] = true;
+                        
+                        if (size > length)
                         {
-                            maxPalindrome = str;
+                            left = i;
+                            length = size;
                         }
                     }
                 }
             }
 
-            return maxPalindrome;
+            return s.Substring(left, length);
         }
     }
 }
