@@ -32,7 +32,7 @@ namespace Problems.DynamicProgramming
             return results[n - 1];
         }
 
-        // O(n) with O(4) space
+        // O(n) with O(1) space
         public ulong FibonnaciWithConstantSpace(int n)
         {
             // if we are looking at out of bounds number return 0.
@@ -103,9 +103,15 @@ namespace Problems.DynamicProgramming
             }
 
             var maxPalindrome = s[0].ToString();
-            
+
             // substring -> is it a palindrome?
             var lookup = new Dictionary<string, bool>();
+            lookup.Add("", true);
+
+            foreach (var c in new HashSet<char>(s.ToCharArray()))
+            {
+                lookup.Add(c.ToString(), true);
+            }
 
             for (var size = 2; size <= s.Length; size++)
             {
@@ -115,27 +121,17 @@ namespace Problems.DynamicProgramming
 
                     if (!lookup.ContainsKey(str))
                     {
-                        lookup.TryGetValue(str.Substring(1, str.Length - 2), out var isSubstringPalindrome);
+                        var subStr = str.Substring(1, str.Length - 2);
+                    
+                        lookup.TryGetValue(subStr, out var isSubstringPalindrome);
+                    
+                        var isStrPalindrome = isSubstringPalindrome && str[0] == str[str.Length - 1];
+                    
+                        lookup.Add(str, isStrPalindrome);
 
-                        if (isSubstringPalindrome && str[0] == str[str.Length - 1])
+                        if (isStrPalindrome && str.Length > maxPalindrome.Length)
                         {
-                            lookup.Add(str, true);
-
-                            if (str.Length > maxPalindrome.Length)
-                            {
-                                maxPalindrome = str;
-                            }
-                        }
-                        else
-                        {
-                            var isStrAPalindrome = StringUtility.IsPalindrome(str);
-
-                            if (isStrAPalindrome && str.Length > maxPalindrome.Length)
-                            {
-                                maxPalindrome = str;
-                            }
-
-                            lookup.Add(str, isStrAPalindrome);
+                            maxPalindrome = str;
                         }
                     }
                 }
