@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Common.Utils;
 
 namespace Problems.DynamicProgramming
@@ -61,91 +60,88 @@ namespace Problems.DynamicProgramming
 
             return total;
         }
+        
+        // Time O(n^3)
+        // Space O(1)
+        public string LongestPalindromeBruteForce(string s) 
+        {
+            if (string.IsNullOrEmpty(s)) 
+            {
+                return string.Empty;
+            }
+            
+            var maxPalindrome = s[0].ToString();
+            
+            // O(n^2)
+            for (var size = 2; size <= s.Length; size++)
+            {
+                for (var i = 0; i + size <= s.Length; i++)
+                {
+                    var str = s.Substring(i, size);
 
+                    // O(n)
+                    if (StringUtility.IsPalindrome(str))
+                    {
+                        if (str.Length > maxPalindrome.Length) 
+                        {
+                            maxPalindrome = str;
+                        }
+                    }
+                }
+            }
+
+            return maxPalindrome;
+        }
+
+        // Time O(n^2)
+        // Space O(n)
         public string LongestPalindrome(string s)
         {
-            return null;
-        }
-        
-        public string LongestPalindromeRecurse(string s) 
-        {
-            // IsPalindrome -> O(n)
-            // if string is null or empty return it as it is the largest palindrome.
-            // else if the string is length one it itself is a palindrome.
-            // else if entire string is a palindrome return the original string.
-            if (string.IsNullOrEmpty(s) || s.Length == 1 || StringUtility.IsPalindrome(s))
+            if (string.IsNullOrEmpty(s)) 
             {
-                return s;
+                return string.Empty;
             }
 
-            // O(n)
-            // quickest way to see if all characters in string are unique.
-            // if they are, return first character.
-            if (StringUtility.AreAllCharactersUnique(s))
-            {
-                return s.FirstOrDefault().ToString();
-            }
+            var maxPalindrome = s[0].ToString();
             
-            var lookupTable = new Dictionary<int, HashSet<string>>();
+            // substring -> is it a palindrome?
+            var lookup = new Dictionary<string, bool>();
 
-            //palindromeRecurse(s, null, 0, lookupTable);
-            
-            var uniquePalindromes = new HashSet<string>();
-            
-            // length of max palindrome in between lengths 0 to n - 1;
-            for (var i = s.Length; i >= 0; i--)
+            for (var size = 2; size <= s.Length; size++)
             {
-                if (lookupTable.TryGetValue(i, out uniquePalindromes))
+                for (var i = 0; i + size <= s.Length; i++)
                 {
-                    break;
+                    var str = s.Substring(i, size);
+
+                    if (!lookup.ContainsKey(str))
+                    {
+                        lookup.TryGetValue(str.Substring(1, str.Length - 2), out var isSubstringPalindrome);
+
+                        if (isSubstringPalindrome && str[0] == str[str.Length - 1])
+                        {
+                            lookup.Add(str, true);
+
+                            if (str.Length > maxPalindrome.Length)
+                            {
+                                maxPalindrome = str;
+                            }
+                        }
+                        else
+                        {
+                            var isStrAPalindrome = StringUtility.IsPalindrome(str);
+
+                            if (isStrAPalindrome && str.Length > maxPalindrome.Length)
+                            {
+                                maxPalindrome = str;
+                            }
+
+                            lookup.Add(str, isStrAPalindrome);
+                        }
+                    }
                 }
             }
 
-            // if this has failed return the known palindrome of any string
-            // which is any single character in the string.
-            if (uniquePalindromes == null || uniquePalindromes.Count < 1)
-            {
-                return s.FirstOrDefault().ToString();
-            }
-
-            // doesn't matter which one we return if they are equal length.
-            // instead just return the first one at that max length.
-            return uniquePalindromes.FirstOrDefault();
+            return maxPalindrome;
         }
-
-        /*
-        private void palindromeRecurse(string s, string t, int start, int count, Dictionary<int, HashSet<string>> lookup)
-        {
-            if (string.IsNullOrEmpty(s))
-            {
-                return;
-            }
-            
-            if (IsPalindrome(s.Substring(start, count)))
-            {
-                // lookup:  length -> [ 0th, nth ]
-                if (lookup.ContainsKey(t.Length))
-                {
-                    lookup[t.Length].Add(t);
-                }
-                else
-                {
-                    var set = new HashSet<string> { t };
-                    lookup.Add(t.Length, set);
-                }
-            }
-
-            
-            for (var i = 0; i < s.Length - 1; i++)
-            {
-                var left = s[i];
-                var right = s.Substring(i + 1);
-                
-                palindromeRecurse(right, t + left, lookup);
-            }
-
-            palindromeRecurse(s.Substring(index + 1), t + s[0], index + 1, lookup);
-        }
-        */
     }
 }
