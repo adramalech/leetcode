@@ -269,6 +269,8 @@ namespace Problems.Recursion
             {
                 return results;
             }
+            
+            Array.Sort(candidates);
         
             comboSum(candidates, target, results, new List<int>(), 0, new HashSet<string>());
         
