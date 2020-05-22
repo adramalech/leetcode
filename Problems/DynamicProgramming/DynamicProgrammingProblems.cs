@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Common.Utils;
 
@@ -151,6 +152,27 @@ namespace Problems.DynamicProgramming
             }
 
             return s.Substring(left, length);
+        }
+        
+        public int MaxSubArrayGreedy(int[] nums) 
+        {
+            if (nums == null || nums.Length < 1) 
+            {
+                return 0;
+            }
+
+            int length = nums.Length;
+            int maxSum = nums[0];
+            int sum = nums[0];
+
+            // O(n)
+            for (var i = 1; i < length; i++)
+            {
+                sum = Math.Max(nums[i], nums[i] + sum);
+                maxSum = Math.Max(maxSum, sum);
+            }
+
+            return maxSum;
         }
     }
 }

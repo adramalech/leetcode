@@ -115,6 +115,36 @@ namespace Problems.Test.Recursion
             {
                 Assert.True(expectedResults[i].Equals(actualResult[i]));
             }
-        } 
+        }
+
+        [Fact]
+        public void TestCombinationSum()
+        {
+            // Assigns
+            var recProblems = new RecursionProblems();
+            var nums = new int[] { 2, 3, 6, 7 };
+            var target = 7;
+            var expectedResults = new List<IList<int>>()
+            {
+                new List<int>() { 2, 2, 3 },
+                new List<int>() { 7 }
+            };
+
+            // Act
+            var actualResults = recProblems.CombinationSum(nums, target);
+            
+            // Asserts
+            Assert.Equal<int>(expectedResults.Count, actualResults.Count);
+            
+            for (var i = 0; i < expectedResults.Count; i++)
+            {
+                Assert.Equal<int>(expectedResults[i].Count, actualResults[i].Count);
+                
+                for (var j = 0; j < expectedResults[i].Count; j++)
+                {
+                    Assert.Equal<int>(expectedResults[i][j], actualResults[i][j]);
+                }
+            }
+        }
     }
 }

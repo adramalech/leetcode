@@ -260,5 +260,40 @@ namespace Problems.Recursion
                 generateParens(n, results, result + ")", open, close + 1);
             }
         }
+        
+        public IList<IList<int>> CombinationSum(int[] candidates, int target) 
+        {
+            var results = new List<IList<int>>();
+        
+            if (candidates == null || candidates.Length < 1)
+            {
+                return results;
+            }
+        
+            comboSum(candidates, target, results, new List<int>(), 0, new HashSet<string>());
+        
+            return results;
+        }
+    
+        private void comboSum(int[] c, int target, List<IList<int>> sums, List<int> sumTracking, int curSum, HashSet<string> set)
+        {
+            if (curSum == target)
+            { 
+                if (set.Add(String.Concat(sumTracking.OrderBy(s => s).Select(s => s.ToString()))))
+                {
+                    sums.Add(sumTracking);
+                }
+                
+                return;
+            }
+        
+            for (var i = 0; i < c.Length; i++)
+            {
+                if (curSum + c[i] <= target)
+                {
+                    comboSum(c, target, sums, addElement(sumTracking, c[i]), curSum + c[i], set);
+                }
+            }
+        }
     }
 }

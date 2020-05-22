@@ -67,5 +67,16 @@ namespace Problems.Test.DynamicProgramming
             
             Assert.True(expectedValue.Equals(actualValue));
         }
+
+        [Theory]
+        [InlineData(new int[] { -2, 1, -3, 4, -1, 2, 1, -5, 4 }, 6)]
+        public void TestMaxSubArray(int[] nums, int expectedValue)
+        {
+            var problems = new DynamicProgrammingProblems();
+            
+            var actualValue = problems.MaxSubArrayGreedy(nums);
+            
+            Assert.Equal<int>(expectedValue, actualValue);
+        }
     }
 }
