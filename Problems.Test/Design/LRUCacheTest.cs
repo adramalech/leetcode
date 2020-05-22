@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Problems.Design;
 using Xunit;
 
@@ -10,7 +11,7 @@ namespace Problems.Test.Design
         {
             // set up the cache.
             var cache = new LRUCache(2);
-            
+
             // cache has 1, empty by 1
             cache.Put(1, 1);
             

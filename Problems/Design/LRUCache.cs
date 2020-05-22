@@ -8,7 +8,7 @@ namespace Problems.Design
         public Cache(T value)
         {
             this.value = value;
-            this.timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+            this.timestamp = DateTimeOffset.Now.Ticks;
         }
         
         public T value { get; }
@@ -39,7 +39,7 @@ namespace Problems.Design
             if (this.storage.TryGetValue(key, out var item))
             {
                 // tick reference
-                this.storage[key].timestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
+                this.storage[key].timestamp = DateTimeOffset.Now.Ticks;
                 
                 return item.value;
             }
