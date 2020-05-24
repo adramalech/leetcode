@@ -316,8 +316,8 @@ namespace Problems.Test.Design
             // update 3 with 16, set 3 youngest, 10 is eldest, count = 10
             cache.Put(3, 16);
             
-            
-            Assert.Equal<int>(-1, cache.Get(1));
+            // problem 1 was evicted go back and replay from 1 being evicted this is problem.
+            Assert.Equal<int>(20, cache.Get(1));
             
            
             cache.Put(12, 17);
