@@ -40,6 +40,9 @@ namespace Problems.Design
                     this.storage[key].prev.next = this.storage[key].next;
                     this.storage[key].next.prev = this.storage[key].prev;
 
+                    this.storage[key].next = null;
+                    this.storage[key].prev = null;
+                    
                     this.storage[key].prev = this.head;
                     this.storage[key].next = this.head.next;
                     
@@ -70,11 +73,15 @@ namespace Problems.Design
                     this.storage[key].prev.next = this.storage[key].next;
                     this.storage[key].next.prev = this.storage[key].prev;
 
+                    this.storage[key].next = null;
+                    this.storage[key].prev = null;
+                    
+                    this.storage[key].prev = this.head;
+                    this.storage[key].next = this.head.next;
+                    
                     // move current to between head and head.next.
                     this.head.next.prev = this.storage[key];
                     this.head.next = this.storage[key];
-                    this.storage[key].prev = this.head;
-                    this.storage[key].next = this.head.next;
                 }
             }
             else

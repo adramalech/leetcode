@@ -1,3 +1,5 @@
+using System.Text;
+using Common.Models;
 using Problems.Design;
 using Xunit;
 
@@ -65,7 +67,7 @@ namespace Problems.Test.Design
             
             // add 2 to cache, 3 is eldest. count = 5
             cache.Put(2, 19);
-            
+
             // 2 is already youngest, just return value.
             Assert.Equal<int>(19, cache.Get(2));
             
@@ -234,7 +236,6 @@ namespace Problems.Test.Design
             // update 11 with 30, set 11 youngest, 13 is eldest, count = 10
             cache.Put(11, 30);
             
-            // fails here. expected -1 got 24. (it wasn't evicted properly)
             // 12 was evicted, key not found, return -1
             Assert.Equal<int>(-1, cache.Get(12));
             
