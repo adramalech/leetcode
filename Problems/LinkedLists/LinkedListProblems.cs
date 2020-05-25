@@ -296,5 +296,50 @@ namespace Problems.LinkedLists
             
             return newHead;
         }
+        
+        public SingleLinkedListNode ReverseList(SingleLinkedListNode head) 
+        {
+            SingleLinkedListNode newHead = null;
+            SingleLinkedListNode tmp = null;
+        
+            // O(n)
+            while (head != null)
+            {
+                tmp = new SingleLinkedListNode(head.val); 
+                tmp.next = newHead; 
+                newHead = tmp;
+                head = head.next;
+            }
+        
+            return newHead;
+        }
+    
+        public SingleLinkedListNode ReverseListRecursion(SingleLinkedListNode head)
+        {
+            if (head == null)
+            {
+                return head;
+            }
+        
+            SingleLinkedListNode newHead = null;
+        
+            reverseListRecurse(head, ref newHead);
+        
+            return newHead;
+        }
+    
+        private void reverseListRecurse(SingleLinkedListNode head, ref SingleLinkedListNode newHead)
+        {
+            if (head == null)
+            {
+                return;
+            }
+        
+            var tmp = new SingleLinkedListNode(head.val);
+            tmp.next = newHead;
+            newHead = tmp;
+        
+            reverseListRecurse(head.next, ref newHead);
+        }
     }
 }

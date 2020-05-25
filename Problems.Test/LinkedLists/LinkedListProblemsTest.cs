@@ -121,5 +121,33 @@ namespace Problems.Test.LinkedLists
 
             Assert.True(SingleLinkedListNode.AreListsEqual(expectedResults, actualResults));
         }
+
+        [Theory]
+        [InlineData(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, new int[] {9, 8, 7, 6, 5, 4, 3, 2, 1})]
+        public void TestReverseList(int[] list, int[] expectedOutput)
+        {
+            var linkedListProblems = new LinkedListProblems();
+
+            var input = SingleLinkedListNode.GenerateList(list);
+            var expectedResults = SingleLinkedListNode.GenerateList(expectedOutput);
+            
+            var actualResults = linkedListProblems.ReverseList(input);
+            
+            Assert.True(SingleLinkedListNode.AreListsEqual(expectedResults, actualResults));
+        }
+        
+        [Theory]
+        [InlineData(new int[] {1, 2, 3, 4, 5, 6, 7, 8, 9}, new int[] {9, 8, 7, 6, 5, 4, 3, 2, 1})]
+        public void TestReverseListRecursion(int[] list, int[] expectedOutput)
+        {
+            var linkedListProblems = new LinkedListProblems();
+
+            var input = SingleLinkedListNode.GenerateList(list);
+            var expectedResults = SingleLinkedListNode.GenerateList(expectedOutput);
+            
+            var actualResults = linkedListProblems.ReverseListRecursion(input);
+            
+            Assert.True(SingleLinkedListNode.AreListsEqual(expectedResults, actualResults));
+        }
     }
 }
