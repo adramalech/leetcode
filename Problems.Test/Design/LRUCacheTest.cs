@@ -1,5 +1,3 @@
-using System.Text;
-using Common.Models;
 using Problems.Design;
 using Xunit;
 
@@ -53,13 +51,13 @@ namespace Problems.Test.Design
             // put 3 on the cache which makes 10 eldest. count = 2
             cache.Put(3, 17);
             
-            // put 6 on the cache which 10 is the eldest. count = 3
+            // put 6 in cache which 10 is the eldest. count = 3
             cache.Put(6, 11);
             
-            // update 10 on the stack, 3 is eldest. count = 3
+            // update 10, 3 is eldest. count = 3
             cache.Put(10, 5);
             
-            // put 9 on the stack makes 3 eldest count = 4
+            // put 9 in cache makes 3 eldest count = 4
             cache.Put(9, 10);
 
             // look for key 13 not found return -1
@@ -311,43 +309,67 @@ namespace Problems.Test.Design
             // add 9 with 19, set 9 youngest, evict eldest 6, set 1 eldest, count = 10
             cache.Put(9, 19);
             
-            // add 2 with 15, set 2 youngest, evict eldest 1, set 10 eldest, count = 10
+            // update 2 with 15, set 2 youngest, 1 is eldest, count = 10
             cache.Put(2, 15);
             
-            // update 3 with 16, set 3 youngest, 10 is eldest, count = 10
+            // update 3 with 16, set 3 youngest, 1 is eldest, count = 10
             cache.Put(3, 16);
             
-            // problem 1 was evicted go back and replay from 1 being evicted this is problem.
+            // get 1 return 20, set 1 youngest, eldest is 10.
             Assert.Equal<int>(20, cache.Get(1));
             
-           
+            // add 12 with 17, 12 is youngest, evict 10, eldest is 8, count = 10.
             cache.Put(12, 17);
             
-           
+            // update 9, 9 is youngest, 8 is eldest, count = 10
             cache.Put(9, 1);
             
-            
+            // add 6, 6 is youngest, evict 8, set 7 eldest, count = 10
             cache.Put(6, 19);
             
+            // get key 4, it was evicted, key not found, return -1
             Assert.Equal<int>(-1, cache.Get(4));
             
+            // get 5, set 5 youngest, 7 is eldest
             Assert.Equal<int>(18, cache.Get(5));
             
+            // 5 is already youngest, return 18
             Assert.Equal<int>(18, cache.Get(5));
             
+            // add 8, set 8 youngest, evict 7, set 13 eldest, count = 10
             cache.Put(8, 1);
+            
+            // update 11, 11 is youngest, eldest is 13, count = 10
             cache.Put(11, 7);
+            
+            // update 5, set 5 youngest, eldest is 13, count = 10
             cache.Put(5, 2);
+            
+            // update 9, set 9 youngest, eldest is 13, count =  10
             cache.Put(9, 28);
             
+            // get 1, set 1 youngest, 13 is eldest
             Assert.Equal<int>(20, cache.Get(1));
             
+            // update 2, set 2 youngest, 13 is eldest, count = 10
             cache.Put(2, 2);
+            
+            // add 7, set 7 youngest, evict 13, 3 is eldest, count = 10
             cache.Put(7, 4);
+            
+            // add 4, 4 is youngest, evict 3, set 12 eldest, count = 10
             cache.Put(4, 22);
+            
+            // update 7, 7 is youngest, 12 is eldest, count = 10
             cache.Put(7, 24);
+            
+            // update 9, 9 is youngest, 12 is eldest, count = 10
             cache.Put(9, 26);
+            
+            // add 13, 13 is youngest, evict 12, set 6 eldest, count = 10
             cache.Put(13, 28);
+            
+            // update 11, 6 is eldest, count = 10
             cache.Put(11, 26);
         }
     }
