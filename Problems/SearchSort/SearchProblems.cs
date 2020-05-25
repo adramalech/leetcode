@@ -440,7 +440,7 @@ namespace Problems.SearchSort
             return results;
         }
         
-        public int[][] Merge(int[][] intervals) 
+        public int[][] Merge(int[][] intervals)
         {
             var results = new List<int[]>();
         
@@ -449,43 +449,59 @@ namespace Problems.SearchSort
                 return new int[][]{};
             }
         
-            // sort by first element
-            var inters = intervals.OrderBy(i => i[0]).ToList();
+            var sortedIntervals = intervals.OrderBy(i => i[0]).ToArray();
 
-            var lookup = new Dictionary<int, int[]>();
-        
-            for (var i = 0; i < inters.Count; i++)
+            var i = 0;
+            var j = 1;
+            var length = sortedIntervals.Length;
+
+            while (i < length)
             {
-                lookup.Add(i, inters[i]);
-            }
-        
-            while (lookup.Count > 0)
-            {
-                var current = lookup.First();
-                lookup.Remove(current.Key);
-                var left = current.Value[0];
-                var right = current.Value[1];
-                var max = right;
+                var left = sortedIntervals[i][0];
+                var right = sortedIntervals[i][1];
+                
+                // complete overlap (one range completely encompasses another range.
+                // example [[1, 3], [0, 6]] return [0, 6]
+                // example [[1, 3], [2, 3]] return [1, 3]
+
+                // partial overlap (one range overlaps from one side or other)
+                // example right side - [[1, 3], [2, 4]] return [1, 4], 2 overlaps 1, 3
+                // example left side - [[3, 6], [0, 4]] return [0, 6], 3 overlaps 0, 4
             
-                foreach (var kvp in lookup)
+                // joined overlap (one range next to another range)
+                // example [[1, 4], [4, 7]] return [1, 7]
+                while (j < length)
                 {
-                    if (kvp.Value[0] <= right && max <= kvp.Value[1])
+                    // if we have this i = [2, 5] and j = [1, 7] where 5 > 3
+                    if (right >= sortedIntervals[j][0])
                     {
-                        max = kvp.Value[1];
-                        lookup.Remove(kvp.Key);
+                        // if we have this [2, 5] n = [1, 7] 2 > 1
+                        if (left > sortedIntervals[j][0])
+                        {
+                            left = sortedIntervals[j][0];
+                        }
+
+                        // if we have this [2, 5] n = [1, 7] 5 < 7
+                        if (right < sortedIntervals[j][1])
+                        {
+                            right = sortedIntervals[j][1];
+                        }
+
+                        // go next.
+                        j++;
                     }
                     else
                     {
-                        // we have gone past the max range break out.
+                        // no overlap happened
                         break;
                     }
                 }
                 
-                var result = (max > right) ? new int[] {left, max} : current.Value;
-                
-                results.Add(result);
+                results.Add(new int[] { left, right });
+                i = j;
+                j++;
             }
-        
+            
             return results.ToArray();
         }
     }

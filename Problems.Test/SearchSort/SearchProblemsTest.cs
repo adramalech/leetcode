@@ -180,8 +180,8 @@ namespace Problems.Test.SearchSort
         [Fact]
         public void TestMergeOutOfOrder()
         {
-            var input = new int[2][] {new int[2] {4, 5}, new int[2] {1, 4}};
-            var expectedOutput = new int[1][] {new int[2] {1, 5}};
+            var input = new int[3][] {new int[2] {1, 4}, new int[2] {0, 2}, new int[2] {3, 5}};
+            var expectedOutput = new int[1][] {new int[2] {0, 5}};
             
             var searchProblem = new SearchProblems();
 
