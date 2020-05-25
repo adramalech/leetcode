@@ -130,5 +130,74 @@ namespace Problems.Test.SearchSort
                 Assert.Equal<int>(expected[i], actual[i]);
             }
         }
+
+        [Fact]
+        public void TestMerge()
+        {
+            var input = new int[4][] {new int[2] {1, 3}, new int[2] {2, 6}, new int[2] {8, 10}, new int[2] {15, 18}};
+            var expectedOutput = new int[3][] {new int[2] {1, 6}, new int[2] {8, 10}, new int[2] {15, 18}};
+            
+            var searchProblem = new SearchProblems();
+
+            var actualOutput = searchProblem.Merge(input);
+
+            Assert.Equal<int>(expectedOutput.Length, actualOutput.Length);
+
+            for (var i = 0; i < expectedOutput.Length; i++)
+            {
+                Assert.Equal<int>(expectedOutput[i].Length, actualOutput[i].Length);
+
+                for (var j = 0; j < expectedOutput[i].Length; j++)
+                {
+                    Assert.Equal<int>(expectedOutput[i][j], actualOutput[i][j]);
+                }
+            }
+        }
+        
+        [Fact]
+        public void TestMergeTwo()
+        {
+            var input = new int[2][] {new int[2] {1, 4}, new int[2] {4, 5}};
+            var expectedOutput = new int[1][] {new int[2] {1, 5}};
+            
+            var searchProblem = new SearchProblems();
+
+            var actualOutput = searchProblem.Merge(input);
+
+            Assert.Equal<int>(expectedOutput.Length, actualOutput.Length);
+
+            for (var i = 0; i < expectedOutput.Length; i++)
+            {
+                Assert.Equal<int>(expectedOutput[i].Length, actualOutput[i].Length);
+
+                for (var j = 0; j < expectedOutput[i].Length; j++)
+                {
+                    Assert.Equal<int>(expectedOutput[i][j], actualOutput[i][j]);
+                }
+            }
+        }
+        
+        [Fact]
+        public void TestMergeOutOfOrder()
+        {
+            var input = new int[2][] {new int[2] {4, 5}, new int[2] {1, 4}};
+            var expectedOutput = new int[1][] {new int[2] {1, 5}};
+            
+            var searchProblem = new SearchProblems();
+
+            var actualOutput = searchProblem.Merge(input);
+
+            Assert.Equal<int>(expectedOutput.Length, actualOutput.Length);
+
+            for (var i = 0; i < expectedOutput.Length; i++)
+            {
+                Assert.Equal<int>(expectedOutput[i].Length, actualOutput[i].Length);
+
+                for (var j = 0; j < expectedOutput[i].Length; j++)
+                {
+                    Assert.Equal<int>(expectedOutput[i][j], actualOutput[i][j]);
+                }
+            }
+        }
     }
 }

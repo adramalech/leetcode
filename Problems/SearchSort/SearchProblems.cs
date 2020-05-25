@@ -439,5 +439,54 @@ namespace Problems.SearchSort
 
             return results;
         }
+        
+        public int[][] Merge(int[][] intervals) 
+        {
+            var results = new List<int[]>();
+        
+            if (intervals == null || intervals.Length < 1)
+            {
+                return new int[][]{};
+            }
+        
+            // sort by first element
+            var inters = intervals.OrderBy(i => i[0]).ToList();
+
+            var lookup = new Dictionary<int, int[]>();
+        
+            for (var i = 0; i < inters.Count; i++)
+            {
+                lookup.Add(i, inters[i]);
+            }
+        
+            while (lookup.Count > 0)
+            {
+                var current = lookup.First();
+                lookup.Remove(current.Key);
+                var left = current.Value[0];
+                var right = current.Value[1];
+                var max = right;
+            
+                foreach (var kvp in lookup)
+                {
+                    if (kvp.Value[0] <= right && max <= kvp.Value[1])
+                    {
+                        max = kvp.Value[1];
+                        lookup.Remove(kvp.Key);
+                    }
+                    else
+                    {
+                        // we have gone past the max range break out.
+                        break;
+                    }
+                }
+                
+                var result = (max > right) ? new int[] {left, max} : current.Value;
+                
+                results.Add(result);
+            }
+        
+            return results.ToArray();
+        }
     }
 }

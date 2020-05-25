@@ -78,5 +78,16 @@ namespace Problems.Test.DynamicProgramming
             
             Assert.Equal<int>(expectedValue, actualValue);
         }
+
+        [Theory]
+        [InlineData(new int[] {7, 1, 5, 3, 6, 4}, 5)]
+        public void TestMaxProfit(int[] nums, int expectedMaxValue)
+        {
+            var problems = new DynamicProgrammingProblems();
+
+            var actualMaxValue = problems.MaxProfit(nums);
+            
+            Assert.Equal<int>(expectedMaxValue, actualMaxValue);
+        }
     }
 }
