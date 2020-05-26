@@ -199,5 +199,54 @@ namespace Problems.Test.SearchSort
                 }
             }
         }
+
+        [Fact]
+        public void TestInsert()
+        {
+            //[1,3],[6,9]
+            var intervals = new int[2][] {new int[2] {1, 3}, new int[2] {6, 9}};
+            var newInterval = new int[] {2, 5};
+            var expectedOutput = new int[2][] {new int[2] {1, 5}, new int[2] {6, 9}};
+            
+            var searchProblem = new SearchProblems();
+
+            var actualOutput = searchProblem.Insert(intervals, newInterval);
+
+            Assert.Equal<int>(expectedOutput.Length, actualOutput.Length);
+
+            for (var i = 0; i < expectedOutput.Length; i++)
+            {
+                Assert.Equal<int>(expectedOutput[i].Length, actualOutput[i].Length);
+
+                for (var j = 0; j < expectedOutput[i].Length; j++)
+                {
+                    Assert.Equal<int>(expectedOutput[i][j], actualOutput[i][j]);
+                }
+            }
+        }
+        
+        [Fact]
+        public void TestInsertJoinedIntervals()
+        {
+            var intervals = new int[5][] {new int[2] {1, 2}, new int[2] {3, 5}, new int[2] {6, 7}, new int[2] {8, 10}, new int[2] {12, 16}};
+            var newInterval = new int[] {4, 8};
+            var expectedOutput = new int[3][] {new int[2] {1, 2}, new int[2] {3, 10}, new int[2] {12, 16}};
+            
+            var searchProblem = new SearchProblems();
+
+            var actualOutput = searchProblem.Insert(intervals, newInterval);
+
+            Assert.Equal<int>(expectedOutput.Length, actualOutput.Length);
+
+            for (var i = 0; i < expectedOutput.Length; i++)
+            {
+                Assert.Equal<int>(expectedOutput[i].Length, actualOutput[i].Length);
+
+                for (var j = 0; j < expectedOutput[i].Length; j++)
+                {
+                    Assert.Equal<int>(expectedOutput[i][j], actualOutput[i][j]);
+                }
+            }
+        }
     }
 }

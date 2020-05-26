@@ -13,7 +13,8 @@ namespace Problems.SearchSort
                 return int.MaxValue;
             }
 
-            if (divisor == int.MinValue && dividend != int.MinValue) {
+            if (divisor == int.MinValue && dividend != int.MinValue)
+            {
                 return 0;
             }
 
@@ -29,11 +30,11 @@ namespace Problems.SearchSort
             }
 
             // both numbers must be less than zero or greater than zero to have postive result.
-            var isResultPositive = ((dividend < 0 && divisor < 0) || (dividend > 0  && divisor > 0));
+            var isResultPositive = ((dividend < 0 && divisor < 0) || (dividend > 0 && divisor > 0));
 
             // we want to deal with the numbers and add the sign back later.
-            long abs_dividend = Math.Abs((long)dividend);
-            long abs_divisor =  Math.Abs((long)divisor);
+            long abs_dividend = Math.Abs((long) dividend);
+            long abs_divisor = Math.Abs((long) divisor);
 
             // check if the divisor is greater than dividend fraction always less than 1.
             if (abs_dividend < abs_divisor)
@@ -74,7 +75,7 @@ namespace Problems.SearchSort
                 return int.MaxValue;
             }
 
-            return (isResultPositive ? (int)total : -(int)total);
+            return (isResultPositive ? (int) total : -(int) total);
         }
 
         public int Search(int[] nums, int target)
@@ -144,7 +145,7 @@ namespace Problems.SearchSort
 
         public int[] SearchRange(int[] nums, int target)
         {
-            var indices = new int[] { -1, -1 };
+            var indices = new int[] {-1, -1};
 
             // empty
             if (nums == null || nums.Length < 1)
@@ -269,7 +270,7 @@ namespace Problems.SearchSort
                 }
                 else
                 {
-                    lookup.Add(nums1[i], new List<int>(){ i });
+                    lookup.Add(nums1[i], new List<int>() {i});
                 }
             }
 
@@ -308,7 +309,7 @@ namespace Problems.SearchSort
                     }
                     else
                     {
-                        lookup.Add(nums1[i], new List<int>(){ i });
+                        lookup.Add(nums1[i], new List<int>() {i});
                     }
                 }
 
@@ -333,7 +334,7 @@ namespace Problems.SearchSort
                     }
                     else
                     {
-                        lookup.Add(nums2[i], new List<int>(){ i });
+                        lookup.Add(nums2[i], new List<int>() {i});
                     }
                 }
 
@@ -350,7 +351,7 @@ namespace Problems.SearchSort
 
             return results.ToArray();
         }
-        
+
         // time O(n * log(n))
         // space O(n)
         public bool IsAnagramSort(string s, string t)
@@ -363,13 +364,13 @@ namespace Problems.SearchSort
 
             // O(n)
             var sChars = s.ToCharArray();
-            
+
             // O(n)
             var tChars = t.ToCharArray();
-            
+
             // O(n * log(n))
             Array.Sort(sChars);
-            
+
             // O(n * log(n))
             Array.Sort(tChars);
 
@@ -386,7 +387,7 @@ namespace Problems.SearchSort
             {
                 return false;
             }
-            
+
             var sLookup = new Dictionary<char, int>();
 
             // O(n)
@@ -416,39 +417,39 @@ namespace Problems.SearchSort
             // O(n)
             return sLookup.Values.All(v => v == 0);
         }
-        
-        public IList<int> CountSmallerBruteForce(int[] nums) 
+
+        public IList<int> CountSmallerBruteForce(int[] nums)
         {
             if (nums == null || nums.Length < 1)
             {
-                return new int[] {};
+                return new int[] { };
             }
 
             var results = new int[nums.Length];
             results[nums.Length - 1] = 0;
 
-            var previous = new List<int>() {nums[nums.Length - 1]}; 
+            var previous = new List<int>() {nums[nums.Length - 1]};
 
             // O(n - 1)
             for (var i = nums.Length - 2; i >= 0; i--)
             {
                 results[i] = previous.Count(v => v < nums[i]);
-                
+
                 previous.Add(nums[i]);
             }
 
             return results;
         }
-        
+
         public int[][] Merge(int[][] intervals)
         {
             var results = new List<int[]>();
-        
+
             if (intervals == null || intervals.Length < 1)
             {
-                return new int[][]{};
+                return new int[][] { };
             }
-        
+
             var sortedIntervals = intervals.OrderBy(i => i[0]).ToArray();
 
             var i = 0;
@@ -459,7 +460,7 @@ namespace Problems.SearchSort
             {
                 var left = sortedIntervals[i][0];
                 var right = sortedIntervals[i][1];
-                
+
                 // complete overlap (one range completely encompasses another range.
                 // example [[1, 3], [0, 6]] return [0, 6]
                 // example [[1, 3], [2, 3]] return [1, 3]
@@ -467,7 +468,7 @@ namespace Problems.SearchSort
                 // partial overlap (one range overlaps from one side or other)
                 // example right side - [[1, 3], [2, 4]] return [1, 4], 2 overlaps 1, 3
                 // example left side - [[3, 6], [0, 4]] return [0, 6], 3 overlaps 0, 4
-            
+
                 // joined overlap (one range next to another range)
                 // example [[1, 4], [4, 7]] return [1, 7]
                 while (j < length)
@@ -496,12 +497,106 @@ namespace Problems.SearchSort
                         break;
                     }
                 }
-                
-                results.Add(new int[] { left, right });
+
+                results.Add(new int[] {left, right});
                 i = j;
                 j++;
             }
-            
+
+            return results.ToArray();
+        }
+
+        public int[][] Insert(int[][] intervals, int[] newInterval)
+        {
+            if (intervals == null || intervals.Length < 1)
+            {
+                return new int[1][] { newInterval };
+            }
+
+            var results = new List<int[]>();
+            var length = intervals.Length;
+            var left = newInterval[0];
+            var right = newInterval[1];
+
+            // find the left most index that matches.
+            var i = 0;
+
+            // while left is greater than range add array and increment.
+            while (i < length && intervals[i][1] < left)
+            {
+                results.Add(intervals[i]);
+                i++;
+            }
+
+            // if the new range is before all intervals prepend and return.
+            if (i == 0 && intervals[i][0] > right)
+            {
+                results.Add(newInterval);
+                results.AddRange(intervals);
+                return results.ToArray();
+            }
+
+            // if the new range is after all intervals append and return.
+            if (i >= length)
+            {
+                results.Add(newInterval);
+                return results.ToArray();
+            }
+
+            // if we are between intervals inject the new interval between
+            if (right < intervals[i][0] && left > intervals[i-1][1])
+            {
+                results.Add(newInterval);
+
+                while (i < length)
+                {
+                    results.Add(intervals[i]);
+                    i++;
+                }
+
+                return results.ToArray();
+            }
+
+            // we need to combine all intervals until we cannot combine any longer.
+            if (intervals[i][0] <= left)
+            {
+                left = intervals[i][0];
+            }
+
+            // if the intervals is contained within the current intersected interval.
+            if (intervals[i][1] > right)
+            {
+                results.Add(new int[] { left, intervals[i][1] });
+                i++;
+
+                while (i < length)
+                {
+                    results.Add(intervals[i]);
+                    i++;
+                }
+
+                return results.ToArray();
+            }
+
+            while (i + 1 < length && intervals[i+1][0] <= right)
+            {
+                i++;
+            }
+
+            if (intervals[i][1] > right)
+            {
+                right = intervals[i][1];
+            }
+
+            results.Add(new int[] { left, right });
+            i++;
+
+            while (i < length)
+            {
+                results.Add(intervals[i]);
+                i++;
+            }
+
             return results.ToArray();
         }
     }
