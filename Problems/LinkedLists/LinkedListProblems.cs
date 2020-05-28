@@ -341,5 +341,66 @@ namespace Problems.LinkedLists
         
             reverseListRecurse(head.next, ref newHead);
         }
+        
+        public class Node 
+        {
+            public int val;
+            public Node next;
+            public Node random;
+    
+            public Node(int _val) {
+                val = _val;
+                next = null;
+                random = null;
+            }
+        }
+        
+        public Node CopyRandomList(Node head) 
+        {
+            if (head == null)
+            {
+                return head;
+            }
+        
+            var tmpHead = head;
+        
+            // iterate over the linked list making duplicate nodes.
+            while (tmpHead != null) 
+            {
+                var tmp = new Node(tmpHead.val);
+                tmp.next = tmpHead.next;
+                tmpHead.next = tmp;
+                tmpHead = tmp.next;
+            }  
+        
+            // reset to head.
+            tmpHead = head;
+        
+            // set new random pointers
+            while (tmpHead != null)
+            {
+                tmpHead.next.random = tmpHead.random?.next;
+                tmpHead = tmpHead.next.next;
+            }
+        
+            // split the new copy from existing.
+            var oldList = head;
+            var newList = head.next;
+            var list = head.next;
+        
+            while (oldList != null)
+            {
+                oldList.next = oldList.next.next;
+                oldList = oldList.next;
+
+                if (newList != null)
+                {
+                    newList.next = newList.next?.next;
+                    newList = newList.next;
+                }
+            }
+        
+            return list;
+        }
     }
 }

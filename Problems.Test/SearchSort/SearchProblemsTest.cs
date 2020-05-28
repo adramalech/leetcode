@@ -203,7 +203,6 @@ namespace Problems.Test.SearchSort
         [Fact]
         public void TestInsert()
         {
-            //[1,3],[6,9]
             var intervals = new int[2][] {new int[2] {1, 3}, new int[2] {6, 9}};
             var newInterval = new int[] {2, 5};
             var expectedOutput = new int[2][] {new int[2] {1, 5}, new int[2] {6, 9}};
