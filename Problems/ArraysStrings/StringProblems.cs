@@ -897,7 +897,7 @@ namespace Problems.ArraysStrings
 
     public string MinWindow(string s, string t)
     {
-      // if t is longer than s, or either are empty/null than return empty string. 
+      // if t is longer than s, or either are empty/null than return empty string.
       if (string.IsNullOrEmpty(s) || string.IsNullOrEmpty(t) || s.Length < t.Length)
       {
         return string.Empty;
@@ -983,7 +983,7 @@ namespace Problems.ArraysStrings
         curSize = right - left + 1;
       }
 
-      // if the size found is zero by not finding anything, 
+      // if the size found is zero by not finding anything,
       // then we should return empty string, else return the window we found.
       return (minSize < 1) ? string.Empty : s.Substring(minLeft, minSize);
     }
@@ -1223,6 +1223,73 @@ namespace Problems.ArraysStrings
       }
 
       return storage.Count == 0;
+    }
+
+    public string AddStrings(string num1, string num2)
+    {
+      var sum = "";
+      var i = num1.Length - 1;
+      var j = num2.Length - 1;
+      var tmpSum = 0;
+      var carry = 0;
+      var digit = 0;
+
+      // iterate over list.
+      while (i >= 0 && j >= 0)
+      {
+        tmpSum = atoi(num1[i]) + atoi(num2[j]) + carry;
+        digit = tmpSum % 10;
+        sum = digit + sum;
+        carry = tmpSum / 10;
+        i--;
+        j--;
+      }
+
+      // if the num1 is longer
+      while (i >= 0)
+      {
+        tmpSum = atoi(num1[i]) + carry;
+        digit = tmpSum % 10;
+        sum = digit + sum;
+        carry = tmpSum / 10;
+        i--;
+      }
+
+
+      // if the num2 is longer
+      while (j >= 0)
+      {
+        tmpSum = atoi(num2[j]) + carry;
+        digit = tmpSum % 10;
+        sum = digit + sum;
+        carry = tmpSum / 10;
+        j--;
+      }
+
+      // if we have a trailing carry
+      if (carry > 0)
+      {
+        sum = carry + sum;
+      }
+
+      return sum;
+    }
+
+    private int atoi(char c)
+    {
+      return c switch
+      {
+        '0' => 0,
+        '1' => 1,
+        '2' => 2,
+        '3' => 3,
+        '4' => 4,
+        '5' => 5,
+        '6' => 6,
+        '7' => 7,
+        '8' => 8,
+        '9' => 9,
+      };
     }
   }
 }

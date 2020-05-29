@@ -29,7 +29,7 @@ namespace Problems.Test.ArraysStrings
           var strProblems = new StringProblems();
 
           var actualLength = strProblems.Atoi(s);
-          
+
           Assert.Equal<int>(expectedValue, actualLength);
         }
 
@@ -45,7 +45,7 @@ namespace Problems.Test.ArraysStrings
           var strProblems = new StringProblems();
 
           var actualValue = strProblems.RomanNumerialToInt(s);
-          
+
           Assert.Equal<int>(expectedValue, actualValue);
         }
 
@@ -58,7 +58,7 @@ namespace Problems.Test.ArraysStrings
         [InlineData("1324523457575434", "1", "1324523457575434")]
         [InlineData("4", "5", "20")]
         [InlineData("20", "6", "120")]
-        [InlineData("10", "10", "100")] 
+        [InlineData("10", "10", "100")]
         [InlineData("100", "200", "20000")]
         [InlineData("123", "456", "56088")]
         [InlineData("999", "999", "998001")]
@@ -70,10 +70,10 @@ namespace Problems.Test.ArraysStrings
             var strProblems = new StringProblems();
 
             var actualValue = strProblems.Multiply(num1, num2);
-          
+
             Assert.True(expectedValue.Equals(actualValue));
         }
-        
+
         [Theory]
         [InlineData(0, 0)]
         [InlineData(1, 0)]
@@ -85,12 +85,12 @@ namespace Problems.Test.ArraysStrings
         public void TestCarry(int num, int expectedValue)
         {
             var strProblems = new StringProblems();
-            
+
             var actualValue = strProblems.carry(num);
-          
+
             Assert.Equal<int>(expectedValue, actualValue);
         }
-        
+
         [Theory]
         [InlineData(0, 0)]
         [InlineData(11, 1)]
@@ -102,12 +102,12 @@ namespace Problems.Test.ArraysStrings
         public void TestDigit(int num, int expectedValue)
         {
             var strProblems = new StringProblems();
-            
+
             var actualValue = strProblems.digit(num);
-          
+
             Assert.Equal<int>(expectedValue, actualValue);
         }
-        
+
         [Theory]
         [InlineData('0', '9', 0)]
         [InlineData('9', '5', 45)]
@@ -120,9 +120,9 @@ namespace Problems.Test.ArraysStrings
         public void TestMulti(char digit1, char digit2, int expectedValue)
         {
             var strProblems = new StringProblems();
-            
+
             var actualValue = strProblems.multi(digit1, digit2);
-          
+
             Assert.Equal<int>(expectedValue, actualValue);
         }
 
@@ -137,10 +137,10 @@ namespace Problems.Test.ArraysStrings
             var strProblems = new StringProblems();
 
             var actualResult = strProblems.isStringPairAnagram(s1, s2);
-            
+
             Assert.Equal<bool>(expectedResult, actualResult);
         }
-        
+
         [Theory]
         [InlineData(new string [] { "" }, 1)]
         [InlineData(new string [] { "", ""}, 1)]
@@ -158,12 +158,12 @@ namespace Problems.Test.ArraysStrings
             var strProblems = new StringProblems();
 
             var actualResult = strProblems.GroupAnagrams(strs);
-            
+
             Assert.NotNull(actualResult);
             Assert.NotEmpty(actualResult);
             Assert.Equal<int>(expectedCount, actualResult.Count);
         }
-        
+
         [Theory]
         [InlineData(new string [] { "" }, 1)]
         [InlineData(new string [] { "", ""}, 1)]
@@ -181,7 +181,7 @@ namespace Problems.Test.ArraysStrings
             var strProblems = new StringProblems();
 
             var actualResult = strProblems.GroupAnagrams2(strs);
-            
+
             Assert.NotNull(actualResult);
             Assert.NotEmpty(actualResult);
             Assert.Equal<int>(expectedCount, actualResult.Count);
@@ -200,7 +200,7 @@ namespace Problems.Test.ArraysStrings
             var strProblems = new StringProblems();
 
             var actualResult = strProblems.AddBinary(a, b);
-            
+
             Assert.True(expectedResult.Equals(actualResult));
         }
 
@@ -224,7 +224,7 @@ namespace Problems.Test.ArraysStrings
 
             Assert.True(expectedResult.Equals(actualResult));
         }
-        
+
         [Theory]
         [InlineData("abcdefhi", "afi", "abcdefhi")]
         [InlineData("abcdefhi", "aef", "abcdef")]
@@ -236,10 +236,10 @@ namespace Problems.Test.ArraysStrings
             var stringProblems = new StringProblems();
 
             var actualResult = stringProblems.MinWindow(s, t);
-            
+
             Assert.True(expectedResult.Equals(actualResult));
         }
-        
+
         [Theory]
         [InlineData("", "", true)]
         [InlineData("#", "#", true)]
@@ -250,10 +250,10 @@ namespace Problems.Test.ArraysStrings
             var stringProblems = new StringProblems();
 
             var actualResult = stringProblems.BackspaceCompare(S, T);
-            
+
             Assert.Equal<bool>(expectedResult, actualResult);
         }
-        
+
         [Theory]
         [InlineData("", "", true)]
         [InlineData("#", "#", true)]
@@ -268,7 +268,7 @@ namespace Problems.Test.ArraysStrings
             var stringProblems = new StringProblems();
 
             var actualResult = stringProblems.BackspaceCompareConstantSpace(S, T);
-            
+
             Assert.Equal<bool>(expectedResult, actualResult);
         }
 
@@ -280,7 +280,7 @@ namespace Problems.Test.ArraysStrings
             var stringProblems = new StringProblems();
 
             var actualResult = stringProblems.RepeatedSubstringPattern(s);
-            
+
             Assert.Equal<bool>(expectedResult, actualResult);
         }
 
@@ -299,8 +299,23 @@ namespace Problems.Test.ArraysStrings
             var stringProblems = new StringProblems();
 
             var actualResult = stringProblems.IsValid(s);
-            
+
             Assert.Equal<bool>(expectedResult, actualResult);
+        }
+
+        [Theory]
+        [InlineData("0", "0", "0")]
+        [InlineData("9", "9", "18")]
+        [InlineData("101", "10", "111")]
+        [InlineData("1000", "123", "1123")]
+        [InlineData("5000", "5000", "10000")]
+        public void TestAddStrings(string num1, string num2, string expectedResult)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualResult = stringProblems.AddStrings(num1, num2);
+
+            Assert.True(expectedResult.Equals(actualResult));
         }
     }
 }
