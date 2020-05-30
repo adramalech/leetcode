@@ -13,12 +13,12 @@ namespace Problems.Test.ArraysStrings
             var arrayProblems = new ArrayProblems();
 
             var list = arrayProblems.ThreeSums(nums);
-            
+
             Assert.NotNull(list);
             Assert.NotEmpty(list);
 
             var actualCount = list.Count;
-            
+
             Assert.True(actualCount == count);
         }
 
@@ -35,7 +35,7 @@ namespace Problems.Test.ArraysStrings
         {
             var arrayProblems = new ArrayProblems();
             var actualLength = arrayProblems.RemoveDuplicates(nums);
-            
+
             Assert.Equal<int>(size, actualLength);
         }
 
@@ -52,7 +52,7 @@ namespace Problems.Test.ArraysStrings
             Assert.NotEmpty(actualResults);
             Assert.Equal<int>(expectedCount, actualResults.Length);
         }
-        
+
         [Theory]
         [InlineData(new int[] { 1, 2, 3, 4 }, 4)]
         [InlineData(new int [] { -1, 1 }, 2)]
@@ -66,7 +66,7 @@ namespace Problems.Test.ArraysStrings
             Assert.NotEmpty(actualResults);
             Assert.Equal<int>(expectedCount, actualResults.Length);
         }
-        
+
         [Theory]
         [InlineData(new int[] { 1, 2, 3, 4 }, 4)]
         [InlineData(new int [] { -1, 1 }, 2)]
@@ -80,7 +80,7 @@ namespace Problems.Test.ArraysStrings
             Assert.NotEmpty(actualResults);
             Assert.Equal<int>(expectedCount, actualResults.Length);
         }
-        
+
         [Theory]
         [InlineData(null, 0)]
         [InlineData(new int[] { 5, 6 }, 5)] // 1 * 5 = 10
@@ -91,7 +91,7 @@ namespace Problems.Test.ArraysStrings
             var arrayProblems = new ArrayProblems();
 
             var actualMaxArea = arrayProblems.MaxArea(nums);
-            
+
             Assert.Equal<int>(expectedMaxArea, actualMaxArea);
         }
 
@@ -116,9 +116,9 @@ namespace Problems.Test.ArraysStrings
         {
             var nums = new int[2][] { new int[] {1, 2}, new int[] {3, 4} };
             var expectedOutput = new int[2][] { new int[] {3, 1}, new int[] {4, 2} };
-            
+
             var arrayProblems = new ArrayProblems();
-            
+
             arrayProblems.Rotate(ref nums);
 
             // check for equality in 2d array.
@@ -130,15 +130,15 @@ namespace Problems.Test.ArraysStrings
                 }
             }
         }
-        
+
         [Fact]
         public void TestRotateSimple3By3()
         {
             var nums = new int[3][] { new int[] {1, 2, 3}, new int[] {4, 5, 6}, new int[] {7, 8, 9} };
             var expectedOutput = new int[3][] { new int[] {7, 4, 1}, new int[] {8, 5, 2}, new int[] {9, 6, 3} };
-            
+
             var arrayProblems = new ArrayProblems();
-            
+
             arrayProblems.Rotate(ref nums);
 
             // check for equality in 2d array.
@@ -160,7 +160,7 @@ namespace Problems.Test.ArraysStrings
             var actualResult = arrayProblems.TwoSum(nums, target);
 
             Assert.Equal<int>(expectedResult.Length, actualResult.Length);
-            
+
             for (var i = 0; i < 2; i++)
             {
                 Assert.Equal<int>(expectedResult[i], actualResult[i]);
@@ -176,8 +176,27 @@ namespace Problems.Test.ArraysStrings
             var arrayProblems = new ArrayProblems();
 
             var actualResult = arrayProblems.FindKthLargest(nums, k);
-            
+
             Assert.Equal<int>(expectedResult, actualResult);
+        }
+
+        [Theory]
+        [InlineData(new int[] { 0 }, new int[] { 1 })]
+        [InlineData(new int[] { 9 }, new int[] { 1, 0 })]
+        [InlineData(new int[] { 1, 2, 3, 4 }, new int[] { 1, 2, 3, 5 })]
+        [InlineData(new int[] { 9, 9, 9, 9, 9 }, new int[] { 1, 0, 0, 0, 0, 0 })]
+        public void TestPlusOne(int[] digits, int[] expectedResult)
+        {
+            var arrayProblems = new ArrayProblems();
+
+            var actualResult = arrayProblems.PlusOne(digits);
+
+            Assert.Equal<int>(expectedResult.Length, actualResult.Length);
+
+            for (var i = 0; i < expectedResult.Length; i++)
+            {
+                Assert.Equal<int>(expectedResult[i], actualResult[i]);
+            }
         }
     }
 }
