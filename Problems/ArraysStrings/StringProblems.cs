@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Common.Utils;
 
 namespace Problems.ArraysStrings
@@ -1290,6 +1291,64 @@ namespace Problems.ArraysStrings
         '8' => 8,
         '9' => 9,
       };
+    }
+
+    // time O(n + m)
+    // space O(n)
+    public int NumUniqueEmails(string[] emails)
+    {
+        if (emails == null || emails.Length < 1)
+        {
+            return 0;
+        }
+
+        // email address -> count
+        var set = new HashSet<string>();
+
+        // O(n)
+        foreach (var email in emails)
+        {
+          // O(m)
+          set.Add(formatEmailAddress(email));
+        }
+
+        return set.Count;
+    }
+
+    private string formatEmailAddress(string emailAddress)
+    {
+      const char IGNORE = '+';
+      const char COMBINE = '.';
+
+      // splits into two parts
+      var parts = emailAddress.Split('@');
+
+      var end = "@" + parts[1];
+
+      var formattedUserName = new StringBuilder();
+
+      // parts[0] is username might contain . or +
+      foreach (var c in parts[0])
+      {
+        // if we see ignore break.
+        if (c == IGNORE)
+        {
+          break;
+        }
+
+        // if combine skip
+        if (c == COMBINE)
+        {
+          continue;
+        }
+
+        // we see not an ignore or a combine we append characters.
+        formattedUserName.Append(c.ToString());
+      }
+
+      formattedUserName.Append(end);
+
+      return formattedUserName.ToString();
     }
   }
 }

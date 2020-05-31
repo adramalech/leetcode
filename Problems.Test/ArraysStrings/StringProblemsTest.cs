@@ -317,5 +317,16 @@ namespace Problems.Test.ArraysStrings
 
             Assert.True(expectedResult.Equals(actualResult));
         }
+
+        [Theory]
+        [InlineData(new string[] { "test.email+alex@leetcode.com", "test.e.mail+bob.cathy@leetcode.com", "testemail+david@lee.tcode.com" }, 2)]
+        public void TestNumUniqueEmails(string[] emails, int expectedCount)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualCount = stringProblems.NumUniqueEmails(emails);
+
+            Assert.Equal<int>(expectedCount, actualCount);
+        }
     }
 }
