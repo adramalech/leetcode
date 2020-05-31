@@ -328,5 +328,17 @@ namespace Problems.Test.ArraysStrings
 
             Assert.Equal<int>(expectedCount, actualCount);
         }
+
+        [Theory]
+        [InlineData("heeellooo", new string[] { "hello", "hi", "helo" }, 1)]
+        [InlineData("dddiiiinnssssssoooo", new string[] { "dinnssoo", "ddinso", "ddiinnso", "ddiinnssoo", "ddiinso", "dinsoo", "ddiinsso", "dinssoo", "dinso" }, 3)]
+        public void TestExpressiveWords(string S, string[] words, int expectedCount)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualCount = stringProblems.ExpressiveWords(S, words);
+
+            Assert.Equal<int>(expectedCount, actualCount);
+        }
     }
 }

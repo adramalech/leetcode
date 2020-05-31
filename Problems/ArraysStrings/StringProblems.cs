@@ -1350,5 +1350,96 @@ namespace Problems.ArraysStrings
 
       return formattedUserName.ToString();
     }
+
+    public int ExpressiveWords(string S, string[] words)
+    {
+      var totalCount = 0;
+      var sLookup = new Dictionary<char, int>();
+
+      // O(S)
+      foreach (var c in S)
+      {
+        if (sLookup.ContainsKey(c))
+        {
+          sLookup[c]++;
+        }
+        else
+        {
+          sLookup.Add(c, 1);
+        }
+      }
+
+      // O(n)
+      foreach (var word in words)
+      {
+        if (wordStretchy(S, word))
+        {
+          totalCount++;
+        }
+      }
+
+      return totalCount;
+    }
+
+    private bool wordStretchy(string S, string word)
+    {
+      var i = 0;
+      var j = 0;
+
+      if (word.Length >= S.Length)
+      {
+        return false;
+      }
+
+      while (i < S.Length && j < word.Length)
+      {
+        // while word doesn't match return false.
+        if (S[i] != word[j])
+        {
+          return false;
+        }
+
+        // find where the next non-repeated character is.
+        // k will end at a new character that doesn't match.
+        // count will have total number of characters.
+        var k = i;
+        while (k < S.Length && S[k] == S[i])
+        {
+          k++;
+        }
+
+        // find where the next non-repeated character is.
+        // l will end at a new character that doesn't match.
+        // count will have total number of characters.
+        var l = j;
+        while (l < word.Length && word[l] == word[j])
+        {
+          l++;
+        }
+
+        var countS = k - i;
+        var countW = l - j;
+
+        // if the character is repeated more in word return false.
+        // or if the counts are different and the S count is less than 3 return false.
+        if ((countS < countW) || (countS != countW && countS < 3))
+        {
+          return false;
+        }
+
+        // set i and j to new characters
+        i = k;
+        j = l;
+      }
+
+      // if we both reached the end then return true.
+      if (i == S.Length && j == word.Length)
+      {
+        return true;
+      }
+
+      // otherwise we return false if one side reached end and other side did not!
+      return false;
+    }
   }
 }
