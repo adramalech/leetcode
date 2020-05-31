@@ -9,7 +9,7 @@ namespace Problems.Recursion
         public IList<string> LetterCombinations(string digits)
         {
             var result = new List<string>();
-      
+
             if (string.IsNullOrEmpty(digits))
             {
                 return result;
@@ -19,7 +19,7 @@ namespace Problems.Recursion
 
             return result;
         }
-        
+
         private void combo(string digits, int index, string str, ref List<string> results)
         {
             if (index >= digits.Length)
@@ -33,7 +33,7 @@ namespace Problems.Recursion
                 combo(digits, index + 1, str + s, ref results);
             }
         }
-    
+
         private string[] keypadDigitLookup(char num)
         {
             return num switch
@@ -56,15 +56,15 @@ namespace Problems.Recursion
             {
                 return new List<string>() { s };
             }
-            
+
             var results = new Dictionary<int, HashSet<string>>();
             var length = s.Length;
-            
+
             checkParentheses(s, 0, results);
-            
+
             // find the minimal count return that list.
             var result = new List<string>();
-            
+
             for (var i = 0; i <= length; i++)
             {
                 if (results.ContainsKey(i))
@@ -86,7 +86,7 @@ namespace Problems.Recursion
             }
 
             var count = 0;
-            
+
             foreach (var c in s)
             {
                 switch (c)
@@ -108,7 +108,7 @@ namespace Problems.Recursion
 
             return (count == 0);
         }
-        
+
         private void checkParentheses(string s, int count, Dictionary<int, HashSet<string>> results)
         {
             // base case if it is valid add it.
@@ -122,12 +122,12 @@ namespace Problems.Recursion
                 {
                     results.Add(count, new HashSet<string>() { s });
                 }
-                
+
                 return;
             }
 
             var unique = new HashSet<string>();
-            
+
             for (var i = 0; i < s.Length; i++)
             {
                 // skip if not parentheses we are removing
@@ -149,7 +149,7 @@ namespace Problems.Recursion
             var results = new List<IList<int>>();
 
             perm(nums.ToList(), new List<int>(), results);
-            
+
             return results;
         }
 
@@ -160,7 +160,7 @@ namespace Problems.Recursion
                 results.Add(p);
                 return;
             }
-            
+
             for (var i = 0; i < nums.Count; i++)
             {
                 perm(removeElement(nums, i), addElement(p, nums[i]), results);
@@ -184,7 +184,7 @@ namespace Problems.Recursion
         public IList<IList<int>> PermuteUnique(int[] nums)
         {
             var results = new List<IList<int>>();
-            
+
             if (nums == null)
             {
                 return results;
@@ -201,15 +201,15 @@ namespace Problems.Recursion
         }
 
         /*
-         
+
          start with [1, 2, 1, 1]
-         
+
          [1] [1, 1, 2]                             [2] [1, 1, 1]
-         
+
          [1, 1] [1, 2],  [1, 2] [1, 1]             [2, 1] [1, 1]
-        
+
          unique  constraint on fanning out.  repeated same value skip.
-          
+
          */
         private void uniquePerm(List<int> nums, List<int> p, List<IList<int>> results)
         {
@@ -232,63 +232,63 @@ namespace Problems.Recursion
                 uniquePerm(removeElement(nums, i), addElement(p, nums[i]), results);
             }
         }
-        
-        public IList<string> GenerateParenthesis(int n) 
+
+        public IList<string> GenerateParenthesis(int n)
         {
             var results = new List<string>();
-        
+
             generateParens(n, results, "", 0, 0);
-        
+
             return results;
         }
-    
+
         private void generateParens(int n, IList<string> results, string result, int open, int close)
         {
-            if (result.Count() == n * 2) 
+            if (result.Count() == n * 2)
             {
                 results.Add(result);
                 return;
             }
 
-            if (open < n) 
+            if (open < n)
             {
                 generateParens(n, results, result + "(", open + 1, close);
             }
-        
+
             if (close < open)
             {
                 generateParens(n, results, result + ")", open, close + 1);
             }
         }
-        
-        public IList<IList<int>> CombinationSum(int[] candidates, int target) 
+
+        public IList<IList<int>> CombinationSum(int[] candidates, int target)
         {
             var results = new List<IList<int>>();
-        
+
             if (candidates == null || candidates.Length < 1)
             {
                 return results;
             }
-            
+
             Array.Sort(candidates);
-        
+
             comboSum(candidates, target, results, new List<int>(), 0, new HashSet<string>());
-        
+
             return results;
         }
-    
+
         private void comboSum(int[] c, int target, List<IList<int>> sums, List<int> sumTracking, int curSum, HashSet<string> set)
         {
             if (curSum == target)
-            { 
+            {
                 if (set.Add(String.Concat(sumTracking.OrderBy(s => s).Select(s => s.ToString()))))
                 {
                     sums.Add(sumTracking);
                 }
-                
+
                 return;
             }
-        
+
             for (var i = 0; i < c.Length; i++)
             {
                 if (curSum + c[i] <= target)

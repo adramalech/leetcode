@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Common.Models
 {
     public class BinaryTreeNode
@@ -16,7 +18,7 @@ namespace Common.Models
         public static BinaryTreeNode CreateBinaryTree(int?[] nums)
         {
             BinaryTreeNode root = null;
-            
+
             if (nums != null && nums.Length > 0)
             {
                 createBinaryTree(nums, 0, ref root);
@@ -38,6 +40,18 @@ namespace Common.Models
                 createBinaryTree(nums, 2 * index + 1, ref root.left);
                 createBinaryTree(nums, 2 * index + 2, ref root.right);
             }
+        }
+
+        public static IList<BinaryTreeNode> CreateBinaryTreeForest(int?[][] nums)
+        {
+            var results = new List<BinaryTreeNode>();
+
+            foreach (var num in nums)
+            {
+                results.Add(CreateBinaryTree(num));
+            }
+
+            return results;
         }
     }
 }
