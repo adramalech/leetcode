@@ -80,12 +80,27 @@ namespace Problems.Test.TreesGraphs
         }
 
         [Fact]
-        public void TestDelNodes()
+        public void TestDelNodesEasy()
         {
             var root = BinaryTreeNode.CreateBinaryTree(new int?[] { 1, 2, 3, 4, 5, 6, 7 });
             var to_delete = new int[] { 3, 5 };
 
             var expectedForest = BinaryTreeNode.CreateBinaryTreeForest(new int?[3][] { new int?[1] { 6 }, new int?[1] { 7 }, new int?[4] { 1, 2, null, 4 } });
+
+            var treeProblems = new TreeProblems();
+
+            var actualForest = treeProblems.DelNodes(root, to_delete);
+
+            Assert.Equal<int>(expectedForest.Count, actualForest.Count);
+        }
+
+        [Fact]
+        public void TestDelNodesParentAndChild()
+        {
+            var root = BinaryTreeNode.CreateBinaryTree(new int?[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+            var to_delete = new int[] { 2, 5 };
+
+            var expectedForest = BinaryTreeNode.CreateBinaryTreeForest(new int?[2][] { new int?[3] { 4, 8, 9 }, new int?[5] { 1, null, 3, 6, 7 } });
 
             var treeProblems = new TreeProblems();
 

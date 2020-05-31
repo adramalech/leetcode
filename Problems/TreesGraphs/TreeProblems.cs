@@ -163,26 +163,28 @@ namespace Problems.TreesGraphs
 
             var results = new List<BinaryTreeNode>();
 
-            foreach (var deleteNum in to_delete)
-            {
-                root = deleteNodes(root, deleteNum, results);
-            }
+            root = deleteNodes(root, to_delete, results);
 
-            results.Add(root);
+            if (root != null)
+            {
+                results.Add(root);
+            }
 
             return results;
         }
 
-        private BinaryTreeNode deleteNodes(BinaryTreeNode root, int deleteNum, List<BinaryTreeNode> results)
+        private BinaryTreeNode deleteNodes(BinaryTreeNode root, IList<int> deleteNums, List<BinaryTreeNode> results)
         {
             if (root == null)
             {
                 return null;
             }
 
-            if (root.val == deleteNum)
+            if (deleteNums.Contains(root.val))
             {
-                // if it has children add both children and return.
+                root.left = deleteNodes(root.left, deleteNums, results);
+                root.right = deleteNodes(root.right, deleteNums, results);
+
                 if (root.left != null)
                 {
                     results.Add(root.left);
@@ -196,8 +198,8 @@ namespace Problems.TreesGraphs
                 return null;
             }
 
-            root.left = deleteNodes(root.left, deleteNum, results);
-            root.right = deleteNodes(root.right, deleteNum, results);
+            root.left = deleteNodes(root.left, deleteNums, results);
+            root.right = deleteNodes(root.right, deleteNums, results);
 
             return root;
         }
