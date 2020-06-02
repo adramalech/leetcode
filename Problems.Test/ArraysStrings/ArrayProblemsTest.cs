@@ -210,5 +210,19 @@ namespace Problems.Test.ArraysStrings
 
             Assert.True(expectedResult == actualResult);
         }
+
+        [Theory]
+        [InlineData(new int[] { 3, 2, 1, 2, 3, 4, 3, 4, 5, 9, 10, 11 }, 3, true)]
+        [InlineData(new int[] { 1, 2, 3, 3, 4, 4, 5, 6 }, 4, true)]
+        [InlineData(new int[] { 3, 3, 2, 2, 1, 1 }, 3, true)]
+        [InlineData(new int[] { 1, 2, 3, 4 }, 3, false)]
+        public void TestIsPossibleDivide(int[] nums, int k, bool expectedResult)
+        {
+            var arrayProblems = new ArrayProblems();
+
+            var actualResult = arrayProblems.IsPossibleDivide(nums, k);
+
+            Assert.True(expectedResult == actualResult);
+        }
     }
 }

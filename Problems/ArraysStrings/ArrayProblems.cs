@@ -555,9 +555,6 @@ namespace Problems.ArraysStrings
                 return false;
             }
 
-            var max = int.MinValue;
-            var min = int.MaxValue;
-
             // min...max of (value -> occurances)
             var lookup = new SortedDictionary<int, int>();
 
@@ -571,16 +568,6 @@ namespace Problems.ArraysStrings
                 else
                 {
                     lookup.Add(h, 1);
-                }
-
-                if (max < h)
-                {
-                    max = h;
-                }
-
-                if (min > h)
-                {
-                    min = h;
                 }
             }
 
@@ -621,6 +608,137 @@ namespace Problems.ArraysStrings
 
                     countW++;
                     current++;
+                }
+            }
+
+            return true;
+        }
+
+        public bool IsPossible(int[] nums)
+        {
+            const int MAX = 3;
+
+            if (nums == null || nums.Length < 3)
+            {
+                return false;
+            }
+
+            var lookup = new SortedDictionary<int, int>();
+
+            // O(n)
+            foreach (var n in nums)
+            {
+                if (lookup.ContainsKey(n))
+                {
+                    lookup[n]++;
+                }
+                else
+                {
+                    lookup.Add(n, 1);
+                }
+            }
+
+            var grouping = lookup.Count() / MAX;
+
+            while (lookup.Count > 0)
+            {
+                var num = lookup.Keys.FirstOrDefault();
+
+                if (lookup[num] < 2)
+                {
+                    lookup.Remove(num);
+                }
+                else
+                {
+                    lookup[num]--;
+                }
+
+                var count = 1;
+
+                while (lookup.ContainsKey(num + 1))
+                {
+                    count++;
+                    num++;
+
+                    if (lookup[num] < 2)
+                    {
+                        lookup.Remove(num);
+                    }
+                    else
+                    {
+                        lookup[num]--;
+                    }
+
+                    if (count == 3)
+                    {
+                        break;
+                    }
+                }
+
+                if (count < MAX)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public bool IsPossibleDivide(int[] nums, int k)
+        {
+            if (nums == null || nums.Length < 1 || k < 1 || nums.Length < k)
+            {
+                return false;
+            }
+
+            var lookup = new SortedDictionary<int, int>();
+
+            // O(n)
+            foreach (var n in nums)
+            {
+                if (lookup.ContainsKey(n))
+                {
+                    lookup[n]++;
+                }
+                else
+                {
+                    lookup.Add(n, 1);
+                }
+            }
+
+            // O(n)
+            while (lookup.Count > 0)
+            {
+                var current = lookup.Keys.FirstOrDefault();
+                var count = 1;
+
+                if (lookup[current] > 1)
+                {
+                    lookup[current]--;
+                }
+                else
+                {
+                    lookup.Remove(current);
+                }
+
+                while (count < k && lookup.ContainsKey(current + 1))
+                {
+                    current++;
+                    count++;
+
+                    if (lookup[current] > 1)
+                    {
+                        lookup[current]--;
+                    }
+                    else
+                    {
+                        lookup.Remove(current);
+                    }
+                }
+
+                if (count != k)
+                {
+                    return false;
                 }
             }
 
