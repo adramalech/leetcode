@@ -584,7 +584,6 @@ namespace Problems.ArraysStrings
                 }
             }
 
-            var count = 0;
             var countW = 0;
             var current = 0;
 
@@ -600,7 +599,6 @@ namespace Problems.ArraysStrings
                 {
                     lookup[current]--;
                 }
-
 
                 current++;
                 countW = 1;
@@ -624,11 +622,9 @@ namespace Problems.ArraysStrings
                     countW++;
                     current++;
                 }
-
-                count++;
             }
 
-            return count == W;
+            return true;
         }
     }
 }
