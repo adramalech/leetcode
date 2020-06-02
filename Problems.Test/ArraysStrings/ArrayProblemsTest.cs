@@ -198,5 +198,17 @@ namespace Problems.Test.ArraysStrings
                 Assert.Equal<int>(expectedResult[i], actualResult[i]);
             }
         }
+
+        [Theory]
+        [InlineData(new int[] { 1, 2, 3, 6, 2, 3, 4, 7, 8 }, 3, true)]
+        [InlineData(new int[] { 1, 2, 3, 4, 5, 6 }, 2, true)]
+        public void TestIsNStraightHand(int[] hand, int W, bool expectedResult)
+        {
+            var arrayProblems = new ArrayProblems();
+
+            var actualResult = arrayProblems.IsNStraightHand(hand, W);
+
+            Assert.True(expectedResult == actualResult);
+        }
     }
 }

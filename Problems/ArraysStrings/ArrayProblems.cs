@@ -547,5 +547,88 @@ namespace Problems.ArraysStrings
 
             return digits;
         }
+
+        public bool IsNStraightHand(int[] hand, int W)
+        {
+            if (hand == null || hand.Length < 1 || W < 1)
+            {
+                return false;
+            }
+
+            var max = int.MinValue;
+            var min = int.MaxValue;
+
+            // min...max of (value -> occurances)
+            var lookup = new SortedDictionary<int, int>();
+
+            // O(n)
+            foreach (var h in hand)
+            {
+                if (lookup.ContainsKey(h))
+                {
+                    lookup[h]++;
+                }
+                else
+                {
+                    lookup.Add(h, 1);
+                }
+
+                if (max < h)
+                {
+                    max = h;
+                }
+
+                if (min > h)
+                {
+                    min = h;
+                }
+            }
+
+            var count = 0;
+            var countW = 0;
+            var current = 0;
+
+            while (lookup.Count > 0)
+            {
+                current = lookup.Keys.FirstOrDefault();
+
+                if (lookup[current] < 2)
+                {
+                    lookup.Remove(current);
+                }
+                else
+                {
+                    lookup[current]--;
+                }
+
+
+                current++;
+                countW = 1;
+
+                while (countW < W)
+                {
+                    if (!lookup.ContainsKey(current))
+                    {
+                        return false;
+                    }
+
+                    if (lookup[current] < 2)
+                    {
+                        lookup.Remove(current);
+                    }
+                    else
+                    {
+                        lookup[current]--;
+                    }
+
+                    countW++;
+                    current++;
+                }
+
+                count++;
+            }
+
+            return count == W;
+        }
     }
 }
