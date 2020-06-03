@@ -212,6 +212,20 @@ namespace Problems.Test.ArraysStrings
         }
 
         [Theory]
+        [InlineData(new int[] { 1, 2, 3, 3, 4, 4, 5, 5 }, true)]
+        [InlineData(new int[] { 1, 2, 3, 3, 4, 5 }, true)]
+        [InlineData(new int[] { 4, 5, 6, 7, 7, 8, 8, 9, 10, 11 }, true)]
+        [InlineData(new int[] { 1, 2, 3, 4, 5, 6, 6, 7, 8, 9 }, true)]
+        public void TestIsPossible(int[] nums, bool expectedResult)
+        {
+            var arrayProblems = new ArrayProblems();
+
+            var actualResult = arrayProblems.IsPossible(nums);
+
+            Assert.True(expectedResult == actualResult);
+        }
+
+        [Theory]
         [InlineData(new int[] { 3, 2, 1, 2, 3, 4, 3, 4, 5, 9, 10, 11 }, 3, true)]
         [InlineData(new int[] { 1, 2, 3, 3, 4, 4, 5, 6 }, 4, true)]
         [InlineData(new int[] { 3, 3, 2, 2, 1, 1 }, 3, true)]

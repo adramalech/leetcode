@@ -618,10 +618,23 @@ namespace Problems.ArraysStrings
         {
             const int MAX = 3;
 
-            if (nums == null || nums.Length < 3)
+            if (nums == null || nums.Length < MAX)
             {
                 return false;
             }
+
+            var countGrouping = nums.Length / MAX;
+
+            if (countGrouping < 1)
+            {
+                return false;
+            }
+
+            // if remainderCount is greater than zero we must have
+            // more than 3 in at least one grouping.
+            var remainderCount = nums.Length % MAX;
+
+            var willHaveMoreThanThree = (remainderCount > 0);
 
             var lookup = new SortedDictionary<int, int>();
 
@@ -637,8 +650,6 @@ namespace Problems.ArraysStrings
                     lookup.Add(n, 1);
                 }
             }
-
-            var grouping = lookup.Count() / MAX;
 
             while (lookup.Count > 0)
             {
@@ -669,9 +680,21 @@ namespace Problems.ArraysStrings
                         lookup[num]--;
                     }
 
-                    if (count == 3)
+                    if (!willHaveMoreThanThree && count == MAX)
                     {
                         break;
+                    }
+
+                    // if the remainder count is greater than zero and we can fit more than 3
+                    // add more but only to the remainder count to allow for it to grow.
+                    if (willHaveMoreThanThree && count > MAX && remainderCount > 0)
+                    {
+                        remainderCount--;
+
+                        if (remainderCount == 0)
+                        {
+                            break;
+                        }
                     }
                 }
 
