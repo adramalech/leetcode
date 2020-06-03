@@ -623,19 +623,6 @@ namespace Problems.ArraysStrings
                 return false;
             }
 
-            var countGrouping = nums.Length / MAX;
-
-            if (countGrouping < 1)
-            {
-                return false;
-            }
-
-            // if remainderCount is greater than zero we must have
-            // more than 3 in at least one grouping.
-            var remainderCount = nums.Length % MAX;
-
-            var willHaveMoreThanThree = (remainderCount > 0);
-
             var lookup = new SortedDictionary<int, int>();
 
             // O(n)
@@ -651,56 +638,61 @@ namespace Problems.ArraysStrings
                 }
             }
 
-            while (lookup.Count > 0)
+            var futureLookup = new SortedDictionary<int, int>();
+
+            foreach (var n in nums)
             {
-                var num = lookup.Keys.FirstOrDefault();
-
-                if (lookup[num] < 2)
+                // if we have processed this number pass.
+                if (lookup[n] == 0)
                 {
-                    lookup.Remove(num);
-                }
-                else
-                {
-                    lookup[num]--;
+                    continue;
                 }
 
-                var count = 1;
-
-                while (lookup.ContainsKey(num + 1))
+                // if we have found this number and it is found in future lookup
+                // it will join on existing grouping.
+                if (futureLookup.ContainsKey(n) && futureLookup[n] > 0)
                 {
-                    count++;
-                    num++;
+                    futureLookup[n]--;
+                    lookup[n]--;
 
-                    if (lookup[num] < 2)
+                    // add to future the next value
+                    if (futureLookup.ContainsKey(n + 1))
                     {
-                        lookup.Remove(num);
+                        futureLookup[n + 1]++;
                     }
                     else
                     {
-                        lookup[num]--;
+                        futureLookup.Add(n + 1, 1);
                     }
 
-                    if (!willHaveMoreThanThree && count == MAX)
-                    {
-                        break;
-                    }
-
-                    // if the remainder count is greater than zero and we can fit more than 3
-                    // add more but only to the remainder count to allow for it to grow.
-                    if (willHaveMoreThanThree && count > MAX && remainderCount > 0)
-                    {
-                        remainderCount--;
-
-                        if (remainderCount == 0)
-                        {
-                            break;
-                        }
-                    }
+                    continue;
                 }
 
-                if (count < MAX)
+                //else we must find a grouping of three.
+                var limit = n + MAX;
+                var current = n;
+
+                // find the next two sub-sequences values
+                // current + 1 and current + 2.
+                while (current < limit)
                 {
-                    return false;
+                    if (!lookup.ContainsKey(current) || lookup[current] == 0)
+                    {
+                        return false;
+                    }
+
+                    lookup[current]--;
+                    current++;
+                }
+
+                // put in future lookup the 4th value if we might add it.
+                if (!futureLookup.ContainsKey(current))
+                {
+                    futureLookup.Add(current, 1);
+                }
+                else
+                {
+                    futureLookup[current]++;
                 }
             }
 

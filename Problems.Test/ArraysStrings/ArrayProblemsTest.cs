@@ -214,6 +214,7 @@ namespace Problems.Test.ArraysStrings
         [Theory]
         [InlineData(new int[] { 1, 2, 3, 3, 4, 4, 5, 5 }, true)]
         [InlineData(new int[] { 1, 2, 3, 3, 4, 5 }, true)]
+        [InlineData(new int[] { 1, 2, 3, 4, 4, 5 }, false)]
         [InlineData(new int[] { 4, 5, 6, 7, 7, 8, 8, 9, 10, 11 }, true)]
         [InlineData(new int[] { 1, 2, 3, 4, 5, 6, 6, 7, 8, 9 }, true)]
         public void TestIsPossible(int[] nums, bool expectedResult)
