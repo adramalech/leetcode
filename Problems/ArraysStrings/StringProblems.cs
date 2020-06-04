@@ -1449,13 +1449,15 @@ namespace Problems.ArraysStrings
           return false;
       }
 
-      var length = str1.Length;
+      if (str1.Equals(str2)) {
+          return true;
+      }
 
       // char seen -> char to transform
       var lookup = new Dictionary<char, char>();
 
       // O(n)
-      for (var i = 0; i < length; i++)
+      for (var i = 0; i < str1.Length; i++)
       {
         if (lookup.ContainsKey(str1[i]) && lookup[str1[i]] != str2[i])
         {
@@ -1467,15 +1469,12 @@ namespace Problems.ArraysStrings
           {
             lookup.Add(str1[i], str2[i]);
           }
-
-          //if (str1[i] != str2[i] && !lookup.ContainsKey(str2[i]))
-          //{
-          //  lookup.Add(str2[i], str1[i]);
-          //}
         }
       }
 
-      return true;
+      var set = new HashSet<char>(lookup.Values);
+
+      return set.Count < 26;
     }
   }
 }
