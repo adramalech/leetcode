@@ -1441,5 +1441,41 @@ namespace Problems.ArraysStrings
       // otherwise we return false if one side reached end and other side did not!
       return false;
     }
+
+    public bool CanConvert(string str1, string str2)
+    {
+      if (string.IsNullOrEmpty(str1) || string.IsNullOrEmpty(str2) || str1.Length != str2.Length)
+      {
+          return false;
+      }
+
+      var length = str1.Length;
+
+      // char seen -> char to transform
+      var lookup = new Dictionary<char, char>();
+
+      // O(n)
+      for (var i = 0; i < length; i++)
+      {
+        if (lookup.ContainsKey(str1[i]) && lookup[str1[i]] != str2[i])
+        {
+          return false;
+        }
+        else
+        {
+          if (!lookup.ContainsKey(str1[i]))
+          {
+            lookup.Add(str1[i], str2[i]);
+          }
+
+          //if (str1[i] != str2[i] && !lookup.ContainsKey(str2[i]))
+          //{
+          //  lookup.Add(str2[i], str1[i]);
+          //}
+        }
+      }
+
+      return true;
+    }
   }
 }

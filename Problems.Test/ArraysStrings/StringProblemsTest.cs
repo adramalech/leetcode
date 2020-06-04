@@ -340,5 +340,18 @@ namespace Problems.Test.ArraysStrings
 
             Assert.Equal<int>(expectedCount, actualCount);
         }
+
+        [Theory]
+        [InlineData("aabcc", "ccdee", true)]
+        [InlineData("leetcode", "codeleet", false)]
+        [InlineData("abcdefghijklmnopqrstuvwxyz", "bcdefghijklmnopqrstuvwxyza", false)]
+        public void TestCanConvert(string str1, string str2, bool expectedResult)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualResult = stringProblems.CanConvert(str1, str2);
+
+            Assert.True(expectedResult == actualResult);
+        }
     }
 }
