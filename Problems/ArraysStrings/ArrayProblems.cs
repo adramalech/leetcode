@@ -759,5 +759,40 @@ namespace Problems.ArraysStrings
 
             return true;
         }
+
+        public int MinDominoRotations(int[] A, int[] B)
+        {
+            if (A[0] != B[0])
+            {
+                return Math.Max(count(A, B, A[0]), count(A, B, B[0]));
+            }
+
+            return count(A, B, A[0]);
+        }
+
+        private int count(int[] A, int[] B, int num)
+        {
+            var rotationsCountA = 0;
+            var rotationsCountB = 0;
+
+            for (var i = 0; i < A.Length; i++)
+            {
+                if (A[i] != num && B[i] != num)
+                {
+                    return -1;
+                }
+
+                if (A[i] != num)
+                {
+                    rotationsCountA++;
+                }
+                else if (B[i] != num)
+                {
+                    rotationsCountB++;
+                }
+            }
+
+            return Math.Min(rotationsCountA, rotationsCountB);
+        }
     }
 }

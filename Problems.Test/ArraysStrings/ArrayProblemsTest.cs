@@ -239,5 +239,17 @@ namespace Problems.Test.ArraysStrings
 
             Assert.True(expectedResult == actualResult);
         }
+
+        [Theory]
+        [InlineData(new int[] { 2, 1, 2, 4, 2, 2 }, new int[] { 5, 2, 6, 2, 3, 2 }, 2)]
+        [InlineData(new int[] { 1, 2, 1, 1, 1, 2, 2, 2 }, new int[] { 2, 1, 2, 2, 2, 2, 2, 2 }, 1)]
+        public void TestMinDominoRotations(int[] num1, int[] num2, int expectedCount)
+        {
+            var arrayProblems = new ArrayProblems();
+
+            var actualCount = arrayProblems.MinDominoRotations(num1, num2);
+
+            Assert.Equal<int>(expectedCount, actualCount);
+        }
     }
 }
