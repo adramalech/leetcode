@@ -1522,5 +1522,89 @@ namespace Problems.ArraysStrings
 
       return $"{numBulls}A{numCows}B";
     }
+
+    public class HoursMinutes
+    {
+      public readonly string hours;
+      public readonly string minutes;
+
+      public HoursMinutes(string hours, string minutes)
+      {
+        this.hours = hours;
+        this.minutes = minutes;
+      }
+
+      public override string ToString()
+      {
+        return $"{this.hours}:{this.minutes}";
+      }
+
+      public float Difference(HoursMinutes hm)
+      {
+        var thisHours = int.Parse(this.hours);
+        var thisMinutes = int.Parse(this.minutes);
+        var hmHours = int.Parse(hm.hours);
+        var hmMinutes = int.Parse(hm.minutes);
+        var minutesSum = (hmMinutes + thisMinutes);
+        var minutes = minutesSum % 60;
+        var hours = hmHours + thisHours - 24;
+        var hoursMinutes = (minutesSum / 60);
+        float minutesHours = ((float)minutes / (float)60);
+
+        return hours + hoursMinutes + minutesHours;
+      }
+    }
+
+    public string NextClosestTime(string time)
+    {
+      var array = time.Replace(":", "").ToCharArray();
+      var tokenizedStr = time.Split(':');
+      var originalTime = new HoursMinutes(tokenizedStr[0], tokenizedStr[1]);
+      var digits = new HashSet<char>(array);
+      var timeList = new List<HoursMinutes>();
+
+      closeTimeRec(digits, ref timeList, "");
+
+      var minTime = time;
+      var minHours = float.MaxValue;
+
+      foreach (var t in timeList)
+      {
+        var hours = t.Difference(originalTime);
+
+        if (minHours > hours)
+        {
+          minHours = hours;
+          minTime = t.ToString();
+        }
+      }
+
+      return minTime;
+    }
+
+    private void closeTimeRec(HashSet<char> symbols, ref List<HoursMinutes> results, string time)
+    {
+      if (time.Length == 4)
+      {
+        results.Add(new HoursMinutes(time.Substring(0,2), time.Substring(2, 2)));
+        return;
+      }
+
+      foreach (var s in symbols)
+      {
+        // filter out bad times should wrap around 23:59
+        if (
+          time.Length == 0 && s > '2' ||
+          time.Length == 1 && time[0] == '2' && s > '3' ||
+          time.Length == 2 && s > '5')
+        {
+          continue;
+        }
+
+        closeTimeRec(symbols, ref results, time + s);
+      }
+    }
+
+
   }
 }

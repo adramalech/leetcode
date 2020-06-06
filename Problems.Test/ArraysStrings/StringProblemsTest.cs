@@ -364,5 +364,17 @@ namespace Problems.Test.ArraysStrings
 
             Assert.True(expectedOutput.Equals(actualOutput));
         }
+
+        [Theory]
+        //[InlineData("19:34", "19:39")]
+        [InlineData("23:59", "22:22")]
+        public void TestNextClosestTime(string time, string expectedTime)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualTime = stringProblems.NextClosestTime(time);
+
+            Assert.True(expectedTime.Equals(actualTime));
+        }
     }
 }
