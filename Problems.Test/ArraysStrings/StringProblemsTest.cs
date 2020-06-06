@@ -366,8 +366,9 @@ namespace Problems.Test.ArraysStrings
         }
 
         [Theory]
+        [InlineData("13:55", "15:11")]
         //[InlineData("19:34", "19:39")]
-        [InlineData("23:59", "22:22")]
+        //[InlineData("23:59", "22:22")]
         public void TestNextClosestTime(string time, string expectedTime)
         {
             var stringProblems = new StringProblems();

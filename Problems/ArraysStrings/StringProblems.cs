@@ -1543,15 +1543,33 @@ namespace Problems.ArraysStrings
       {
         var thisHours = int.Parse(this.hours);
         var thisMinutes = int.Parse(this.minutes);
+
         var hmHours = int.Parse(hm.hours);
         var hmMinutes = int.Parse(hm.minutes);
-        var minutesSum = (hmMinutes + thisMinutes);
-        var minutes = minutesSum % 60;
-        var hours = hmHours + thisHours - 24;
-        var hoursMinutes = (minutesSum / 60);
-        float minutesHours = ((float)minutes / (float)60);
 
-        return hours + hoursMinutes + minutesHours;
+        if (thisHours <= hmHours)
+        {
+          if (thisHours == hmHours && thisMinutes > hmMinutes)
+          {
+            return (float)24 - (float)(thisMinutes - hmMinutes)/(float)60;
+          }
+
+          var m1 = (thisHours * 60) + thisMinutes;
+          var m2 = (hmHours * 60) + hmMinutes;
+
+          return (float)(m2 - m1)/(float)60;
+        }
+        else // wraps around.
+        {
+          float m1 = (float)(59 - thisMinutes)/(float)60;
+          float h1 = 23 - thisHours;
+          float t1 = h1 + m1;
+
+          float m2 = (float)hmMinutes/(float)60;
+          float t2 = hmHours + m2;
+
+          return t1 + t2;
+        }
       }
     }
 
@@ -1568,11 +1586,18 @@ namespace Problems.ArraysStrings
       var minTime = time;
       var minHours = float.MaxValue;
 
+      var debugLookup = new Dictionary<string, float>();
+
       foreach (var t in timeList)
       {
-        var hours = t.Difference(originalTime);
+        var hours = originalTime.Difference(t);
 
-        if (minHours > hours)
+        if (!debugLookup.ContainsKey(t.ToString()))
+        {
+          debugLookup.Add(t.ToString(), hours);
+        }
+
+        if (minHours > hours && hours != 0)
         {
           minHours = hours;
           minTime = t.ToString();
@@ -1604,7 +1629,5 @@ namespace Problems.ArraysStrings
         closeTimeRec(symbols, ref results, time + s);
       }
     }
-
-
   }
 }
