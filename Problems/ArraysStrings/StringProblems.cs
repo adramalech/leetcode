@@ -1476,5 +1476,51 @@ namespace Problems.ArraysStrings
 
       return set.Count < 26;
     }
+
+    public string GetHint(string secret, string guess)
+    {
+      int numCows = 0;
+      int numBulls = 0;
+      var secretLookup = new Dictionary<char, int>();
+
+      // O(n)
+      foreach (var s in secret)
+      {
+        if (secretLookup.ContainsKey(s))
+        {
+          secretLookup[s]++;
+        }
+        else
+        {
+          secretLookup.Add(s, 1);
+        }
+      }
+
+      var trackBulls = new bool[secret.Length];
+
+
+      // O(n)
+      for (var i = 0; i < guess.Length; i++)
+      {
+        if (secret[i] == guess[i])
+        {
+          numBulls++;
+          secretLookup[secret[i]]--;
+          trackBulls[i] = true;
+        }
+      }
+
+      // O(n)
+      for (var i = 0; i < guess.Length; i++)
+      {
+        if (!trackBulls[i] && secretLookup.ContainsKey(guess[i]) && secretLookup[guess[i]] > 0)
+        {
+          numCows++;
+          secretLookup[guess[i]]--;
+        }
+      }
+
+      return $"{numBulls}A{numCows}B";
+    }
   }
 }

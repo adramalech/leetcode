@@ -353,5 +353,16 @@ namespace Problems.Test.ArraysStrings
 
             Assert.True(expectedResult == actualResult);
         }
+
+        [Theory]
+        [InlineData("11", "10", "1A0B" )]
+        public void TestGetHint(string secret, string guess, string expectedOutput)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualOutput = stringProblems.GetHint(secret, guess);
+
+            Assert.True(expectedOutput.Equals(actualOutput));
+        }
     }
 }
