@@ -1629,5 +1629,54 @@ namespace Problems.ArraysStrings
         closeTimeRec(symbols, ref results, time + s);
       }
     }
+
+    public int[] NumSmallerByFrequency(string[] queries, string[] words)
+    {
+      var wordLookup = new Dictionary<string, int>();
+      var queryLookup = new Dictionary<string, int>();
+
+      // O(n)
+      foreach (var query in queries)
+      {
+        if (!queryLookup.ContainsKey(query))
+        {
+          //O(q)
+          queryLookup.Add(query, MinCharCountInString(query));
+        }
+      }
+
+      //O(m)
+      foreach (var word in words)
+      {
+        if (!queryLookup.ContainsKey(word))
+        {
+          //O(w)
+          queryLookup.Add(word, MinCharCountInString(word));
+        }
+      }
+
+      return null;
+    }
+
+    private int MinCharCountInString(string str)
+    {
+      var c = char.MaxValue;
+      var count = 0;
+
+      foreach (var s in str)
+      {
+        if (c > s)
+        {
+          c = s;
+          count = 1;
+        }
+        else if (c == s)
+        {
+          count++;
+        }
+      }
+
+      return count;
+    }
   }
 }
