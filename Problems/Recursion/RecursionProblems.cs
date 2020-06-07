@@ -297,5 +297,30 @@ namespace Problems.Recursion
                 }
             }
         }
+
+        public string CrackSafe(int n, int k)
+        {
+            var symbols = new List<string>();
+
+            generateSymbols(n, k, ref symbols, "");
+
+
+            return symbols.FirstOrDefault();
+        }
+
+        // O(n^k)
+        private void generateSymbols(int n, int k, ref List<string> results, string result)
+        {
+            if (result.Length >= n)
+            {
+                results.Add(result);
+                return;
+            }
+
+            for (var i = 0; i < k; i++)
+            {
+                generateSymbols(n, k, ref results, result + i);
+            }
+        }
     }
 }

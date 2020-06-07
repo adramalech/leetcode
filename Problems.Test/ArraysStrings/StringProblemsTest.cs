@@ -1,5 +1,6 @@
 using Xunit;
 using Problems.ArraysStrings;
+using Common.Models;
 
 namespace Problems.Test.ArraysStrings
 {
@@ -380,7 +381,7 @@ namespace Problems.Test.ArraysStrings
 
         [Theory]
         [InlineData(new string[] { "cbd" }, new string[] { "zaaaz" }, new int[] { 1 })]
-        public void Test(string[] queries, string[] words, int[] expectedResult)
+        public void TestNumSmallerByFrequency(string[] queries, string[] words, int[] expectedResult)
         {
             var stringProblems = new StringProblems();
 
@@ -392,6 +393,19 @@ namespace Problems.Test.ArraysStrings
             {
                 Assert.Equal<int>(expectedResult[i], actualResult[i]);
             }
+        }
+
+        [Theory]
+        [InlineData(new string[] { "acckzz", "ccbazz", "eiowzz", "abcczz" }, "acckzz")]
+        public void TestFindSecretWord(string[] wordlist, string secret)
+        {
+            var stringProblems = new StringProblems();
+
+            var master = new Master(secret);
+
+            var actualResult = stringProblems.FindSecretWord(wordlist, master);
+
+            Assert.True(secret.Equals(actualResult));
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Common.Models;
 using Common.Utils;
 
 namespace Problems.ArraysStrings
@@ -1685,6 +1686,99 @@ namespace Problems.ArraysStrings
           count = 1;
         }
         else if (c == s)
+        {
+          count++;
+        }
+      }
+
+      return count;
+    }
+
+    // this is just a mock that will be used to fake the implementation
+    public string FindSecretWord(string[] wordlist, Master master)
+    {
+      var limitGuesses = 10;
+      var goal = 6;
+      var guessTries = 0;
+      var guessResult = 0;
+      var length =  wordlist.Length;
+      var guess = "";
+      Dictionary<string, int> countLookup;
+
+      // O(6 * n^2 + 6 * n)
+      while (guessTries < limitGuesses && guessResult < goal)
+      {
+        countLookup = new Dictionary<string, int>();
+
+        // O(n^2)
+        for (var i = 0; i < length; i++)
+        {
+          for (var j = 0; j < length; j++)
+          {
+            if (i == j)
+            {
+              continue;
+            }
+
+            if (matchWord(wordlist[i], wordlist[j]) == 0)
+            {
+              if (countLookup.ContainsKey(wordlist[i]))
+              {
+                countLookup[wordlist[i]]++;
+              }
+              else
+              {
+                countLookup.Add(wordlist[i], 1);
+              }
+            }
+          }
+        }
+
+        var min = int.MaxValue;
+        guess = "";
+
+        // find min count match that way we can elimiate worst first
+        // narrowing down to best matches.
+        // O(n)
+        for (var i = 0; i < length; i++)
+        {
+          var matchCount = 0;
+          countLookup.TryGetValue(wordlist[i], out matchCount);
+
+          if (min > matchCount)
+          {
+            min = matchCount;
+            guess = wordlist[i];
+          }
+        }
+
+        guessResult = master.guess(guess);
+
+        var newWordlist = new List<string>();
+
+        // O(n)
+        for (var i = 0; i < length; i++)
+        {
+          if (matchWord(guess, wordlist[i]) == guessResult)
+          {
+            newWordlist.Add(wordlist[i]);
+          }
+        }
+
+        wordlist = newWordlist.ToArray();
+        length = wordlist.Length;
+      }
+
+      return guess;
+    }
+
+    private int matchWord(string str1, string str2)
+    {
+      int count = 0;
+
+      for (var i = 0; i < str1.Length; i++)
+      {
+        if (str1[i] == str2[i])
         {
           count++;
         }
