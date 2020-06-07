@@ -255,7 +255,19 @@ namespace Problems.Test.ArraysStrings
         [Theory]
         [InlineData(new int[] { 1, 1, 1 }, 2, 2)]
         [InlineData(new int[] { -1, -1, 1 }, 0, 1)]
-        public void Test(int[] nums, int k, int expectedCount)
+        public void TestSubarraySumBruteForce(int[] nums, int k, int expectedCount)
+        {
+            var arrayProblems = new ArrayProblems();
+
+            var actualCount = arrayProblems.SubarraySumBruteForce(nums, k);
+
+            Assert.Equal<int>(expectedCount, actualCount);
+        }
+
+        [Theory]
+        [InlineData(new int[] { 1, 1, 1 }, 2, 2)]
+        [InlineData(new int[] { -1, -1, 1 }, 0, 1)]
+        public void TestSubarraySumLinear(int[] nums, int k, int expectedCount)
         {
             var arrayProblems = new ArrayProblems();
 

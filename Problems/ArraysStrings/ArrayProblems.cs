@@ -795,10 +795,16 @@ namespace Problems.ArraysStrings
             return Math.Min(rotationsCountA, rotationsCountB);
         }
 
-        public int SubarraySum(int[] nums, int k)
+        // Time O(n^2)
+        // Space O(1)
+        public int SubarraySumBruteForce(int[] nums, int k)
         {
-            // sums -> frequency of sums.
-            var lookup = new Dictionary<int, int>();
+            var count = 0;
+
+            if (nums == null || nums.Length < 1)
+            {
+                return count;
+            }
 
             for (var i = 0; i < nums.Length; i++)
             {
@@ -806,21 +812,60 @@ namespace Problems.ArraysStrings
                 {
                     var sum = (i == j) ? nums[i] : sumOfSubArray(nums, i, j);
 
-                    if (lookup.ContainsKey(sum))
+                    if (sum == k)
                     {
-                        lookup[sum]++;
-                    }
-                    else
-                    {
-                        lookup.Add(sum, 1);
+                        count++;
                     }
                 }
             }
 
-            // try and get frequency of sum that is equal to value k.
-            // else if not found return 0.
+            return count;
+        }
+
+        // Time O(n)
+        // Space O(n)
+        public int SubarraySum(int[] nums, int k)
+        {
+            // the frequency total we will return as solution.
             var count = 0;
-            lookup.TryGetValue(k, out count);
+
+            if (nums == null || nums.Length < 1)
+            {
+                return count;
+            }
+
+            // sums -> frequency of sums.
+            var lookup = new Dictionary<int, int>();
+
+            // seed that we can assume length 0 array has sum 0 with frequency 1
+            lookup.Add(0, 1);
+
+            // used to store current sum of iteration.
+            var sum = 0;
+            // used to see difference.
+            var diff = 0;
+
+            // O(n)
+            for (var i = 0; i < nums.Length; i++)
+            {
+                sum += nums[i];
+                diff = sum - k;
+
+                if (lookup.ContainsKey(diff))
+                {
+                    count += lookup[diff];
+                }
+
+                if (lookup.ContainsKey(sum))
+                {
+                    lookup[sum]++;
+                }
+                else
+                {
+                    lookup.Add(sum, 1);
+                }
+            }
+
             return count;
         }
 
