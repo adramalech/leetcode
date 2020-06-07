@@ -377,5 +377,21 @@ namespace Problems.Test.ArraysStrings
 
             Assert.True(expectedTime.Equals(actualTime));
         }
+
+        [Theory]
+        [InlineData(new string[] { "cbd" }, new string[] { "zaaaz" }, new int[] { 1 })]
+        public void Test(string[] queries, string[] words, int[] expectedResult)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualResult = stringProblems.NumSmallerByFrequency(queries, words);
+
+            Assert.Equal<int>(expectedResult.Length, actualResult.Length);
+
+            for (var i = 0; i < expectedResult.Length; i++)
+            {
+                Assert.Equal<int>(expectedResult[i], actualResult[i]);
+            }
+        }
     }
 }
