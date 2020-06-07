@@ -794,5 +794,46 @@ namespace Problems.ArraysStrings
 
             return Math.Min(rotationsCountA, rotationsCountB);
         }
+
+        public int SubarraySum(int[] nums, int k)
+        {
+            // sums -> frequency of sums.
+            var lookup = new Dictionary<int, int>();
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                for (var j = i; j < nums.Length; j++)
+                {
+                    var sum = (i == j) ? nums[i] : sumOfSubArray(nums, i, j);
+
+                    if (lookup.ContainsKey(sum))
+                    {
+                        lookup[sum]++;
+                    }
+                    else
+                    {
+                        lookup.Add(sum, 1);
+                    }
+                }
+            }
+
+            // try and get frequency of sum that is equal to value k.
+            // else if not found return 0.
+            var count = 0;
+            lookup.TryGetValue(k, out count);
+            return count;
+        }
+
+        private int sumOfSubArray(int[] nums, int left, int right)
+        {
+            int sum = 0;
+
+            for (var i = left; i <= right; i++)
+            {
+                sum += nums[i];
+            }
+
+            return sum;
+        }
     }
 }
