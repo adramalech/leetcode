@@ -1632,21 +1632,41 @@ namespace Problems.ArraysStrings
 
     public int[] NumSmallerByFrequency(string[] queries, string[] words)
     {
-      var queryMinCharCounts = new int[queries.Length];
       var wordsMinCharCounts = new int[words.Length];
       var results = new int[queries.Length];
 
       //O(m)
-      for (var i = 0 ; i < words.Length; i++)
+      for (var i = 0; i < words.Length; i++)
       {
         wordsMinCharCounts[i] = MinCharCountInString(words[i]);
       }
 
-      // O(n * m)
-      for (var i = 0 ; i < queries.Length; i++)
+      // O(m * log(m))
+      Array.Sort(wordsMinCharCounts);
+
+      // O(n * log(m))
+      for (var i = 0; i < queries.Length; i++)
       {
-        queryMinCharCounts[i] = MinCharCountInString(queries[i]);
-        results[i] = wordsMinCharCounts.Count(c => c > queryMinCharCounts[i]);
+        var count = MinCharCountInString(queries[i]);
+        var left = 0;
+        var right = words.Length - 1;
+
+        // log(m)
+        while (left <= right)
+        {
+          var middle = left + (right - left) / 2;
+
+          if (wordsMinCharCounts[middle] <= count)
+          {
+            left = middle + 1;
+          }
+          else
+          {
+            right = middle - 1;
+          }
+        }
+
+        results[i] = wordsMinCharCounts.Length - (right + 1);
       }
 
       return results;
