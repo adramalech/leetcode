@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Problems.Design
 {
@@ -11,12 +12,16 @@ namespace Problems.Design
   public class HitCounter
   {
     private const int MAX_TIME = 300;
-    private Dictionary<int, int> lookup;
+    private SortedDictionary<int, int> lookup;
+    private int oldestTimestamp;
+    private int count;
 
     /** Initialize your data structure here. */
     public HitCounter()
     {
-      lookup = new Dictionary<int, int>();
+      lookup = new SortedDictionary<int, int>();
+      oldestTimestamp = 0;
+      count = 0;
     }
 
     /** Record a hit.
@@ -24,6 +29,13 @@ namespace Problems.Design
     // O(1)
     public void Hit(int timestamp)
     {
+      // trim out old records if the record count is larger than 300
+      // or if oldest known timestamp is older than 300 from current timestamp.
+      if (timestamp >= oldestTimestamp + MAX_TIME)
+      {
+        this.Remove(timestamp);
+      }
+
       if (lookup.ContainsKey(timestamp))
       {
         lookup[timestamp]++;
@@ -32,6 +44,25 @@ namespace Problems.Design
       {
         lookup.Add(timestamp, 1);
       }
+
+      this.count++;
+    }
+
+    private void Remove(int timestamp)
+    {
+      foreach (var key in this.lookup.Keys.ToList())
+      {
+        if (timestamp - key >= MAX_TIME)
+        {
+          this.count -= this.lookup[key];
+          this.lookup.Remove(key);
+        }
+        else
+        {
+          this.oldestTimestamp = key;
+          break;
+        }
+      }
     }
 
     /** Return the number of hits in the past 5 minutes.
@@ -39,28 +70,14 @@ namespace Problems.Design
     // O(s) where s is 300 second window.
     public int GetHits(int timestamp)
     {
-      var remainder = timestamp % MAX_TIME;
-      var multi = timestamp / MAX_TIME;
-      var i = (timestamp - 300) + 1;
-
-      if (i < 1)
+      // trim out old records if the record count is larger than 300
+      // or if oldest known timestamp is older than 300 from current timestamp.
+      if (timestamp >= oldestTimestamp + MAX_TIME)
       {
-        i = 1;
+        this.Remove(timestamp);
       }
 
-      int hits = 0;
-
-      while (i <= timestamp)
-      {
-        if (lookup.TryGetValue(i, out var count))
-        {
-          hits += count;
-        }
-
-        i++;
-      }
-
-      return hits;
+      return this.count;
     }
   }
 }
