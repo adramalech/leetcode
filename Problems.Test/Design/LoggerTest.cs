@@ -1,7 +1,7 @@
 using Xunit;
 using Problems.Design;
 
-namespace Problems.Design
+namespace Problems.Test.Design
 {
   public class LoggerTest
   {
