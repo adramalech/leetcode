@@ -407,5 +407,19 @@ namespace Problems.Test.ArraysStrings
 
             Assert.True(secret.Equals(actualResult));
         }
+
+        [Theory]
+        [InlineData("aab", "aba")]
+        [InlineData("vlovv", "vlvov")]
+        [InlineData("aaabc", "abaca")]
+        [InlineData("baaba", "ababa")]
+        public void Test(string S, string expectedResult)
+        {
+            var stringProblems = new StringProblems();
+
+            var actualResult = stringProblems.ReorganizeString(S);
+
+            Assert.True(expectedResult.Equals(actualResult));
+        }
     }
 }

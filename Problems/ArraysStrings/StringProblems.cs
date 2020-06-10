@@ -1786,5 +1786,69 @@ namespace Problems.ArraysStrings
 
       return count;
     }
+
+    public string ReorganizeString(string S)
+    {
+      var result = string.Empty;
+
+      if (string.IsNullOrEmpty(S))
+      {
+        return result;
+      }
+
+      var sortedLookup = new SortedDictionary<char, int>();
+
+      var maxCharacterFrequency = int.MinValue;
+
+      foreach (var s in S)
+      {
+        if (sortedLookup.ContainsKey(s))
+        {
+          sortedLookup[s]++;
+        }
+        else
+        {
+          sortedLookup.Add(s, 1);
+        }
+
+        if (maxCharacterFrequency < sortedLookup[s])
+        {
+          maxCharacterFrequency = sortedLookup[s];
+        }
+      }
+
+      if (maxCharacterFrequency > (S.Length + 1) / 2)
+      {
+        return result;
+      }
+
+      var count = 0;
+
+      while (count < S.Length)
+      {
+        var keys = sortedLookup.OrderByDescending(kvp => kvp.Value).ThenBy(kvp => kvp.Key).Select(kvp => kvp.Key).ToList();
+
+        int cnt = 0;
+
+        foreach (var key in keys)
+        {
+          if (cnt == 2)
+          {
+            break;
+          }
+
+          if (sortedLookup[key] > 0)
+          {
+            result += key;
+            sortedLookup[key]--;
+            cnt++;
+          }
+        }
+
+        count++;
+      }
+
+      return result;
+    }
   }
 }
