@@ -322,5 +322,161 @@ namespace Problems.Recursion
                 generateSymbols(n, k, ref results, result + i);
             }
         }
+
+        public string DecodeString(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return s;
+            }
+
+            return decodeRecLoop(s, new Stack<char>(), "", 0);
+        }
+
+        private string decodeRecLoop1(string s, Stack<string> storage, string result, int index)
+        {
+            if (index >= s.Length)
+            {
+                return result;
+            }
+
+            // and independent chars pick them up and add to result.
+            while (index < s.Length && s[index] >= 'a' && s[index] <= 'z')
+            {
+                result += s[index];
+                index++;
+            }
+
+            // generate the number
+            var num = "";
+
+            while (index < s.Length && s[index] >= '0' && s[index] <= '9')
+            {
+                num += s[index];
+                index++;
+            }
+
+            var k = 0;
+            int.TryParse(num, out k);
+
+            return decodeRecLoop1(s, storage, result, index);
+        }
+
+        /*
+            digits := \d+
+            chars := [a-z]+
+            open_bracket := '['
+            close_bracket := ']'
+
+            exp := chars + digits + open_bracket + chars + exp + close_bracket + chars
+
+            abc10[5[abc]abc]xyz
+
+            a b c
+
+            1
+            0
+            [
+            5
+            [
+            a
+            b
+            c
+
+
+            ]
+
+            abc + abc + abc + abc + abc
+
+            abc + abc + abc + abc + abc + a b c ]
+
+            stack push everything until ']'.
+
+            when you see ']' pop until digits.
+
+
+            abc3[a]xyz
+
+            stack is  for abc3[a
+
+            a
+            b
+            c
+            3
+            a
+
+            see ']' skip and pop a 3 off
+
+            digits chars
+
+            repeat add 'a' to 'aaa'
+
+            pop off 'a' 'b' 'c' + 'aaa'
+
+            then continue if chars append to end
+        */
+
+        private string decodeRecLoop(string s, Stack<char> storage, string result, int index)
+        {
+            if (index >= s.Length)
+            {
+                return result;
+            }
+
+            // pop off the sequence of chars followed by the number associated with it.
+            if (s[index] == ']')
+            {
+                var chars = "";
+
+                while (storage.Count() > 0 && storage.Peek() >= 'a' && storage.Peek() <= 'z')
+                {
+                    chars = storage.Pop().ToString() + chars;
+                }
+
+                var num = "";
+
+                while (storage.Count() > 0 && storage.Peek() >= '0' && storage.Peek() <= '9')
+                {
+                    num = storage.Pop().ToString() + num;
+                }
+
+                if (!string.IsNullOrEmpty(chars))
+                {
+                    if (!string.IsNullOrEmpty(num))
+                    {
+                        int k = 0;
+                        int.TryParse(num, out k);
+
+                        while (k > 0)
+                        {
+                            result += chars;
+                            k--;
+                        }
+                    }
+                    else
+                    {
+                        result += chars;
+                    }
+                }
+            }
+            else if (s[index] >= '0' && s[index] <= '9')
+            {
+                while (index < s.Length && s[index] >= '0' && s[index] <= '9')
+                {
+                    storage.Push(s[index]);
+                }
+
+                if (index < s.Length && s[index] == '[')
+
+                index++;
+            }
+            else if (s[index] >= 'a' && s[index] <= 'z')
+            {
+                result += s[index];
+                index++;
+            }
+
+            return decodeRecLoop(s, storage, result, index);
+        }
     }
 }

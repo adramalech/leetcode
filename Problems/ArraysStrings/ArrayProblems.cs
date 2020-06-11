@@ -880,5 +880,50 @@ namespace Problems.ArraysStrings
 
             return sum;
         }
+
+        public int MinMeetingRooms(int[][] intervals)
+        {
+            if (intervals == null || intervals.Length < 1)
+            {
+                return 0;
+            }
+
+            if (intervals.Length < 2)
+            {
+                return 1;
+            }
+
+            var length = intervals.Length;
+
+            var starts = new List<int>(length);
+            var ends = new List<int>(length);
+
+            for (var i = 0; i < length; i++)
+            {
+                starts.Add(intervals[i][0]);
+                ends.Add(intervals[i][1]);
+            }
+
+            starts.Sort();
+
+            ends.Sort();
+
+            int countRooms = 0;
+            int endIndex = 0;
+
+            for (var i = 0; i < length; i++)
+            {
+                if (starts[i] >= ends[endIndex])
+                {
+                    endIndex++;
+                }
+                else
+                {
+                    countRooms++;
+                }
+            }
+
+            return countRooms;
+        }
     }
 }

@@ -275,5 +275,18 @@ namespace Problems.Test.ArraysStrings
 
             Assert.Equal<int>(expectedCount, actualCount);
         }
+
+        [Fact]
+        public void TestMinMeetingRooms()
+        {
+            var intervals = new int[2][] { new int[2] { 5, 8 }, new int[2] { 6, 8 } };
+            var expectedCount = 2;
+
+            var arrayProblems = new ArrayProblems();
+
+            var actualCount = arrayProblems.MinMeetingRooms(intervals);
+
+            Assert.Equal<int>(expectedCount, actualCount);
+        }
     }
 }
