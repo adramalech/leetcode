@@ -925,48 +925,5 @@ namespace Problems.ArraysStrings
 
             return countRooms;
         }
-
-        public bool ValidateJumpPaths(string[] arr, int[] steps)
-        {
-            if (arr == null || steps == null || (arr.Length < 1 && steps.Length > 0))
-            {
-                return false;
-            }
-
-            if (arr.Length < 1 && steps.Length < 1)
-            {
-                return true;
-            }
-
-            var arrLength = arr.Length;
-            var currentArrIndex = 0;
-
-            for (var i = 0; i < steps.Length; i++)
-            {
-                var step = steps[i];
-                var rightNeighbor = (currentArrIndex < arrLength - 1) ? currentArrIndex + 1 : -1;
-                var leftNeighbor = (currentArrIndex > 0) ? currentArrIndex - 1 : -1;
-
-                var stepIsInArrRange = (steps[i] >= 0 && steps[i] < arrLength);
-
-                if (!stepIsInArrRange)
-                {
-                    return false;
-                }
-
-                var isStepEqualToRightNeighbor = (rightNeighbor > -1 && rightNeighbor == step);
-                var isStepEqualToLeftNeighbor = (leftNeighbor > -1 && leftNeighbor == step);
-                var stepValueEqualsCurrentArrValue = (stepIsInArrRange && arr[step] == arr[currentArrIndex]);
-
-                if (!isStepEqualToLeftNeighbor && !isStepEqualToRightNeighbor && !stepValueEqualsCurrentArrValue)
-                {
-                    return false;
-                }
-
-                currentArrIndex = step;
-            }
-
-            return (currentArrIndex == arrLength -1);
-        }
     }
 }
